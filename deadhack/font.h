@@ -1,8 +1,5 @@
 #pragma once
 
-#include <ShlObj.h> // needed for SHGetKnownFolderPath()
-#include <filesystem>
-
 namespace Font {
 	// todo - maybe use the registry instead?
 	// font_name should be the full path to desired font e.g C:\\WINDOWS\\Fonts\\font.ttf
@@ -12,11 +9,11 @@ namespace Font {
 		if ( FAILED( SHGetKnownFolderPath( FOLDERID_Fonts, 0, nullptr, &font_path ) ) )
 			return false;
 
-		for ( auto &p : std::experimental::filesystem::directory_iterator( font_path ) ) {
-			if ( font_name == p ) {
+		for ( auto &it : std::experimental::filesystem::directory_iterator( font_path ) ) {
+			if ( font_name == it ) {
 				// note - eternity; not sure if this is ok
 				#if defined( CHEAT_DBG )  
-					std::wcout << "found " << p << "\n";
+					std::wcout << "found " << it << "\n";
 				#endif  
 
 				return true;

@@ -19,10 +19,16 @@
     <Filter Include="Header Files\cheat">
       <UniqueIdentifier>{82cdc415-4d4c-4331-b85b-3eaa6c1b6a15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\other\input">
+      <UniqueIdentifier>{23eee6fa-f7d0-4b79-9cd4-913da0e1c222}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>Header Files\other\input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="font.h">
       <Filter>Header Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>Header Files\other\input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

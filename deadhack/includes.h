@@ -17,9 +17,12 @@ using ulong_t = unsigned long;
 #include <cstdint>
 #include <string>
 #include <iostream>
+#include <ShlObj.h> // needed for SHGetKnownFolderPath()
+#include <filesystem>
 
 // utils / other stuff.
 #include "hash.h"
 #include "font.h"
+#include "input.h"
 
 // cheat stuff.
