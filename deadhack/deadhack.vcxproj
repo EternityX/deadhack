@@ -120,6 +120,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="font.h" />
     <ClInclude Include="hash.h" />
     <ClInclude Include="includes.h" />
   </ItemGroup>

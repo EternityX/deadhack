@@ -16,8 +16,10 @@ using ulong_t = unsigned long;
 #include <intrin.h>
 #include <cstdint>
 #include <string>
+#include <iostream>
 
 // utils / other stuff.
 #include "hash.h"
+#include "font.h"
 
 // cheat stuff.

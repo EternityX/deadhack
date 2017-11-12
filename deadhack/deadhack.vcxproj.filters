@@ -32,5 +32,8 @@
     <ClInclude Include="hash.h">
       <Filter>Header Files\other</Filter>
     </ClInclude>
+    <ClInclude Include="font.h">
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
