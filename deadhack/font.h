@@ -5,7 +5,8 @@
 
 namespace Font {
 	// todo - maybe use the registry instead?
-	inline bool font_exists( const std::string& font_name ) {
+	// font_name should be the full path to desired font e.g C:\\WINDOWS\\Fonts\\font.ttf
+	inline bool does_exist( const std::string& font_name ) {
 		wchar_t* font_path = nullptr;
 
 		if ( FAILED( SHGetKnownFolderPath( FOLDERID_Fonts, 0, nullptr, &font_path ) ) )
@@ -15,7 +16,7 @@ namespace Font {
 			if ( font_name == p ) {
 				// note - eternity; not sure if this is ok
 				#if defined( CHEAT_DBG )  
-					std::wcout << p << "\n";
+					std::wcout << "found " << p << "\n";
 				#endif  
 
 				return true;
