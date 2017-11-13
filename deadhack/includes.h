@@ -25,8 +25,9 @@ using ulong_t = unsigned long;
 // other stuff.
 #include "hash.h"
 #include "utils.h"
-#include "vmt.h"
+#include "vmthook.h"
 #include "font.h"
 #include "input.h"
 
 // cheat stuff.
+#include "hooks.h"

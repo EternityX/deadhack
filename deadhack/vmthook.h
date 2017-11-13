@@ -30,13 +30,13 @@ public:
         if( !base )
             return false;
 
+        // save VMT base.
+        m_vmt_base = (uintptr_t)base;
+
         // get ptr to old VMT.
 		m_old_vmt = *(uintptr_t **)base;
 		if( !m_old_vmt )
 			return false;
-
-        // save VMT base.
-        m_vmt_base = (uintptr_t)base;
 
         // count number of methods in old VMT.
 		m_total_methods = count_methods();
@@ -58,7 +58,7 @@ public:
 
             // get start for new VMT.
             // VMT start is actually 1 function ahead due to RTTI copy.
-            m_new_vmt_start = (uintptr_t *)( m_new_vmt.get() + 1 );
+            m_new_vmt_start = m_new_vmt.get() + 1;
 
             // set base to our new VMT.
             *(uintptr_t *)base = m_new_vmt_start[ 0 ];

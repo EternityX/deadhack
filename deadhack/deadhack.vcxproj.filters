@@ -22,6 +22,9 @@
     <Filter Include="Source Files\other">
       <UniqueIdentifier>{db0551e4-1a6e-451a-97de-458e5b16f65f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\cheat">
+      <UniqueIdentifier>{b8cf9401-7416-456c-af3e-5e6c2faf3c76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -29,6 +32,9 @@
     </ClCompile>
     <ClCompile Include="input.cpp">
       <Filter>Source Files\other</Filter>
+    </ClCompile>
+    <ClCompile Include="hooks.cpp">
+      <Filter>Source Files\cheat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,7 +53,10 @@
     <ClInclude Include="utils.h">
       <Filter>Header Files\other</Filter>
     </ClInclude>
-    <ClInclude Include="vmt.h">
+    <ClInclude Include="hooks.h">
+      <Filter>Header Files\cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="vmthook.h">
       <Filter>Header Files\other</Filter>
     </ClInclude>
   </ItemGroup>
