@@ -19,8 +19,8 @@
     <Filter Include="Header Files\cheat">
       <UniqueIdentifier>{82cdc415-4d4c-4331-b85b-3eaa6c1b6a15}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\other\input">
-      <UniqueIdentifier>{23eee6fa-f7d0-4b79-9cd4-913da0e1c222}</UniqueIdentifier>
+    <Filter Include="Source Files\other">
+      <UniqueIdentifier>{db0551e4-1a6e-451a-97de-458e5b16f65f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -28,7 +28,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
-      <Filter>Header Files\other\input</Filter>
+      <Filter>Source Files\other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -42,7 +42,13 @@
       <Filter>Header Files\other</Filter>
     </ClInclude>
     <ClInclude Include="input.h">
-      <Filter>Header Files\other\input</Filter>
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="vmt.h">
+      <Filter>Header Files\other</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

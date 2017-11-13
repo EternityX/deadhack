@@ -1,8 +1,8 @@
 #include "includes.h"
 
-Input input;
+Input input{};
 
-ulong_t __stdcall hook( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
+static ulong_t __stdcall hook( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
 	if ( input.handle( hwnd, msg, wparam, lparam ) )
 		return true;
 
@@ -10,21 +10,51 @@ ulong_t __stdcall hook( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
 	return CallWindowProcA( input.m_original_wndproc, hwnd, msg, wparam, lparam );
 }
 
-bool Input::init( std::string window_name ) {
+Input::Input() : m_window_handle{}, m_original_wndproc{}, m_key_pressed{} {
+
+}
+
+bool Input::init( const std::string &window_name ) {
+    // already have a window handle, return.
 	if ( m_window_handle )
 		return false;
 
 	// obtain handle to game window
-	m_window_handle = FindWindow( window_name.c_str( ), nullptr );
+	m_window_handle = FindWindowA( window_name.c_str(), nullptr );
 
 	// save the original wndproc and install hook
-	m_original_wndproc = (WNDPROC)SetWindowLongPtr( m_window_handle, GWLP_WNDPROC, (LONG_PTR)hook );
+	m_original_wndproc = (WNDPROC)SetWindowLongA( m_window_handle, GWLP_WNDPROC, (LONG_PTR)hook );
+    if( !m_original_wndproc )
+        return false;
 
 	return true;
 }
 
-void Input::remove( ) const {
-	SetWindowLongPtr( m_window_handle, GWLP_WNDPROC, (LONG_PTR)m_original_wndproc );
+bool Input::init( HWND wnd ) {
+    // invalid window handle.
+    if( !wnd )
+        return false;
+
+    // already have a window handle, return.
+	if ( m_window_handle )
+		return false;
+
+    // save window handle.
+    m_window_handle = wnd;
+
+    // save the original wndproc and install hook
+	m_original_wndproc = (WNDPROC)SetWindowLongA( m_window_handle, GWLP_WNDPROC, (LONG_PTR)hook );
+    if( !m_original_wndproc )
+        return false;
+
+    return true;
+}
+
+void Input::remove() {
+    if( !m_window_handle || !m_original_wndproc )
+        return;
+
+	SetWindowLongA( m_window_handle, GWLP_WNDPROC, (LONG_PTR)m_original_wndproc );
 }
 
 bool Input::handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
@@ -64,8 +94,7 @@ bool Input::handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
 		default: break;
 	}
 
-	// pass the input to imgui
-	// todo
+	// todo; pass the input to imgui
 
 	return false;
 }

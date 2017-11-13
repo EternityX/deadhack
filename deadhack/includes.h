@@ -16,12 +16,16 @@ using ulong_t = unsigned long;
 #include <intrin.h>
 #include <cstdint>
 #include <string>
+#include <array>
+#include <vector>
 #include <iostream>
 #include <ShlObj.h> // needed for SHGetKnownFolderPath()
 #include <filesystem>
 
-// utils / other stuff.
+// other stuff.
 #include "hash.h"
+#include "utils.h"
+#include "vmt.h"
 #include "font.h"
 #include "input.h"
 
