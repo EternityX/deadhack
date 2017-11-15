@@ -23,6 +23,7 @@ using ulong_t = unsigned long;
 #include <filesystem>
 #include <sstream>
 #include <cctype>
+#include <random>
 
 // other stuff.
 #include "hash.h"
@@ -30,7 +31,6 @@ using ulong_t = unsigned long;
 #include "sigscan.h"
 #include "vmthook.h"
 #include "input.h"
-#include "font.h"
 
 // cheat stuff.
 #include "hooks.h"

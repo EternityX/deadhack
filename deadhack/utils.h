@@ -69,4 +69,16 @@ namespace Utils {
 
 		return out;
 	}
+
+    // returns a random floating point number in range.
+	template < typename T > __forceinline T get_random_float_range( const T &min, T max ) {
+        static_assert( std::is_floating_point< T >::value, "invalid type for: get_random_float_range." );
+
+		static std::random_device                  device;
+		static std::minstd_rand                    engine( device() );
+
+		std::uniform_real_distribution< T > distribution( min, max );
+
+		return distribution( engine );
+	}
 }
