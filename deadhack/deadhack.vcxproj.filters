@@ -59,5 +59,8 @@
     <ClInclude Include="vmthook.h">
       <Filter>Header Files\other</Filter>
     </ClInclude>
+    <ClInclude Include="sigscan.h">
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

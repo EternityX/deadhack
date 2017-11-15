@@ -20,8 +20,9 @@ namespace Utils {
 		return true;
 	}
 
+    // get method from VMT.
     template < typename t = uintptr_t > __forceinline t get_method( uintptr_t this_ptr, uint16_t index ) {
-		return (t)( ( *(t **)this_ptr )[ index ] );
+		return ( *(t **)this_ptr )[ index ];
 	}
 
     // get base ptr ( EBP ).
@@ -34,7 +35,6 @@ namespace Utils {
 		std::string out;
 		int         str_len;
 
-		// check if not empty str.
 		if( str.empty() )
 			return {};
 
@@ -55,7 +55,6 @@ namespace Utils {
 		std::wstring    out;
 		int		        str_len;
 
-		// check if not empty str.
 		if( str.empty() )
 			return {};
 

@@ -21,13 +21,16 @@ using ulong_t = unsigned long;
 #include <iostream>
 #include <ShlObj.h> // needed for SHGetKnownFolderPath()
 #include <filesystem>
+#include <sstream>
+#include <cctype>
 
 // other stuff.
 #include "hash.h"
 #include "utils.h"
+#include "sigscan.h"
 #include "vmthook.h"
-#include "font.h"
 #include "input.h"
+#include "font.h"
 
 // cheat stuff.
 #include "hooks.h"
