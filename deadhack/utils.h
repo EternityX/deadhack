@@ -70,4 +70,14 @@ namespace Utils {
 
 		return out;
 	}
+
+	template < typename T >
+	__forceinline static T random_number_range( T min, T max )
+	{
+		static std::random_device device;
+		static std::minstd_rand engine( device() );
+		static std::uniform_real_distribution<> distribution( min, max );
+
+		return static_cast< T >( distribution( engine ) );
+	}
 }
