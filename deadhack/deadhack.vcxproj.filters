@@ -44,9 +44,6 @@
     <ClInclude Include="hash.h">
       <Filter>Header Files\other</Filter>
     </ClInclude>
-    <ClInclude Include="font.h">
-      <Filter>Header Files\other</Filter>
-    </ClInclude>
     <ClInclude Include="input.h">
       <Filter>Header Files\other</Filter>
     </ClInclude>
@@ -60,6 +57,15 @@
       <Filter>Header Files\other</Filter>
     </ClInclude>
     <ClInclude Include="sigscan.h">
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="pe.h">
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="pe_types.h">
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="module.h">
       <Filter>Header Files\other</Filter>
     </ClInclude>
   </ItemGroup>

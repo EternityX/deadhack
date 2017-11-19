@@ -1,14 +1,15 @@
 #pragma once
 
 namespace Hooks {
-    // todo; init vmts here...
-    // ex: static VMTHook g_CHLClient_VMT{};
+    // hooked VMTs.
+    static VMTHook D3D9_vmt{};
 
-    // todo; add func prototypes here..
-    // ex: using CreateMove_t = void (__thiscall *)( args... );
+    // hooked func prototypes.
+    using EndScene_t = HRESULT (__stdcall *)( IDirect3DDevice9 *device );
 
     // todo; add hooked funcs here...
+    static HRESULT __stdcall EndScene( IDirect3DDevice9 *device );
     // ex: static __fastcall CreateMove( CHLClient *ecx, uintptr_t edx, args... );
 
-    static bool init();
+    bool init();
 }

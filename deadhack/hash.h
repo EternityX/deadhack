@@ -23,7 +23,7 @@ namespace Hash {
     __forceinline constexpr size_t ct_strlen( const char *str ) {
         size_t out = 1;
 
-        for( out; str[ out ] != '\0'; ++out );
+        for( ; str[ out ] != '\0'; ++out );
 
         return out;
     }

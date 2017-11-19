@@ -123,7 +123,7 @@ namespace SigScan {
         return (uintptr_t)it;
     }
     
-    __forceinline uintptr_t find( HMODULE module_handle, const std::string &pattern ) {
-        // todo - dex; get module size, etc...
+    __forceinline uintptr_t find( const PE::Module &module, const std::string &pattern ) {
+        return find( module.get_code_size(), pattern );
     }
 }

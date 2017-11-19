@@ -25,12 +25,24 @@ using ulong_t = unsigned long;
 #include <cctype>
 #include <random>
 
+#ifdef CHEAT_DBG
+#include <assert.h>
+    #define DBG_ASSERT( str ) \
+        MessageBoxA( nullptr, "DBG_ASSERT", ( std::string( str ) + "( " + std::string( __FILE__ ) + " @ line " + std::string( __FILE__ ) ).c_str(), 0 );
+#endif
+
 // other stuff.
 #include "hash.h"
 #include "utils.h"
+#include "pe_types.h"
+#include "module.h"
+#include "pe.h"
 #include "sigscan.h"
 #include "vmthook.h"
 #include "input.h"
+
+// direct3d9.
+#include <d3d9.h>
 
 // cheat stuff.
 #include "hooks.h"

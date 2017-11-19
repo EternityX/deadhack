@@ -1,6 +1,9 @@
 #pragma once
 
 namespace Utils {
+    static std::random_device g_rand_device{};
+    static std::minstd_rand   g_rand_engine( g_rand_device() );
+
     // checks if address is not null and has correct page protection.
 	static __forceinline bool valid( uintptr_t addr ) {
 		MEMORY_BASIC_INFORMATION mbi;
@@ -71,14 +74,16 @@ namespace Utils {
 	}
 
     // returns a random floating point number in range.
-	template < typename T > __forceinline T get_random_float_range( const T &min, T max ) {
-        static_assert( std::is_floating_point< T >::value, "invalid type for: get_random_float_range." );
+	template< typename t > __forceinline t get_random_float_range( const t &min, const t &max ) {
+        static_assert( std::is_floating_point< t >::value, "invalid type for: get_random_float_range." );
 
-		static std::random_device                  device;
-		static std::minstd_rand                    engine( device() );
-
-		std::uniform_real_distribution< T > distribution( min, max );
-
-		return distribution( engine );
+        std::uniform_real_distribution< t > distribution( min, max );
+        
+        return distribution( engine );
 	}
+
+    // returns a random number in range.
+    template< typename t > __forceinline t get_random_int_range( const t &min, const t &max ) {
+
+    }
 }

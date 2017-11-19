@@ -3,6 +3,16 @@
 // todo - dex; maybe move this into its own class ( named after the cheat )?
 static ulong_t __stdcall cheat_init( void *arg ) {
     // todo - dex; init cheat related stuff, etc...
+    MessageBoxA( nullptr, "cheat_init", "cheat_init", 0 );
+
+    if( !Hooks::init() ) {
+#ifdef CHEAT_DBG
+        DBG_ASSERT( "Hooks::init failed" );
+#endif
+        return 0;
+    }
+
+    MessageBoxA( nullptr, "cheat_init finished", "cheat_init", 0 );
 
     return 1;
 }
