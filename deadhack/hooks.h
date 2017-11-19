@@ -2,14 +2,14 @@
 
 namespace Hooks {
     // hooked VMTs.
-    static VMTHook D3D9_vmt{};
+    static VMTHook g_D3D9_vmt{};
 
     // hooked func prototypes.
-    using EndScene_t = HRESULT (__stdcall *)( IDirect3DDevice9 *device );
+    using Present_t = HRESULT (__stdcall *)( IDirect3DDevice9 *, const RECT *, const RECT *, HWND, const RGNDATA * );
 
-    // todo; add hooked funcs here...
-    static HRESULT __stdcall EndScene( IDirect3DDevice9 *device );
-    // ex: static __fastcall CreateMove( CHLClient *ecx, uintptr_t edx, args... );
+    // our funcs.
+    static HRESULT __stdcall Present( IDirect3DDevice9 *device, const RECT *pSourceRect, const RECT *pDestRect, HWND hDestWindowOverride, const RGNDATA *pDirtyRegion );
 
+    // initialize hooks.
     bool init();
 }
