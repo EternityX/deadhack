@@ -1,26 +1,23 @@
 #include "includes.h"
 
+// classes.
+CSGO    g_csgo{};
+Input   g_input{};
+
 // todo - dex; maybe move this into its own class ( named after the cheat )?
 static ulong_t __stdcall cheat_init( void *arg ) {
-    // todo - dex; init cheat related stuff, etc...
-    MessageBoxA( nullptr, "cheat_init", "cheat_init", 0 );
-
     if( !Hooks::init() ) {
 #ifdef CHEAT_DBG
-        DBG_ASSERT( "Hooks::init failed" );
+        DBG_ERROR( "Hooks::init failed" );
 #endif
         return 0;
     }
-
-    MessageBoxA( nullptr, "cheat_init finished", "cheat_init", 0 );
 
     return 1;
 }
 
 static ulong_t __stdcall cheat_free( void *arg ) {
-    // todo - dex; finish this...
-
-    // FreeLibraryAndExitThread( 0, 0 );
+    // todo - dex; finish this... or not...
 
     return 1;
 }
@@ -33,14 +30,13 @@ int __stdcall DllMain( HMODULE self, ulong_t reason_for_call, void *reserved ) {
         if( !cheat_thread )
             return 0;
 
-        // todo; save off handle to our module.
+        // todo - dex; save off handle to our module...?
 
-        // set up thread for freeing hack / etc.
+        // todo - dex; do we really need an unload routine?
         free_thread = CreateThread( nullptr, 0, &cheat_free, nullptr, 0, nullptr );
-        //if( !free_thread )
-        //    return 0;
+        if( !free_thread )
+            return 0;
 
-        // close handle to main hack thread.
         CloseHandle( cheat_thread );
 
         return 1;

@@ -1,13 +1,11 @@
 #include "includes.h"
 
-Input input{};
-
 static ulong_t __stdcall hook( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
-	if ( input.handle( hwnd, msg, wparam, lparam ) )
+	if ( g_input.handle( hwnd, msg, wparam, lparam ) )
 		return true;
 
 	// call original
-	return CallWindowProcA( input.m_original_wndproc, hwnd, msg, wparam, lparam );
+	return CallWindowProcA( g_input.m_original_wndproc, hwnd, msg, wparam, lparam );
 }
 
 Input::Input() : m_window_handle{}, m_original_wndproc{}, m_key_pressed{} {

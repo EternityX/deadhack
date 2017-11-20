@@ -32,11 +32,9 @@ namespace SigScan {
     // converts a string into a pattern.
     class Pattern {
     private:
-        // pattern types.
         using pattern_t       = std::vector< PatternByte_t >;
         using pattern_citer_t = pattern_t::const_iterator;
 
-        // actual pattern.
         pattern_t m_pattern;
 
     public:
@@ -50,27 +48,25 @@ namespace SigScan {
             if( str.empty() )
                 return;
 
-            // setup string stream.
             auto ss = std::stringstream( str );
 
             // iterate string stream, splitting by space delim.
             do {
-                //// too long...
-                //if( part.size() > 2 )
-                //    continue;
+                // too long...
+                if( part.size() > 2 )
+                    continue;
 
                 // it's a wildcard.
                 if( part[ 0 ] == '?' )
                     m_pattern.push_back( {} );
 
-                // valid byte.
+                // it's a valid byte.
                 else if( std::isxdigit( (uint8_t)part[ 0 ] ) && std::isxdigit( (uint8_t)part[ 1 ] ) )
                     m_pattern.push_back( { (uint8_t)std::strtoul( part.c_str(), 0, 16 ), false } );
             }
             while( ss >> part );
         }
 
-        // access pattern.
         __forceinline const PatternByte_t &operator []( size_t index ) const {
             if( index > m_pattern.size() )
                 return {};
@@ -78,7 +74,10 @@ namespace SigScan {
             return m_pattern[ index ];
         }
 
-        // begin / end of pattern.
+        __forceinline bool empty() {
+            return m_pattern.empty();
+        }
+
         __forceinline pattern_citer_t begin() const {
             return m_pattern.cbegin();
         }
@@ -107,6 +106,8 @@ namespace SigScan {
 
         // set up pattern.
         scan_pattern = pattern;
+        if( scan_pattern.empty() )
+            return 0;
 
         auto it = std::search(
             scan_start,

@@ -1,6 +1,7 @@
 #pragma once
 
 namespace Utils {
+    // various global vars.
     static std::random_device g_rand_device{};
     static std::minstd_rand   g_rand_engine( g_rand_device() );
 
@@ -32,6 +33,23 @@ namespace Utils {
 	__forceinline uintptr_t get_baseptr() {
 		return (uintptr_t)_AddressOfReturnAddress() - sizeof( uintptr_t );
 	}
+
+    // follow relative32 offset.
+    // input argument is the address of the relative offset.
+    template< typename t = uintptr_t > __forceinline t follow_rel32( uintptr_t address ) {
+        uint32_t disp;
+
+        if( !address )
+            return 0;
+
+        // get rel32 offset.
+		disp = *(uint32_t *)address;
+		if( !disp )
+			return 0;
+
+        // displacement is relative to address of the next instruction.
+        return ( address + sizeof( uint32_t ) ) + disp;
+    }
 
     // wide -> multi-byte
 	__forceinline std::string wide_to_multibyte( const std::wstring &str ) {

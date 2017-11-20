@@ -14,4 +14,4 @@ public:
 	bool handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam );
 };
 
-extern Input input;
+extern Input g_input;

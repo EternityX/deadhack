@@ -18,9 +18,10 @@ namespace PE {
             if( !base_address )
                 return false;
 
-            m_base = base_address;
+            // todo - dex;  finish this...
+            //              add func for getting file headers
 
-            // todo - dex; ...
+            m_base = base_address;
 
             return true;
         }
@@ -31,15 +32,6 @@ namespace PE {
 
         __forceinline size_t get_image_size() const  {
             return 0;
-        }
-
-        __forceinline uintptr_t get_export( hash32_t hash ) const {
-        
-            return 0;
-        }
-
-        __forceinline uintptr_t get_export( const std::string &name ) const {
-            return get_export( Hash::fnv1a_32( name ) );
         }
     };
 }

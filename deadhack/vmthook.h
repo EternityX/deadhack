@@ -67,7 +67,7 @@ public:
             // copy VMT, starting from RTTI.
         	std::memcpy(
         		(void *)new_vmt_ptr,
-        		m_old_vmt - 1,
+        		(const void *)( m_old_vmt - 1 ),
         		( m_total_methods + 1 ) * sizeof( uintptr_t )
         	);
         
@@ -83,7 +83,7 @@ public:
             // copy VMT.
         	std::memcpy(
         		(void *)new_vmt_ptr,
-        		m_old_vmt,
+        		(const void *)m_old_vmt,
         		m_total_methods * sizeof( uintptr_t )
         	);
 

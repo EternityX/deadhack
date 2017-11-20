@@ -2,11 +2,11 @@
 
 #pragma warning( disable : 4307 ) // warning C4307: '*': integral constant overflow
 
-#define WIN32_LEAN_AND_MEAN
-#define NOCOMM
-
 // note - dex; undefine this when distributing!!
 #define CHEAT_DBG
+
+#define WIN32_LEAN_AND_MEAN
+#define NOCOMM
 
 // custom types / etc.
 using ulong_t = unsigned long;
@@ -18,17 +18,19 @@ using ulong_t = unsigned long;
 #include <string>
 #include <array>
 #include <vector>
-#include <iostream>
-#include <ShlObj.h> // needed for SHGetKnownFolderPath()
-#include <filesystem>
+#include <memory>
 #include <sstream>
 #include <cctype>
 #include <random>
 
 #ifdef CHEAT_DBG
-#include <assert.h>
-    #define DBG_ASSERT( str ) \
-        MessageBoxA( nullptr, "DBG_ASSERT", ( std::string( str ) + "( " + std::string( __FILE__ ) + " @ line " + std::string( __FILE__ ) ).c_str(), 0 );
+    #define DBG_ERROR( str )                                                                                                    \
+        MessageBoxA(                                                                                                            \
+            nullptr,                                                                                                            \
+            ( std::string( str ) + " (" + std::string( __FILE__ ) + " @ line " + std::to_string( __LINE__ ) + ")" ).c_str(),    \
+            "DBG_ERROR",                                                                                                        \
+            0                                                                                                                   \
+        );
 #endif
 
 // other stuff.
@@ -45,4 +47,6 @@ using ulong_t = unsigned long;
 #include <d3d9.h>
 
 // cheat stuff.
+#include "interfaces.h"
+#include "csgo.h"
 #include "hooks.h"

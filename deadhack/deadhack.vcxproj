@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{9B08B8EC-FBD3-4CDC-A77E-BB78CF790128}</ProjectGuid>
     <RootNamespace>deadhack</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -122,10 +122,12 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="csgo.h" />
     <ClInclude Include="hash.h" />
     <ClInclude Include="hooks.h" />
     <ClInclude Include="includes.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="interfaces.h" />
     <ClInclude Include="module.h" />
     <ClInclude Include="pe.h" />
     <ClInclude Include="pe_types.h" />

@@ -68,5 +68,11 @@
     <ClInclude Include="module.h">
       <Filter>Header Files\other</Filter>
     </ClInclude>
+    <ClInclude Include="csgo.h">
+      <Filter>Header Files\cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="interfaces.h">
+      <Filter>Header Files\cheat</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
