@@ -90,8 +90,8 @@ namespace SigScan {
     // todo - dex; add a find_all method that returns a vector?
 
     __forceinline uintptr_t find( uintptr_t start, size_t len, const std::string &pattern ) {
-        uint8_t *scan_start, *scan_end;
         Pattern scan_pattern;
+        uint8_t *scan_start, *scan_end;
 
         static auto search_pred = []( const uint8_t a, const PatternByte_t &b ) {
             return b.match( a );
@@ -100,14 +100,12 @@ namespace SigScan {
         if( !start || !len || pattern.empty() )
             return 0;
 
-        // set up scan start / end.
-        scan_start  = (uint8_t *)start;
-        scan_end    = scan_start + len;
-
-        // set up pattern.
         scan_pattern = pattern;
         if( scan_pattern.empty() )
             return 0;
+
+        scan_start  = (uint8_t *)start;
+        scan_end    = scan_start + len;
 
         auto it = std::search(
             scan_start,

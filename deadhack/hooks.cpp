@@ -9,6 +9,7 @@ static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *p
 }
 
 bool Hooks::init() {
+    // todo - dex; move all the sig scanning to CSGO class.
     uintptr_t shaderapidx9 = (uintptr_t)GetModuleHandleA( "shaderapidx9.dll" );
     if( !shaderapidx9 )
         return false;
