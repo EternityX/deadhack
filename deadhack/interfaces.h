@@ -3,23 +3,23 @@
 class Interfaces {
 private:
     // used internally by the game to register classes.
-	class InterfaceReg {
-	private:
-		using create_t = void *(__cdecl *)();
+    class InterfaceReg {
+    private:
+        using create_t = void *(__cdecl *)();
 
-	public:
-		create_t        m_create_fn;
-		const char      *m_name;
-		InterfaceReg    *m_next;
-	};
+    public:
+        create_t        m_create_fn;
+        const char      *m_name;
+        InterfaceReg    *m_next;
+    };
 
     struct interface_t {
-		std::string m_name;
-		uintptr_t   m_ptr;
-	};
+        std::string m_name;
+        uintptr_t   m_ptr;
+    };
 
     // holds every interface used by the game.
-	std::vector< interface_t > m_interfaces;
+    std::vector< interface_t > m_interfaces;
 
 protected:
     Interfaces() : m_interfaces{} {
@@ -53,37 +53,37 @@ protected:
                 continue;
 
             // iterate s_pInterfaceRegs linked list and store off needed data.
-			for( reg; reg != nullptr; reg = reg->m_next )
-				m_interfaces.push_back( { reg->m_name, (uintptr_t)reg->m_create_fn() } );
+            for( reg; reg != nullptr; reg = reg->m_next )
+                m_interfaces.push_back( { reg->m_name, (uintptr_t)reg->m_create_fn() } );
         }
     }
 
     // get interface by hash.
-	template< typename t > t get_interface( hash32_t name, size_t skip = 0, bool truncate = true ) {
-		std::string interface_name;
+    template< typename t > t get_interface( hash32_t name, size_t skip = 0, bool truncate = true ) {
+        std::string interface_name;
 
         if( m_interfaces.empty() )
             return t{};
 
-		for( const auto &i : m_interfaces ) {
-			interface_name = i.m_name;
+        for( const auto &i : m_interfaces ) {
+            interface_name = i.m_name;
 
-			if( truncate )
-				interface_name.resize( interface_name.size() - 3 );
+            if( truncate )
+                interface_name.resize( interface_name.size() - 3 );
 
-			if( Hash::fnv1a_32( interface_name ) == name ) {
+            if( Hash::fnv1a_32( interface_name ) == name ) {
                 // some interfaces have multiple versions.
-				// so we will skip this interface if a newer one is desired.
-				if( skip > 0 ) {
-					--skip;
-					continue;
-				}
+                // so we will skip this interface if a newer one is desired.
+                if( skip > 0 ) {
+                    --skip;
+                    continue;
+                }
 
-				return (t)i.m_ptr;
-			}
-		}
+                return (t)i.m_ptr;
+            }
+        }
 
-		return t{};
-	}
+        return t{};
+    }
 
 };
