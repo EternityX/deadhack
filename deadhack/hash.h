@@ -2,7 +2,7 @@
 
 using hash32_t = unsigned int;
 
-// used for compile-time 32bit hashes.
+// used for compile-time FNV-1a 32bit hashes.
 #define CT_HASH32( str )                                \
     [&]() {                                             \
         constexpr hash32_t out = Hash::fnv1a_32( str ); \
@@ -10,13 +10,14 @@ using hash32_t = unsigned int;
         return out;                                     \
     }()
 
-// used for compile-time 32bit hashes when above macro cant be used for constexpr variables.
+// used for compile-time FNV-1a 32bit hashes when above macro cant be used for constexpr variables.
 #define CT_CONSTHASH32( str ) Hash::fnv1a_32( str )
 
-namespace Hash {
-    enum MagicNumbers : hash32_t {
-        FNV1A_BASIS = 0x811C9DC5,
-        FNV1A_PRIME = 0x1000193
+namespace Hash { // FNV-1a ( Fowler-Noll-Vo hash ).
+    // FNV-1a constants.
+    enum : hash32_t {
+        FNV1A_PRIME = 0x1000193,
+        FNV1A_BASIS = 0x811C9DC5
     };
 
     // compile-time strlen.
@@ -29,13 +30,13 @@ namespace Hash {
     }
 
     // hash data.
-    __forceinline constexpr hash32_t fnv1a_32( const uint8_t *data, size_t len ) {
+    __forceinline constexpr hash32_t fnv1a_32( const uint8_t *data, const size_t len ) {
         hash32_t out = FNV1A_BASIS;
 
         for( size_t i = 0; i < len; ++i )
             out = ( out ^ data[ i ] ) * FNV1A_PRIME;
 
-        return 1;
+        return out;
     }
 
     // hash c-style string.

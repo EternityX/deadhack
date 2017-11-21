@@ -34,6 +34,20 @@ namespace Utils {
 		return (uintptr_t)_AddressOfReturnAddress() - sizeof( uintptr_t );
 	}
 
+    // get Thread Environment Block.
+    __forceinline PE::Types::TEB *get_TEB() {
+        return (PE::Types::TEB *)__readfsdword( 0x18 );
+    }
+
+    // get Thread Environment Block.
+    __forceinline PE::Types::PEB *get_PEB() {
+        PE::Types::TEB *teb{ get_TEB() };
+        if( !teb )
+            return nullptr;
+
+        return teb->ProcessEnvironmentBlock;
+    }
+
     // follow relative32 offset.
     // input argument is the address of the relative offset.
     template< typename t = uintptr_t > __forceinline t follow_rel32( uintptr_t address ) {

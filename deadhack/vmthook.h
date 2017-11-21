@@ -120,7 +120,11 @@ public:
     }
 
     __forceinline bool unhook_all() {
-        // note - dex; untested...
-        *(uintptr_t *)m_vmt_base = m_old_vmt[ 0 ];
+        if( !m_old_vmt || !m_vmt_base )
+            return false;
+
+        *(uintptr_t *)m_vmt_base = (uintptr_t)m_old_vmt;
+
+        return true;
     }
 };

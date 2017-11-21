@@ -101,8 +101,8 @@ namespace SigScan {
             return 0;
 
         scan_pattern = pattern;
-        if( scan_pattern.empty() )
-            return 0;
+        //if( scan_pattern.empty() )
+        //    return 0;
 
         scan_start  = (uint8_t *)start;
         scan_end    = scan_start + len;
@@ -123,6 +123,32 @@ namespace SigScan {
     }
     
     __forceinline uintptr_t find( const PE::Module &module, const std::string &pattern ) {
-        return find( module.get_code_size(), pattern );
+        return find( module, module.get_code_size(), pattern );
+    }
+
+    __forceinline uintptr_t find( hash32_t hash, const std::string &pattern ) {
+        PE::Module module;
+
+        if( !hash || pattern.empty() )
+            return 0;
+
+        module = PE::get_module( hash );
+        if( !module )
+            return 0;
+
+        return find( module, module.get_code_size(), pattern );
+    }
+
+    __forceinline uintptr_t find( const std::string &str, const std::string &pattern ) {
+        PE::Module module;
+
+        if( str.empty() || pattern.empty() )
+            return 0;
+
+        module = PE::get_module( str );
+        if( !module )
+            return 0;
+
+        return find( module, module.get_code_size(), pattern );
     }
 }

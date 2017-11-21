@@ -35,8 +35,8 @@ using ulong_t = unsigned long;
 
 // other stuff.
 #include "hash.h"
-#include "utils.h"
 #include "pe_types.h"
+#include "utils.h"
 #include "module.h"
 #include "pe.h"
 #include "sigscan.h"
@@ -48,5 +48,6 @@ using ulong_t = unsigned long;
 
 // cheat stuff.
 #include "interfaces.h"
+#include "sdk.h"
 #include "csgo.h"
 #include "hooks.h"

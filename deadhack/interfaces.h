@@ -8,9 +8,9 @@ private:
         using create_t = void *(__cdecl *)();
 
     public:
-        create_t        m_create_fn;
-        const char      *m_name;
-        InterfaceReg    *m_next;
+        create_t     m_create_fn;
+        const char   *m_name;
+        InterfaceReg *m_next;
     };
 
     struct interface_t {
@@ -23,9 +23,9 @@ private:
 
 protected:
     Interfaces() : m_interfaces{} {
-        PE::modules_t   modules;
-        uintptr_t       createinterface;
-        InterfaceReg    *reg;
+        PE::modules_t modules;
+        uintptr_t     createinterface;
+        InterfaceReg  *reg;
 
         if( !PE::get_all_modules( modules ) )
             return;
@@ -59,11 +59,11 @@ protected:
     }
 
     // get interface by hash.
-    template< typename t > t get_interface( hash32_t name, size_t skip = 0, bool truncate = true ) {
+    template< typename t > t *get_interface( hash32_t name, size_t skip = 0, bool truncate = true ) {
         std::string interface_name;
 
         if( m_interfaces.empty() )
-            return t{};
+            return nullptr;
 
         for( const auto &i : m_interfaces ) {
             interface_name = i.m_name;
@@ -79,11 +79,11 @@ protected:
                     continue;
                 }
 
-                return (t)i.m_ptr;
+                return (t *)i.m_ptr;
             }
         }
 
-        return t{};
+        return nullptr;
     }
 
 };

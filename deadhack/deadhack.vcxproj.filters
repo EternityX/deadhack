@@ -25,6 +25,9 @@
     <Filter Include="Source Files\cheat">
       <UniqueIdentifier>{b8cf9401-7416-456c-af3e-5e6c2faf3c76}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\cheat\sdk">
+      <UniqueIdentifier>{5b2a726b-9a26-4c30-97e6-93d7a94920e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -73,6 +76,12 @@
     </ClInclude>
     <ClInclude Include="interfaces.h">
       <Filter>Header Files\cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="chlclient.h">
+      <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
