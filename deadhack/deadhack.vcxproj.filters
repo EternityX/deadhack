@@ -28,6 +28,9 @@
     <Filter Include="Header Files\cheat\sdk">
       <UniqueIdentifier>{5b2a726b-9a26-4c30-97e6-93d7a94920e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\other\math">
+      <UniqueIdentifier>{1a904df3-709a-458a-ac0d-c050db9970ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -82,6 +85,18 @@
     </ClInclude>
     <ClInclude Include="chlclient.h">
       <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="math.h">
+      <Filter>Header Files\other\math</Filter>
+    </ClInclude>
+    <ClInclude Include="vec2.h">
+      <Filter>Header Files\other\math</Filter>
+    </ClInclude>
+    <ClInclude Include="vec3.h">
+      <Filter>Header Files\other\math</Filter>
+    </ClInclude>
+    <ClInclude Include="angle.h">
+      <Filter>Header Files\other\math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

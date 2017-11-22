@@ -7,6 +7,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 #define NOCOMM
+#define NOMINMAX
 
 // custom types / etc.
 using ulong_t = unsigned long;
@@ -24,6 +25,8 @@ using ulong_t = unsigned long;
 #include <random>
 
 #ifdef CHEAT_DBG
+    // todo - dex; this is pretty silly for debugging, we should really implement a proper testing function here or something so we can debug issues from users.
+
     #define DBG_ERROR( str )                                                                                                    \
         MessageBoxA(                                                                                                            \
             nullptr,                                                                                                            \
@@ -42,6 +45,10 @@ using ulong_t = unsigned long;
 #include "sigscan.h"
 #include "vmthook.h"
 #include "input.h"
+#include "math.h"
+#include "vec2.h"
+#include "vec3.h"
+#include "angle.h"
 
 // direct3d9.
 #include <d3d9.h>

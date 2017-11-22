@@ -3,20 +3,16 @@
 namespace PE {
     // get DOS / NT headers.
     static bool get_file_headers( uintptr_t base, PIMAGE_DOS_HEADER &out_dos, PIMAGE_NT_HEADERS &out_nt ) {
+        // get DOS header and check for invalid DOS / DOS signature.
         auto dos = (IMAGE_DOS_HEADER *)base;
-        
-        // check for invalid DOS / DOS signature.
         if( !dos || dos->e_magic != IMAGE_DOS_SIGNATURE /* "MZ" */ )
             return false;
         
-        // get NT headers.
+        // get NT headers and check for invalid NT / NT signature.
         auto nt = (IMAGE_NT_HEADERS *)( (uintptr_t)dos + dos->e_lfanew );
-        
-        // check for invalid NT / NT signature.
         if( !nt || nt->Signature != IMAGE_NT_SIGNATURE /* "PE\0\0" */ )
             return false;
-        
-        // set out dos and nt.
+
         out_dos = dos;
         out_nt  = nt;
         
@@ -102,7 +98,6 @@ namespace PE {
             return ( m_nt ) ? m_nt->OptionalHeader.SizeOfImage : 0;
         }
 
-        // relative virtual address.
         template< typename t = uintptr_t > __forceinline t RVA( size_t offset ) const {
             if( !m_base || !offset )
                 return t{};
@@ -110,16 +105,18 @@ namespace PE {
             return (t)( m_base + offset );
         }
         
+        // returns data directory entry from OptionalHeader->DataDirectory array.
         __forceinline IMAGE_DATA_DIRECTORY *get_data_dir_entry( size_t entry ) const {
-            if( entry > IMAGE_NUMBEROF_DIRECTORY_ENTRIES )
+            if( !m_nt || entry > IMAGE_NUMBEROF_DIRECTORY_ENTRIES )
                 return nullptr;
 
             return &m_nt->OptionalHeader.DataDirectory[ entry ];
         }
 
+        // returns actual data directory in memory.
         template< typename t > __forceinline t *get_data_dir( size_t entry ) const {
             auto data_dir = get_data_dir_entry( entry );
-            if( !data_dir->VirtualAddress )
+            if( !data_dir || !data_dir->VirtualAddress )
                 return nullptr;
 
             return RVA< t * >( data_dir->VirtualAddress );

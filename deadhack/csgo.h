@@ -32,7 +32,7 @@ public:
         m_d3d9_vmt = SigScan::find( CT_HASH32( "shaderapidx9.dll" ), "A1 ? ? ? ? 6A 00 53" );
         if( !m_d3d9_vmt )
             return false;
-        
+
         m_d3d9_vmt = **(uintptr_t **)( m_d3d9_vmt + 1 );
 
         // interfaces.

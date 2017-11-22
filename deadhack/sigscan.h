@@ -53,14 +53,13 @@ namespace SigScan {
             // iterate string stream, splitting by space delim.
             do {
                 // too long...
-                if( part.size() > 2 )
+                if( part.empty() || part.size() > 2 )
                     continue;
 
-                // it's a wildcard.
+                // ensure it's a valid wildcard or byte.
                 if( part[ 0 ] == '?' )
                     m_pattern.push_back( {} );
 
-                // it's a valid byte.
                 else if( std::isxdigit( (uint8_t)part[ 0 ] ) && std::isxdigit( (uint8_t)part[ 1 ] ) )
                     m_pattern.push_back( { (uint8_t)std::strtoul( part.c_str(), 0, 16 ), false } );
             }

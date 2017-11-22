@@ -134,14 +134,13 @@ namespace PE {
             if( export_name.empty( ) )
                 continue;
 
-            // compare hash.
             if( Hash::fnv1a_32( export_name ) == hash ) {
                 // get export pointer.
                 export_ptr = mod.RVA( funcs[ ords[ i ] ] );
                 if( !export_ptr )
                     continue;
 
-                // inside dir, it's an export and we must resolve it.
+                // if the export ptr is inside the dir,  then it's a fowarder export and we must resolve it.
                 if( export_ptr >= (uintptr_t)export_dir && export_ptr < ( (uintptr_t)export_dir + export_dir_entry->Size ) ) {
                     // get forwarder string.
                     fwd_str = (const char *)export_ptr;
@@ -164,7 +163,7 @@ namespace PE {
                     if( !export_ptr )
                         return {};
 
-                    return export_ptr;
+                    return (t)export_ptr;
                 }
 
                 return (t)export_ptr;

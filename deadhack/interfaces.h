@@ -32,7 +32,7 @@ protected:
 
         for( const auto &m : modules ) {
             createinterface = PE::get_export( m, CT_HASH32( "CreateInterface" ) );
-            if( !Utils::valid( createinterface ) )
+            if( !Utils::is_valid_codeptr( createinterface ) )
                 continue;
 
             // ensure 4th byte is actually a jmp instruction.

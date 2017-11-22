@@ -10,7 +10,7 @@ static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *p
 
 bool Hooks::init() {
     // initialize VMTs.
-    if( !g_D3D9_vmt.init( g_csgo.m_d3d9_vmt, false ) )
+    if( !g_D3D9_vmt.init( g_csgo.m_d3d9_vmt ) )
         return false;
 
     // hook virtual methods.
