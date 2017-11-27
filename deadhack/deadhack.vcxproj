@@ -70,8 +70,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(IncludePath)</IncludePath>
-    <LibraryPath>../dependencies/OSHGui/Projects/VS2017/Bin/Lib/x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;../dependencies/OSHGui/Projects/VS2017/Bin/Lib/x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -124,11 +124,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9GeometryBuffer.cpp" />
+    <ClCompile Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9Renderer.cpp" />
+    <ClCompile Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9Texture.cpp" />
+    <ClCompile Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9TextureTarget.cpp" />
+    <ClCompile Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9ViewportTarget.cpp" />
     <ClCompile Include="hooks.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9GeometryBuffer.hpp" />
+    <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9Renderer.hpp" />
+    <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9RenderTarget.hpp" />
+    <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9Texture.hpp" />
+    <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9TextureTarget.hpp" />
+    <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9ViewportTarget.hpp" />
     <ClInclude Include="angle.h" />
     <ClInclude Include="chlclient.h" />
     <ClInclude Include="csgo.h" />

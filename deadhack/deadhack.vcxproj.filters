@@ -31,6 +31,18 @@
     <Filter Include="Header Files\other\math">
       <UniqueIdentifier>{1a904df3-709a-458a-ac0d-c050db9970ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\other\OSHGUI">
+      <UniqueIdentifier>{7e717ced-f9fc-49a0-b395-7bcad451f675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\other\OSHGUI\Direct3D9">
+      <UniqueIdentifier>{91ace653-62dd-41c6-b288-3e72f291307b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\other\OSHGUI">
+      <UniqueIdentifier>{c340f8e6-5593-4c8b-95ce-5515ff89de29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\other\OSHGUI\Direct3D9">
+      <UniqueIdentifier>{f07d9f09-ed7d-45bc-bdc8-d48f7e0b96e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,6 +53,21 @@
     </ClCompile>
     <ClCompile Include="hooks.cpp">
       <Filter>Source Files\cheat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9GeometryBuffer.cpp">
+      <Filter>Source Files\other\OSHGUI\Direct3D9</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9Renderer.cpp">
+      <Filter>Source Files\other\OSHGUI\Direct3D9</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9Texture.cpp">
+      <Filter>Source Files\other\OSHGUI\Direct3D9</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9TextureTarget.cpp">
+      <Filter>Source Files\other\OSHGUI\Direct3D9</Filter>
+    </ClCompile>
+    <ClCompile Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9ViewportTarget.cpp">
+      <Filter>Source Files\other\OSHGUI\Direct3D9</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +124,24 @@
     </ClInclude>
     <ClInclude Include="angle.h">
       <Filter>Header Files\other\math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9GeometryBuffer.hpp">
+      <Filter>Header Files\other\OSHGUI\Direct3D9</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9Renderer.hpp">
+      <Filter>Header Files\other\OSHGUI\Direct3D9</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9RenderTarget.hpp">
+      <Filter>Header Files\other\OSHGUI\Direct3D9</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9Texture.hpp">
+      <Filter>Header Files\other\OSHGUI\Direct3D9</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9TextureTarget.hpp">
+      <Filter>Header Files\other\OSHGUI\Direct3D9</Filter>
+    </ClInclude>
+    <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9ViewportTarget.hpp">
+      <Filter>Header Files\other\OSHGUI\Direct3D9</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

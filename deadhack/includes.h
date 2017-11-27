@@ -53,6 +53,7 @@ using ulong_t = unsigned long;
 // direct3d9.
 #include <d3d9.h>
 #pragma comment( lib, "d3d9.lib" )
+#pragma comment( lib, "D3dx9.lib" )
 
 // OSHGUI.
 #include "OSHGui.hpp"

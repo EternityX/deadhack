@@ -3,6 +3,7 @@
 #include "../Vertex.hpp"
 #include <algorithm>
 
+
 namespace OSHGui
 {
 	namespace Drawing

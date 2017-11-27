@@ -9,6 +9,8 @@
 #ifndef OSHGUI_DRAWING_DIRECT3D9RENDERER_HPP
 #define OSHGUI_DRAWING_DIRECT3D9RENDERER_HPP
 
+#define NOMINMAX
+
 #include "../Renderer.hpp"
 
 #include <d3d9.h>
