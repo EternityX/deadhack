@@ -52,6 +52,17 @@ using ulong_t = unsigned long;
 
 // direct3d9.
 #include <d3d9.h>
+#pragma comment( lib, "d3d9.lib" )
+
+// OSHGUI.
+#include "OSHGui.hpp"
+#include "Input/WindowsMessage.hpp"
+#include "Drawing/Direct3D9/Direct3D9Renderer.hpp"
+
+#pragma comment( lib, "oshgui.lib" )
+
+// using namespace OSHGui;
+// using namespace OSHGui::Drawing;
 
 // cheat stuff.
 #include "interfaces.h"
