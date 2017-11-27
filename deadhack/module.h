@@ -19,6 +19,27 @@ namespace PE {
         return true;
     }
 
+    template< typename t > class DataEntry_t {
+    public:
+        uintptr_t m_va;      // virtual offset.
+        uintptr_t m_size;    // size of data entry.
+        t         *m_va_ptr; // virtual offset ptr.
+        // uintptr_t m_end;     // end ptr of data entry.
+
+        __forceinline DataEntry_t() : m_va{ 0 }, m_size{ 0 }, m_va_ptr{ nullptr } {
+        
+        }
+
+        // valid checks.
+        __forceinline operator bool() const {
+            return m_va;
+        }
+
+        __forceinline bool operator !() const {
+            return !m_va;
+        }
+    };
+
     class Module {
     private:
         Types::LDR_DATA_TABLE_ENTRY *m_ldr_entry;
@@ -105,21 +126,22 @@ namespace PE {
             return (t)( m_base + offset );
         }
         
-        // returns data directory entry from OptionalHeader->DataDirectory array.
-        __forceinline IMAGE_DATA_DIRECTORY *get_data_dir_entry( size_t entry ) const {
+        // returns info about a data directory entry from OptionalHeader->DataDirectory array.
+        template< typename t > __forceinline DataEntry_t< t > get_data_dir( size_t entry ) const {
+            DataEntry_t< t > out;
+
             if( !m_nt || entry > IMAGE_NUMBEROF_DIRECTORY_ENTRIES )
-                return nullptr;
+                return {};
 
-            return &m_nt->OptionalHeader.DataDirectory[ entry ];
-        }
+            auto data_dir = &m_nt->OptionalHeader.DataDirectory[ entry ];
+            if( !data_dir )
+                return {};
 
-        // returns actual data directory in memory.
-        template< typename t > __forceinline t *get_data_dir( size_t entry ) const {
-            auto data_dir = get_data_dir_entry( entry );
-            if( !data_dir || !data_dir->VirtualAddress )
-                return nullptr;
+            out.m_va     = data_dir->VirtualAddress;
+            out.m_size   = data_dir->Size;
+            out.m_va_ptr = RVA< t * >( data_dir->VirtualAddress );;
 
-            return RVA< t * >( data_dir->VirtualAddress );
+            return out;
         }
 
         __forceinline std::wstring get_pathW() const {
@@ -134,7 +156,10 @@ namespace PE {
             std::wstring out;
             size_t       delim;
 
-            out = m_pathW;
+            if( m_pathW.empty() )
+                return {};
+
+            out = get_pathW();
 
             delim = out.find_last_of( '\\' );
             if( delim == std::wstring::npos )

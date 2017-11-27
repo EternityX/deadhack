@@ -73,7 +73,7 @@ namespace SigScan {
             return m_pattern[ index ];
         }
 
-        __forceinline bool empty() {
+        __forceinline bool empty() const {
             return m_pattern.empty();
         }
 
@@ -88,8 +88,8 @@ namespace SigScan {
 
     // todo - dex; add a find_all method that returns a vector?
 
-    __forceinline uintptr_t find( uintptr_t start, size_t len, const std::string &pattern ) {
-        Pattern scan_pattern;
+    // find pattern in range.
+    __forceinline uintptr_t find( uintptr_t start, size_t len, const Pattern &pattern ) {
         uint8_t *scan_start, *scan_end;
 
         static auto search_pred = []( const uint8_t a, const PatternByte_t &b ) {
@@ -99,18 +99,14 @@ namespace SigScan {
         if( !start || !len || pattern.empty() )
             return 0;
 
-        scan_pattern = pattern;
-        //if( scan_pattern.empty() )
-        //    return 0;
-
         scan_start  = (uint8_t *)start;
         scan_end    = scan_start + len;
 
         auto it = std::search(
             scan_start,
             scan_end,
-            scan_pattern.begin(),
-            scan_pattern.end(),
+            pattern.begin(),
+            pattern.end(),
             search_pred
         );
 
@@ -120,11 +116,18 @@ namespace SigScan {
     
         return (uintptr_t)it;
     }
+
+    // scan for pattern in range.
+    __forceinline uintptr_t find( uintptr_t start, size_t len, const std::string &pattern ) {
+        return find( start, len, Pattern( pattern ) );
+    }
     
+    // scan for pattern in entire module.
     __forceinline uintptr_t find( const PE::Module &module, const std::string &pattern ) {
         return find( module, module.get_code_size(), pattern );
     }
 
+    // scan for pattern in entire module by module name hash.
     __forceinline uintptr_t find( hash32_t hash, const std::string &pattern ) {
         PE::Module module;
 
@@ -138,6 +141,7 @@ namespace SigScan {
         return find( module, module.get_code_size(), pattern );
     }
 
+    // scan for pattern in entire module by module name string.
     __forceinline uintptr_t find( const std::string &str, const std::string &pattern ) {
         PE::Module module;
 

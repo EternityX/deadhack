@@ -32,8 +32,6 @@ namespace PE {
             if( !mod.init( ldr_entry ) )
                 continue;
 
-            // MessageBoxW( nullptr, mod.get_pathW().c_str(), L"get_all_modules", 0 );
-
             out.push_back( mod );
         }
     
@@ -112,36 +110,30 @@ namespace PE {
         if( !mod )
             return t{};
 
-        // get export data directory entry.
-        auto export_dir_entry = mod.get_data_dir_entry( IMAGE_DIRECTORY_ENTRY_EXPORT );
-        if( !export_dir_entry || !export_dir_entry->VirtualAddress )
-            return t{};
-
-        // get export data directory.
-        auto export_dir = mod.RVA< IMAGE_EXPORT_DIRECTORY * >( export_dir_entry->VirtualAddress );
+        // get export data directory info.
+        auto export_dir = mod.get_data_dir< IMAGE_EXPORT_DIRECTORY >( IMAGE_DIRECTORY_ENTRY_EXPORT );
         if( !export_dir )
             return t{};
 
         // get needed arrays.
-        auto names  = mod.RVA< uint32_t * >( export_dir->AddressOfNames );
-        auto funcs  = mod.RVA< uint32_t * >( export_dir->AddressOfFunctions );
-        auto ords   = mod.RVA< uint16_t * >( export_dir->AddressOfNameOrdinals );
+        auto names = mod.RVA< uint32_t * >( export_dir.m_va_ptr->AddressOfNames );
+        auto funcs = mod.RVA< uint32_t * >( export_dir.m_va_ptr->AddressOfFunctions );
+        auto ords  = mod.RVA< uint16_t * >( export_dir.m_va_ptr->AddressOfNameOrdinals );
         if( !names || !funcs || !ords )
             return t{};
 
-        for( size_t i = 0; i < export_dir->NumberOfNames; ++i ) {
+        for( size_t i = 0; i < export_dir.m_va_ptr->NumberOfNames; ++i ) {
             export_name = mod.RVA< const char * >( names[ i ] );
             if( export_name.empty( ) )
                 continue;
 
             if( Hash::fnv1a_32( export_name ) == hash ) {
-                // get export pointer.
                 export_ptr = mod.RVA( funcs[ ords[ i ] ] );
                 if( !export_ptr )
                     continue;
 
                 // if the export ptr is inside the dir,  then it's a fowarder export and we must resolve it.
-                if( export_ptr >= (uintptr_t)export_dir && export_ptr < ( (uintptr_t)export_dir + export_dir_entry->Size ) ) {
+                if( export_ptr >= (uintptr_t)export_dir.m_va_ptr && export_ptr < ( (uintptr_t)export_dir.m_va_ptr + export_dir.m_size ) ) {
                     // get forwarder string.
                     fwd_str = (const char *)export_ptr;
 
@@ -151,9 +143,7 @@ namespace PE {
 
                     // get forwarder module name.
                     fwd_module_name = fwd_str.substr( 0, delim + 1 );
-                    fwd_module_name += 'd';
-                    fwd_module_name += 'l';
-                    fwd_module_name += 'l';
+                    fwd_module_name += "dll";
 
                     // get forwarder export name.
                     fwd_export_name = fwd_str.substr( delim );
