@@ -25,7 +25,7 @@ namespace Math {
     // sse min.
     template< typename t = float > __forceinline t min( const t &a, const t &b ) {
         // check type.
-        static_assert( std::is_integral< t >::value, "Math::min only supports integral types." );
+        static_assert( std::is_arithmetic< t >::value, "Math::min only supports integral types." );
 
         return (t)_mm_cvtss_f32( 
             _mm_min_ss( _mm_set_ss( (float)a ), 
@@ -36,7 +36,7 @@ namespace Math {
     // sse max.
     template< typename t = float > __forceinline t max( const t &a, const t &b ) {
         // check type.
-        static_assert( std::is_integral< t >::value, "Math::max only supports integral types." );
+        static_assert( std::is_arithmetic< t >::value, "Math::max only supports integral types." );
 
         return (t)_mm_cvtss_f32( 
             _mm_max_ss( _mm_set_ss( (float)a ), 
@@ -47,7 +47,7 @@ namespace Math {
     // sse clamp.
     template< typename t = float > __forceinline void clamp( t &val, const t &min, const t &max ) {
         // check type.
-        static_assert( std::is_integral< t >::value, "Math::clamp only supports integral types." );
+        static_assert( std::is_arithmetic< t >::value, "Math::clamp only supports integral types." );
     
         val = (t)_mm_cvtss_f32( 
             _mm_min_ss( _mm_max_ss( _mm_set_ss( (float)val ), _mm_set_ss( (float)min ) ), 
@@ -58,7 +58,7 @@ namespace Math {
     // sse sqrt.
     template< typename t = float > __forceinline t sqrt( const t &val ) {
         // check type.
-        static_assert( std::is_integral< t >::value, "Math::sqrt only supports integral types." );
+        static_assert( std::is_arithmetic< t >::value, "Math::sqrt only supports integral types." );
     
         return _mm_cvtss_f32( _mm_sqrt_ss( _mm_set_ss( (float)val ) ) );
     }
