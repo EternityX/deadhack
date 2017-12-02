@@ -23,6 +23,7 @@ using ulong_t = unsigned long;
 #include <sstream>
 #include <cctype>
 #include <random>
+#include <thread>
 
 #ifdef CHEAT_DBG
     // todo - dex; this is pretty silly for debugging, we should really implement a proper testing function here or something so we can debug issues from users.
@@ -59,6 +60,7 @@ using ulong_t = unsigned long;
 #include "OSHGui.hpp"
 #include "Input/WindowsMessage.hpp"
 #include "Drawing/Direct3D9/Direct3D9Renderer.hpp"
+#include "renderer.h"
 
 #pragma comment( lib, "oshgui.lib" )
 

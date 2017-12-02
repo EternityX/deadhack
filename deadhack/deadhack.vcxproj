@@ -132,6 +132,7 @@
     <ClCompile Include="hooks.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9GeometryBuffer.hpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="module.h" />
     <ClInclude Include="pe.h" />
     <ClInclude Include="pe_types.h" />
+    <ClInclude Include="renderer.h" />
     <ClInclude Include="sdk.h" />
     <ClInclude Include="sigscan.h" />
     <ClInclude Include="utils.h" />

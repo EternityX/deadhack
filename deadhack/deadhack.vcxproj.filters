@@ -69,6 +69,9 @@
     <ClCompile Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9ViewportTarget.cpp">
       <Filter>Source Files\other\OSHGUI\Direct3D9</Filter>
     </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>Source Files\other\OSHGUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9ViewportTarget.hpp">
       <Filter>Header Files\other\OSHGUI\Direct3D9</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>Header Files\other\OSHGUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
