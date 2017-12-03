@@ -35,18 +35,23 @@ static ulong_t __stdcall cheat_init( void *arg ) {
 }
 
 static ulong_t __stdcall cheat_free( void *arg ) {
-    // todo - dex; finish this... or not...
+#ifdef CHEAT_DBG
+	// note - eternity; crashes on reinjection???
+
 	while ( !g_input.m_key_pressed[ VK_END ] )
 		std::this_thread::sleep_for( std::chrono::milliseconds( 25 ) );
 
-#ifdef CHEAT_DBG
-	MessageBoxA( nullptr, "unloaded", "cheat_free", 0 );
-#endif
+	// unhook everything.
+	if ( !Hooks::unload() )
+		DBG_ERROR( "Hooks::unload failed" );
 
-	// unhook and cleanup here.
-	// note - eternity; g_D3D9_vmt.unhook_method() seems to fail?
+	// remove wndproc hook.
+	if ( !g_input.remove() )
+		 DBG_ERROR( "g_input.remove failed" );
 
+	// pop outta this nigga.
 	FreeLibraryAndExitThread( ( HMODULE )arg, 0 );
+#endif
 }
 
 int __stdcall DllMain( HMODULE self, ulong_t reason_for_call, void *reserved ) {
@@ -57,10 +62,7 @@ int __stdcall DllMain( HMODULE self, ulong_t reason_for_call, void *reserved ) {
         if( !cheat_thread )
             return 0;
 
-        // todo - dex; save off handle to our module...?
-
-        // todo - dex; do we really need an unload routine?
-        free_thread = CreateThread( nullptr, 0, &cheat_free, nullptr, 0, nullptr );
+        free_thread = CreateThread( nullptr, 0, &cheat_free, self, 0, nullptr );
         if( !free_thread )
             return 0;
 

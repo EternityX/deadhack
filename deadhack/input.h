@@ -10,7 +10,7 @@ public:
 
 	bool init( const std::string &window_name );
     bool init( HWND wnd );
-	void remove();
+	bool remove();
 	bool handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam );
 };
 

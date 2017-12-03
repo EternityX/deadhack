@@ -12,4 +12,7 @@ namespace Hooks {
 
     // initialize hooks.
     bool init();
+
+	// unload hooks.
+	bool unload();
 }

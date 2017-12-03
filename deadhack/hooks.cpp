@@ -11,7 +11,7 @@ static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *p
 	    OSHGui::Application::Initialize( std::move( renderer ) );
 
 		// grab instance.
-	    OSHGui::Application &app = OSHGui::Application::Instance( );
+	    OSHGui::Application &app = OSHGui::Application::Instance();
 
 		// create fonts.
 	    auto font = OSHGui::Drawing::FontManager::LoadFont( "Verdana", 7.0f, true ); // general
@@ -68,4 +68,11 @@ bool Hooks::init() {
         return false;
 
     return true;
+}
+
+bool Hooks::unload() {
+	if ( !g_D3D9_vmt.unhook_all( ) )
+		return false;
+
+	return true;
 }

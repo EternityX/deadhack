@@ -43,11 +43,13 @@ bool Input::init( HWND wnd ) {
     return true;
 }
 
-void Input::remove() {
+bool Input::remove() {
     if( !m_window_handle || !m_original_wndproc )
-        return;
+        return false;
 
 	SetWindowLongA( m_window_handle, GWLP_WNDPROC, (LONG_PTR)m_original_wndproc );
+
+	return true;
 }
 
 bool Input::handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
