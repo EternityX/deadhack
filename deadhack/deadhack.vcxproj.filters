@@ -149,5 +149,8 @@
     <ClInclude Include="renderer.h">
       <Filter>Header Files\other\OSHGUI</Filter>
     </ClInclude>
+    <ClInclude Include="forms.h">
+      <Filter>Header Files\other\OSHGUI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

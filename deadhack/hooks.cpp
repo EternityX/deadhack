@@ -11,26 +11,17 @@ static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *p
 	    OSHGui::Application::Initialize( std::move( renderer ) );
 
 		// grab instance.
-	    OSHGui::Application &app = OSHGui::Application::Instance();
+	    auto &app = OSHGui::Application::Instance();
 
 		// create fonts.
 	    auto font = OSHGui::Drawing::FontManager::LoadFont( "Verdana", 7.0f, true ); // general
 		app.SetDefaultFont( font );
 
-		// create forms.
-        auto form = std::make_shared< OSHGui::Form >();
-
-		// initialize controls.
-		// todo - eternity; move this into its own class.
-	    OSHGui::Button* test_button = new OSHGui::Button();
-		test_button->SetText( "Button" );
-
-		form->AddControl( test_button );
-
 	    // set form as mainform.
-	    app.Run( form );
+		// TEST: change to OSHGUI::Form
+	    app.Run( std::make_shared< MainForm >( ) );
 
-		// start drawing.
+		// enable it.
 	    app.Enable();
 
 	    // register hotkey.

@@ -144,6 +144,7 @@
     <ClInclude Include="angle.h" />
     <ClInclude Include="chlclient.h" />
     <ClInclude Include="csgo.h" />
+    <ClInclude Include="forms.h" />
     <ClInclude Include="hash.h" />
     <ClInclude Include="hooks.h" />
     <ClInclude Include="includes.h" />
