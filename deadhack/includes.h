@@ -45,7 +45,6 @@ using ulong_t = unsigned long;
 #include "pe.h"
 #include "sigscan.h"
 #include "vmthook.h"
-#include "input.h"
 #include "math.h"
 #include "vec2.h"
 #include "vec3.h"
@@ -65,8 +64,7 @@ using ulong_t = unsigned long;
 
 #pragma comment( lib, "oshgui.lib" )
 
-// using namespace OSHGui;
-// using namespace OSHGui::Drawing;
+#include "input.h"
 
 // cheat stuff.
 #include "interfaces.h"

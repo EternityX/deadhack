@@ -17,9 +17,17 @@ static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *p
 	    auto font = OSHGui::Drawing::FontManager::LoadFont( "Verdana", 7.0f, true ); // general
 		app.SetDefaultFont( font );
 
+		auto form = std::make_shared< OSHGui::Form>();
+
+		// test input stuff (remove later).
+	    OSHGui::TextBox* textbox = new OSHGui::TextBox();
+		textbox->SetFont( font );
+		textbox->SetForeColor( OSHGui::Drawing::Color::FromARGB( 255, 201, 201, 201 ) );
+
+		form->AddControl( textbox );
+
 	    // set form as mainform.
-		// TEST: change to OSHGUI::Form
-	    app.Run( std::make_shared< MainForm >( ) );
+	    app.Run( form );
 
 		// enable it.
 	    app.Enable();
@@ -33,9 +41,9 @@ static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *p
     }
 
     if( once ) {
-		// retrieve renderer
+		// retrieve renderer.
         auto &renderer = OSHGui::Application::Instance().GetRenderer();
-        
+
 	    // let renderer begin its work.
 	    renderer.BeginRendering();
 
@@ -62,7 +70,7 @@ bool Hooks::init() {
 }
 
 bool Hooks::unload() {
-	if ( !g_D3D9_vmt.unhook_all( ) )
+	if( !g_D3D9_vmt.unhook_all( ) )
 		return false;
 
 	return true;

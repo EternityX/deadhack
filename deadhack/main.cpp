@@ -13,7 +13,7 @@ static ulong_t __stdcall cheat_init( void *arg ) {
         return 0;
     }
 
-	if ( !g_input.init( "Valve001" ) ) {
+	if( !g_input.init( "Valve001" ) ) {
 #ifdef CHEAT_DBG
 		DBG_ERROR( "g_input.init failed" );
 #endif
@@ -38,15 +38,15 @@ static ulong_t __stdcall cheat_free( void *arg ) {
 #ifdef CHEAT_DBG
 	// note - eternity; crashes on reinjection???
 
-	while ( !g_input.m_key_pressed[ VK_END ] )
+	while( !g_input.m_key_pressed[ VK_END ] )
 		std::this_thread::sleep_for( std::chrono::milliseconds( 25 ) );
 
 	// unhook everything.
-	if ( !Hooks::unload() )
+	if( !Hooks::unload() )
 		DBG_ERROR( "Hooks::unload failed" );
 
 	// remove wndproc hook.
-	if ( !g_input.remove() )
+	if( !g_input.remove() )
 		 DBG_ERROR( "g_input.remove failed" );
 
 	// pop outta this nigga.

@@ -1,16 +1,13 @@
 #pragma once
 
-class MainForm : public OSHGui::Form {
+class MainForm : public OSHGui::Form
+{
 private:
-	void InitializeComponent() {
-		OSHGui::Button* test_button = new OSHGui::Button();
-		test_button->SetText( "Button" );
-
-		this->AddControl( test_button );
+	void initialize_component() {
+		// todo - eternity; move all component initialization here
 	}
-
 public:
-	MainForm() {
-		InitializeComponent();
+	MainForm() : Form() {
+		initialize_component();
 	}
 };
