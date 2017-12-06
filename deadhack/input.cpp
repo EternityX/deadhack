@@ -34,7 +34,7 @@ bool Input::init( HWND wnd ) {
         return false;
 
     // already have a window handle, return.
-	if ( m_window_handle )
+	if( m_window_handle )
 		return false;
 
     m_window_handle = wnd;
@@ -131,23 +131,20 @@ bool Input::process_message( LPMSG msg ) {
 			if( enableKeyboardInput )
 			{
 				OSHGui::Misc::AnsiChar key_char = '\0';
-				auto state = OSHGui::KeyboardState::Unknown;
+				OSHGui::KeyboardState state;
 				auto key_data = OSHGui::Key::None;
 
-				if ( msg->message == WM_CHAR || msg->message == WM_SYSCHAR ) {
+				if( msg->message == WM_CHAR || msg->message == WM_SYSCHAR ) {
 					state = OSHGui::KeyboardState::Character;
 					key_char = static_cast< OSHGui::Misc::AnsiChar >( msg->wParam );
 				}
-				else if (msg->message == WM_IME_CHAR) {
-					int char_size = 2;
-				}
 				else {
 					auto modifier = OSHGui::Key::None;
-					if ( GetKeyState( (int)OSHGui::Key::ControlKey) < 0 )
+					if( GetKeyState( (int)OSHGui::Key::ControlKey) < 0 )
 						modifier |= OSHGui::Key::Control;
-					if ( GetKeyState( (int)OSHGui::Key::ShiftKey ) < 0 )
+					if( GetKeyState( (int)OSHGui::Key::ShiftKey ) < 0 )
 						modifier |= OSHGui::Key::Shift;
-					if ( GetKeyState( (int)OSHGui::Key::Menu ) < 0 )
+					if( GetKeyState( (int)OSHGui::Key::Menu ) < 0 )
 						modifier |= OSHGui::Key::Alt;
 
 					state = msg->message == WM_KEYDOWN || msg->message == WM_SYSKEYDOWN ? OSHGui::KeyboardState::KeyDown : OSHGui::KeyboardState::KeyUp;
@@ -155,7 +152,7 @@ bool Input::process_message( LPMSG msg ) {
 					key_data = static_cast< OSHGui::Key >( msg->wParam ) | modifier;
 				}
 
-				if ( state != OSHGui::KeyboardState::Unknown )
+				if( state != OSHGui::KeyboardState::Unknown )
 					return InjectKeyboardMessage( OSHGui::KeyboardMessage( state, key_data, key_char ) );
 			}
 

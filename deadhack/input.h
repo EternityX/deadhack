@@ -1,6 +1,9 @@
 #pragma once
 
 class Input : public OSHGui::Input::Input {
+private:
+	bool process_message( LPMSG msg );
+
 public:
     HWND                    m_window_handle;
     WNDPROC                 m_original_wndproc;
@@ -11,7 +14,6 @@ public:
 	bool init( const std::string &window_name );
     bool init( HWND wnd );
 	bool remove();
-	bool process_message( LPMSG msg );
 	bool handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam );
 };
 
