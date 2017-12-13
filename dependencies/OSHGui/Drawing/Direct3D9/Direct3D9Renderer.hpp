@@ -42,11 +42,11 @@ namespace OSHGui
 			/**
 			 * Hilfsfunktion, die vor einem D3D Reset aufgerufen werden muss.
 			 */
-			void PreD3DReset();
+			void PreD3DReset() override;
 			/**
 			 * Hilfsfunktion, die nach einem D3D Reset aufgerufen werden muss.
 			 */
-			void PostD3DReset();
+			void PostD3DReset() override;
 
 			/**
 			 * Ruft das Direct3D9 Device ab.

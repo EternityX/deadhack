@@ -36,10 +36,12 @@ static ulong_t __stdcall cheat_init( void *arg ) {
 
 static ulong_t __stdcall cheat_free( void *arg ) {
 #ifdef CHEAT_DBG
-	// note - eternity; crashes on reinjection???
-
 	while( !g_input.m_key_pressed[ VK_END ] )
 		std::this_thread::sleep_for( std::chrono::milliseconds( 25 ) );
+
+	// fixes crashing when reinjecting
+	if( OSHGui::Application::HasBeenInitialized() )
+		OSHGui::Application::Instance().GetRenderer().PreD3DReset();
 
 	// unhook everything.
 	if( !Hooks::unload() )
@@ -50,7 +52,7 @@ static ulong_t __stdcall cheat_free( void *arg ) {
 		 DBG_ERROR( "g_input.remove failed" );
 
 	// pop outta this nigga.
-	FreeLibraryAndExitThread( ( HMODULE )arg, 0 );
+	FreeLibraryAndExitThread( (HMODULE)arg, 0 );
 #endif
 }
 

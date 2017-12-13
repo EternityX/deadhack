@@ -201,18 +201,18 @@ bool Input::handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
 	}
 
 	// pass input to oshgui.
-	if( OSHGui::Application::Instance().IsEnabled() ) {
+	if( OSHGui::Application::HasBeenInitialized() ) {
 		MSG new_msg;
 		new_msg.hwnd = hwnd;
 		new_msg.message = msg;
 		new_msg.wParam = wparam;
 		new_msg.lParam = lparam;
 
-		if( process_message( &new_msg ) ) 
+		if( process_message( &new_msg ) )
 			return false;
-	}
-	else if( m_key_pressed[ VK_INSERT ] ) {
-		OSHGui::Application::Instance().Toggle();
+
+		if( m_key_pressed[ VK_INSERT ] )
+			OSHGui::Application::Instance().Toggle();
 	}
 
 	return false;

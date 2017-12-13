@@ -93,6 +93,9 @@ namespace OSHGui
 			 */
 			virtual void EndRendering() = 0;
 
+			virtual void PreD3DReset() = 0;
+			virtual void PostD3DReset() = 0;
+
 			/**
 			 * Legt die Größe des Zeichenbereichs fest.
 			 *

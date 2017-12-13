@@ -57,6 +57,18 @@ static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *p
     return g_D3D9_vmt.get_old_method< Present_t >( 17 )( device, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion );
 }
 
+static HRESULT __stdcall Hooks::Reset( IDirect3DDevice9 *device, D3DPRESENT_PARAMETERS *pPresentationParameters ) {
+	auto &renderer = OSHGui::Application::Instance().GetRenderer();
+
+	renderer.PreD3DReset();
+
+	HRESULT ret = g_D3D9_vmt.get_old_method< Reset_t >( 16 )( device, pPresentationParameters );
+
+	renderer.PostD3DReset();
+
+	return ret;
+}
+
 bool Hooks::init() {
     // initialize VMTs.
     if( !g_D3D9_vmt.init( g_csgo.m_d3d9_vmt ) )
@@ -66,11 +78,14 @@ bool Hooks::init() {
     if( !g_D3D9_vmt.hook_method( 17, &Present ) )
         return false;
 
+	if( !g_D3D9_vmt.hook_method( 16, &Reset ) )
+		return false;
+
     return true;
 }
 
 bool Hooks::unload() {
-	if( !g_D3D9_vmt.unhook_all( ) )
+	if( !g_D3D9_vmt.unhook_all() )
 		return false;
 
 	return true;
