@@ -4,6 +4,7 @@ using namespace OSHGui::Drawing;
 
 class CustomRenderer {
 private:
+    std::unique_ptr< Direct3D9Renderer > m_renderer;
 	RenderContext m_render_context;
 	GeometryBufferPtr m_geometry;
 	RenderSurface* m_surface;
@@ -13,7 +14,6 @@ private:
 	
 
 public:
-	bool m_needs_redraw;
 	std::vector< FontPtr > m_fonts;
 
 	enum Fonts {

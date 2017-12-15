@@ -1,17 +1,15 @@
 #include "includes.h"
 
-// todo - eternity; finish this...
-
-CustomRenderer::CustomRenderer() : m_render_context{}, m_geometry{}, m_needs_redraw{ false }, m_fonts{} {
+CustomRenderer::CustomRenderer() : m_renderer{}, m_render_context{}, m_geometry{}, m_fonts{} {
 	
 }
 
 bool CustomRenderer::init( IDirect3DDevice9 *device ) {
 	// create renderer.
-	auto renderer = std::make_unique< Direct3D9Renderer >( device );
+	m_renderer = std::make_unique< Direct3D9Renderer >( device );
 
 	// initialize oshgui with renderer.
-	OSHGui::Application::Initialize( std::move( renderer ) );
+	OSHGui::Application::Initialize( std::move( m_renderer ) );
 
 	// grab instance.
 	auto &app = OSHGui::Application::Instance();
@@ -41,7 +39,7 @@ bool CustomRenderer::init( IDirect3DDevice9 *device ) {
 }
 
 bool CustomRenderer::create_geometry_buffer() {
-	m_geometry = OSHGui::Application::Instance().GetRenderer().CreateGeometryBuffer();
+	m_geometry = m_renderer.get()->CreateGeometryBuffer();
 	if( !m_geometry )
 		return false;
 
@@ -49,20 +47,17 @@ bool CustomRenderer::create_geometry_buffer() {
 }
 
 void CustomRenderer::draw() {
-	// retrieve renderer.
-	auto &renderer = OSHGui::Application::Instance().GetRenderer();
-
 	// let renderer begin its work.
-	renderer.BeginRendering();
-
-	// queue geometry.
-	OSHGui::Application::Instance().GetRenderSurface().AddGeometry( RenderQueueType::Underlay, m_geometry );
+	m_renderer.get()->BeginRendering();
 
 	// render oshgui.
 	OSHGui::Application::Instance().Render();
 
+    // render our own geometry.
+	// OSHGui::Application::Instance().GetRenderSurface().AddGeometry( RenderQueueType::Underlay, m_geometry );
+
 	// end the rendering.
-	renderer.EndRendering();
+    m_renderer.get()->EndRendering();
 }
 
 void CustomRenderer::line( const Color &color, const PointF &from, const PointF &to ) const {
