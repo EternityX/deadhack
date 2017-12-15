@@ -1,12 +1,12 @@
 #include "includes.h"
 
-CustomRenderer::CustomRenderer() : m_renderer{}, m_render_context{}, m_geometry{}, m_fonts{} {
+CustomRenderer::CustomRenderer() : m_renderer{}, m_geometry{}, m_render_target{}, m_fonts{} {
 	
 }
 
 bool CustomRenderer::init( IDirect3DDevice9 *device ) {
 	// create renderer.
-	m_renderer = std::make_unique< Direct3D9Renderer >( device );
+	m_renderer = std::make_unique< OSHGui::Drawing::Direct3D9Renderer >( device );
 
 	// initialize oshgui with renderer.
 	OSHGui::Application::Initialize( std::move( m_renderer ) );
@@ -15,7 +15,7 @@ bool CustomRenderer::init( IDirect3DDevice9 *device ) {
 	auto &app = OSHGui::Application::Instance();
 
 	// create fonts.
-	m_fonts.push_back( FontManager::LoadFont( "Verdana", 7.0f, true ) );
+	m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Verdana", 7.0f, true ) );
 	app.SetDefaultFont( m_fonts.at( VERDANA ) );
 
 	// create form.
@@ -32,60 +32,70 @@ bool CustomRenderer::init( IDirect3DDevice9 *device ) {
 		OSHGui::Application::Instance().Toggle();
 	}));
 
-	if( !create_geometry_buffer() )
-		return false;
-
 	return true;
 }
 
 bool CustomRenderer::create_geometry_buffer() {
-	m_geometry = m_renderer.get()->CreateGeometryBuffer();
+	m_geometry = OSHGui::Application::Instance().GetRenderer().CreateGeometryBuffer();
 	if( !m_geometry )
 		return false;
 
 	return true;
 }
 
-void CustomRenderer::draw() {
+bool CustomRenderer::get_render_target() {
+	m_render_target = OSHGui::Application::Instance().GetRenderer().GetDefaultRenderTarget();
+	if( !m_render_target )
+		return false;
+
+	return true;
+}
+
+void CustomRenderer::start_drawing() {
+	if( !create_geometry_buffer() )
+		return;
+
+	if( !get_render_target() )
+		return;
+
 	// let renderer begin its work.
-	m_renderer.get()->BeginRendering();
+	OSHGui::Application::Instance().GetRenderer().BeginRendering();
+	// geometry will now be queued for drawing.
+}
+
+void CustomRenderer::end_drawing() const {
+	// enable our geometry rendering.
+	m_render_target->Activate();
+
+	// draw our queued geometry (esp, etc).
+	m_render_target->Draw( *m_geometry );
+
+	// disable our geometry rendering.
+	m_render_target->Deactivate();
 
 	// render oshgui.
 	OSHGui::Application::Instance().Render();
 
-    // render our own geometry.
-	// OSHGui::Application::Instance().GetRenderSurface().AddGeometry( RenderQueueType::Underlay, m_geometry );
-
 	// end the rendering.
-    m_renderer.get()->EndRendering();
+	OSHGui::Application::Instance().GetRenderer().EndRendering();
 }
 
-void CustomRenderer::line( const Color &color, const PointF &from, const PointF &to ) const {
-	m_geometry->SetVertexDrawMode( VertexDrawMode::LineList );
-
-	Vertex vertices[ ] = {
-		{ Vector( from.X, from.Y, 0.0f ), color },
-		{ Vector( to.X, to.Y, 0.0f ), color }
-	};
-	m_geometry->AppendGeometry( vertices, 2 );
-
-	m_geometry->SetVertexDrawMode( VertexDrawMode::TriangleList );
+void CustomRenderer::rect( const OSHGui::Drawing::Color &color, float x, float y, float width, float height ) const {
+	OSHGui::Drawing::Graphics g( *m_geometry );
+	g.DrawRectangle( color, OSHGui::Drawing::PointF( x, y ), OSHGui::Drawing::SizeF( width, height ) );
 }
 
-void CustomRenderer::filled_rect( const Color &color, const PointF &origin, const SizeF &size ) const {
-	Graphics g( *m_geometry );
-	g.FillRectangle( color, origin, size );
-}
-
-void CustomRenderer::filled_rect( const Color &color, float x, float y, float width, float height ) const
+void CustomRenderer::filled_rect( const OSHGui::Drawing::Color &color, float x, float y, float width, float height ) const
 {
-	Vertex vertices[ ] = {
-		{ Vector( x, y, 0.0f ), color },
-		{ Vector( x + width, y, 0.0f ), color },
-		{ Vector( x, y + height, 0.0f ), color },
-		{ Vector( x + width, y + height, 0.0f ), color },
-		{ Vector( x, y + height, 0.0f ), color },
-		{ Vector( x + width, y, 0.0f ), color }
-	};
-	m_geometry->AppendGeometry( vertices, 6 );
+	OSHGui::Drawing::Graphics g( *m_geometry );
+	g.FillRectangle( color, OSHGui::Drawing::PointF( x, y ), OSHGui::Drawing::SizeF( width, height ) );
+}
+
+void CustomRenderer::text( const OSHGui::Misc::AnsiString &text, float x, float y ) const {
+	OSHGui::Drawing::Graphics g( *m_geometry );
+
+	// dropshadow.
+	g.DrawString( text, OSHGui::Application::Instance().GetDefaultFont(), OSHGui::Drawing::Color( 0.8f, 0.03f, 0.03f, 0.03f ), OSHGui::Drawing::PointF( x + 1, y + 1 ) );
+	
+	g.DrawString( text, OSHGui::Application::Instance().GetDefaultFont(), OSHGui::Drawing::Color::White(), OSHGui::Drawing::PointF( x, y ) );
 }

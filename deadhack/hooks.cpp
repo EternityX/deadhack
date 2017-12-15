@@ -9,10 +9,13 @@ static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *p
 		init = true;
     }
     else {
-		// g_custom_renderer.filled_rect( OSHGui::Drawing::Color::Blue(), OSHGui::Drawing::PointF( 25, 25 ), OSHGui::Drawing::SizeF( 20, 20 ) );
-		// g_custom_renderer.draw();
-		// g_custom_renderer.filled_rect( OSHGui::Drawing::Color::Blue(), OSHGui::Drawing::PointF( 25, 25 ), OSHGui::Drawing::SizeF( 100, 100 ) );
-		// g_custom_renderer.filled_rect( OSHGui::Drawing::Color::Blue(), 90, 90, 500, 500 );
+		g_custom_renderer.start_drawing();
+
+		g_custom_renderer.rect( OSHGui::Drawing::Color::Blue(), 50, 50, 50, 50 );
+		g_custom_renderer.text( "nigga", 50, 100 );
+		g_custom_renderer.filled_rect( OSHGui::Drawing::Color::Red(), 50, 125, 50, 50 );
+
+		g_custom_renderer.end_drawing();
     }
 
     return g_D3D9_vmt.get_old_method< Present_t >( 17 )( device, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion );
