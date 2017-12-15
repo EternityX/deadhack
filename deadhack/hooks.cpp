@@ -1,57 +1,24 @@
 #include "includes.h"
 
+OSHGui::Drawing::GeometryBufferPtr geometry;
+OSHGui::Drawing::RenderContext render_context;
+
 static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *pSourceRect, const RECT *pDestRect, HWND hDestWindowOverride, const RGNDATA *pDirtyRegion ) {
-    static bool once{ false };
+    static bool init{ false };
+	
 
-    if( !once ) {
-		// create renderer.
-		auto renderer = std::make_unique< OSHGui::Drawing::Direct3D9Renderer >( device );
-	    
-	    // initialize oshgui with renderer.
-	    OSHGui::Application::Initialize( std::move( renderer ) );
-
-		// grab instance.
-	    auto &app = OSHGui::Application::Instance();
-
-		// create fonts.
-	    auto font = OSHGui::Drawing::FontManager::LoadFont( "Verdana", 7.0f, true ); // general
-		app.SetDefaultFont( font );
-
-		auto form = std::make_shared< OSHGui::Form>();
-
-		// test input stuff (remove later).
-	    OSHGui::TextBox* textbox = new OSHGui::TextBox();
-		textbox->SetFont( font );
-		textbox->SetForeColor( OSHGui::Drawing::Color::FromARGB( 255, 201, 201, 201 ) );
-
-		form->AddControl( textbox );
-
-	    // set form as mainform.
-	    app.Run( form );
-
-		// enable it.
-	    app.Enable();
-
-	    // register hotkey.
-	    app.RegisterHotkey( OSHGui::Hotkey( OSHGui::Key::Insert, [] {
-	    	OSHGui::Application::Instance().Toggle();
-	    }));
-
-        once = true;
+    if( !init ) {
+		// init oshgui and renderer.
+		g_custom_renderer.init( device );
+		init = true;
     }
 
-    if( once ) {
-		// retrieve renderer.
-        auto &renderer = OSHGui::Application::Instance().GetRenderer();
-
-	    // let renderer begin its work.
-	    renderer.BeginRendering();
-
-	    // render oshgui.
-	    OSHGui::Application::Instance().Render();
-        
-	    // end the rendering.
-	    renderer.EndRendering();
+    if( init ) {
+		g_custom_renderer.filled_rect( OSHGui::Drawing::Color::Blue(), OSHGui::Drawing::PointF( 25, 25 ), OSHGui::Drawing::SizeF( 20, 20 ) );
+		g_custom_renderer.draw();
+		//g_custom_renderer.filled_rect( OSHGui::Drawing::Color::Blue(), OSHGui::Drawing::PointF( 25, 25 ), OSHGui::Drawing::SizeF( 100, 100 ) );
+		//g_custom_renderer.filled_rect( OSHGui::Drawing::Color::Blue(), 90, 90, 500, 500 );
+		
     }
 
     return g_D3D9_vmt.get_old_method< Present_t >( 17 )( device, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion );

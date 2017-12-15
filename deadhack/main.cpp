@@ -1,9 +1,9 @@
 #include "includes.h"
 
 // classes.
-CSGO       g_csgo{};
-Input	   g_input{};
-Renderer   g_renderer{};
+CSGO             g_csgo{};
+Input	         g_input{};
+CustomRenderer   g_custom_renderer{};
 
 static ulong_t __stdcall cheat_init( void *arg ) {
     if( !g_csgo.init() ) {
@@ -39,7 +39,7 @@ static ulong_t __stdcall cheat_free( void *arg ) {
 	while( !g_input.m_key_pressed[ VK_END ] )
 		std::this_thread::sleep_for( std::chrono::milliseconds( 25 ) );
 
-	// fixes crashing when reinjecting
+	// fixes crashing when reinjecting.
 	if( OSHGui::Application::HasBeenInitialized() )
 		OSHGui::Application::Instance().GetRenderer().PreD3DReset();
 

@@ -59,7 +59,7 @@ using ulong_t = unsigned long;
 #include "OSHGui.hpp"
 #include "Input/WindowsMessage.hpp"
 #include "Drawing/Direct3D9/Direct3D9Renderer.hpp"
-#include "renderer.h"
+#include "custom_renderer.h"
 #include "forms.h"
 
 #pragma comment( lib, "oshgui.lib" )

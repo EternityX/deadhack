@@ -214,8 +214,9 @@ bool Input::handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
 		process_message( &new_msg );
 	}
 	else {
-		if( m_key_pressed[ VK_INSERT ] ) 
+		if( m_key_pressed[ VK_INSERT ] ) {
 			OSHGui::Application::Instance().Toggle();
+		}
 
 		return false;
 	}
