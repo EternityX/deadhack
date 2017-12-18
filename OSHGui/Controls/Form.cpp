@@ -35,7 +35,7 @@ namespace OSHGui
 		isFocusable_ = true;
 
 		captionBar_ = new CaptionBar();
-		captionBar_->SetLocation(Drawing::PointI(0, 0));
+		captionBar_->SetLocation(Drawing::PointI(0, -7));
 		AddSubControl(captionBar_);
 
 		containerPanel_ = new Panel();
@@ -163,10 +163,18 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		g.FillRectangle(GetBackColor() - Color::FromARGB(0, 100, 100, 100), RectangleF(PointF(), GetSize()));
-		const auto color = GetBackColor() - Color::FromARGB(0, 90, 90, 90);
-		g.FillRectangleGradient(ColorRectangle(GetBackColor(), GetBackColor(), color, color), RectangleF(PointF(1, 1), GetSize() - SizeF(2, 2)));
-		g.FillRectangle(GetBackColor() - Color::FromARGB(0, 50, 50, 50), RectangleF(PointF(5, captionBar_->GetBottom() + 2), SizeF(GetWidth() - 10, 1)));
+		g.FillRectangle( Color::FromARGB( 255, 16, 16, 16 ), RectangleF( PointF( -6, -10 ), GetSize() + SizeF( 12, 16 ) ) );
+		g.FillRectangle( Color::FromARGB( 255, 62, 62, 62 ), RectangleF( PointF( -5, -9 ), GetSize() + SizeF( 10, 14 ) ) );
+		g.FillRectangle( Color::FromARGB( 255, 42, 42, 42 ), RectangleF( PointF( -4, -8 ), GetSize() + SizeF( 8, 12 ) ) );
+		g.FillRectangle( Color::FromARGB( 255, 62, 62, 62 ), RectangleF( PointF( 0, -4 ), GetSize() + SizeF( 0, 4 ) ) );
+		g.FillRectangle( Color::FromARGB( 255, 25, 25, 25 ), RectangleF( PointF( 1, 1 ), GetSize() - SizeF( 2, 2 ) ) );
+
+		g.FillRectangleGradient( ColorRectangle( Color::FromARGB( 255, 14, 14, 14 ), Color::FromARGB( 255, 25, 25, 25 ) ), RectangleF( PointF( 1, captionBar_->GetBottom() - 13 ), SizeF( GetWidth() - 2, 25 ) ) );
+
+		g.FillRectangle( GetBackColor(), RectangleF( PointF( 2, -2 ), SizeF( GetSize().Width - 4, 2 ) ) );
+
+		//ImagePtr bg = Image::FromFile( "outlets.png" );
+		//g.DrawImage( bg, Color::FromARGB( 123, 255, 255, 255 ), PointF(0, -1), RectangleF(PointF(1, 0), GetSize() + SizeF( -2, 0 ) ) );
 	}
 	//---------------------------------------------------------------------------
 	//Form::Captionbar::Button
@@ -230,17 +238,17 @@ namespace OSHGui
 
 		AddSubControl(titleLabel_);
 
-		closeButton_ = new CaptionBarButton();
-		closeButton_->SetBackColor(Drawing::Color::Empty());
+		//closeButton_ = new CaptionBarButton();
+		//closeButton_->SetBackColor(Drawing::Color::Empty());
 		
-		AddSubControl(closeButton_);
+		//AddSubControl(closeButton_);
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::SetSize(const Drawing::SizeI &size)
 	{
 		Control::SetSize(Drawing::SizeI(size.Width, DefaultCaptionBarHeight));
 
-		closeButton_->SetLocation(Drawing::PointI(size.Width - CaptionBarButton::DefaultSize.Width - DefaultButtonPadding, 0));
+		//closeButton_->SetLocation(Drawing::PointI(size.Width - CaptionBarButton::DefaultSize.Width - DefaultButtonPadding, 0));
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::SetText(const Misc::AnsiString &text)
@@ -257,7 +265,7 @@ namespace OSHGui
 	{
 		Control::SetForeColor(color);
 
-		closeButton_->SetForeColor(color);
+		//closeButton_->SetForeColor(color);
 		titleLabel_->SetForeColor(color);
 	}
 	//---------------------------------------------------------------------------
@@ -266,7 +274,7 @@ namespace OSHGui
 		Control::DrawSelf(context);
 
 		titleLabel_->Render();
-		closeButton_->Render();
+		//closeButton_->Render();
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::OnMouseDown(const MouseMessage &mouse)

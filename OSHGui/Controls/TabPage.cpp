@@ -102,8 +102,8 @@ namespace OSHGui
 
 		if (!parent_->GetBackColor().IsTranslucent())
 		{
-			g.FillRectangle(parent_->GetBackColor() + Color::FromARGB(0, 32, 32, 32), PointF(0, 0), GetSize());
-			g.FillRectangleGradient(ColorRectangle(parent_->GetBackColor(), parent_->GetBackColor() - Color::FromARGB(0, 20, 20, 20)), PointF(1, 1), GetSize() - SizeF(2, 2));
+			g.FillRectangle( parent_->GetBackColor() + Color::FromARGB( 0, 32, 32, 32 ), PointF( 0, 0 ), GetSize() );
+			g.FillRectangle( parent_->GetBackColor(), PointF( 1, 1 ), GetSize() - SizeF( 2, 2 ) );
 		}
 	}
 	//---------------------------------------------------------------------------
