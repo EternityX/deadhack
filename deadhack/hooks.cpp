@@ -6,14 +6,16 @@ static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *p
     if( !init ) {
 		// init oshgui and renderer.
 		g_custom_renderer.init( device );
+
+		// init menu.
+		g_menu.init();
+	    
 		init = true;
     }
     else {
 		g_custom_renderer.start_drawing();
 
-		g_custom_renderer.rect( OSHGui::Drawing::Color::Blue(), 50, 50, 50, 50 );
-		g_custom_renderer.text( "nigga", 50, 100 );
-		g_custom_renderer.filled_rect( OSHGui::Drawing::Color::Red(), 50, 125, 50, 50 );
+		g_custom_renderer.text( 50, 100, "deadcell" );
 
 		g_custom_renderer.end_drawing();
     }
@@ -22,13 +24,11 @@ static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *p
 }
 
 static HRESULT __stdcall Hooks::Reset( IDirect3DDevice9 *device, D3DPRESENT_PARAMETERS *pPresentationParameters ) {
-	auto &renderer = OSHGui::Application::Instance().GetRenderer();
-
-	renderer.PreD3DReset();
+	g_custom_renderer.m_instance->GetRenderer().PreD3DReset();
 
 	HRESULT ret = g_D3D9_vmt.get_old_method< Reset_t >( 16 )( device, pPresentationParameters );
 
-	renderer.PostD3DReset();
+	g_custom_renderer.m_instance->GetRenderer().PostD3DReset();
 
 	return ret;
 }

@@ -17,6 +17,7 @@ using ulong_t = unsigned long;
 #include <intrin.h>
 #include <cstdint>
 #include <string>
+#include <stdio.h>
 #include <array>
 #include <vector>
 #include <memory>
@@ -61,7 +62,7 @@ using ulong_t = unsigned long;
 #include "Drawing/Direct3D9/Direct3D9Renderer.hpp"
 #include "Drawing/RenderTarget.hpp"
 #include "custom_renderer.h"
-#include "forms.h"
+#include "menu.h"
 
 #pragma comment( lib, "oshgui.lib" )
 

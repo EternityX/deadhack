@@ -133,6 +133,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="custom_renderer.cpp" />
+    <ClCompile Include="menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dependencies\OSHGui\Drawing\Direct3D9\Direct3D9GeometryBuffer.hpp" />
@@ -144,13 +145,13 @@
     <ClInclude Include="angle.h" />
     <ClInclude Include="chlclient.h" />
     <ClInclude Include="csgo.h" />
-    <ClInclude Include="forms.h" />
     <ClInclude Include="hash.h" />
     <ClInclude Include="hooks.h" />
     <ClInclude Include="includes.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="interfaces.h" />
     <ClInclude Include="math.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="module.h" />
     <ClInclude Include="pe.h" />
     <ClInclude Include="pe_types.h" />

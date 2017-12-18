@@ -1,6 +1,6 @@
 #include "includes.h"
 
-CustomRenderer::CustomRenderer() : m_renderer{}, m_geometry{}, m_render_target{}, m_fonts{} {
+CustomRenderer::CustomRenderer() : m_renderer{}, m_geometry{}, m_render_target{}, m_fonts{}, m_instance{ nullptr } {
 	
 }
 
@@ -12,54 +12,32 @@ bool CustomRenderer::init( IDirect3DDevice9 *device ) {
 	OSHGui::Application::Initialize( std::move( m_renderer ) );
 
 	// grab instance.
-	auto &app = OSHGui::Application::Instance();
+	m_instance = OSHGui::Application::InstancePtr();
 
 	// create fonts.
 	m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Verdana", 7.0f, true ) );
-	app.SetDefaultFont( m_fonts.at( VERDANA ) );
-
-	// create form.
-	auto form = std::make_shared< OSHGui::Form>();
-
-	// set form as mainform.
-	app.Run( form );
-
-	// enable it.
-	app.Enable();
-
-	// register hotkey.
-	app.RegisterHotkey( OSHGui::Hotkey( OSHGui::Key::Insert, [] {
-		OSHGui::Application::Instance().Toggle();
-	}));
+	m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Verdana Bold", 7.0f, true ) );
+	m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Tahoma Bold", 7.0f, false ) );
+	m_instance->SetDefaultFont( m_fonts.at( 0 ) );
 
 	return true;
 }
 
-bool CustomRenderer::create_geometry_buffer() {
-	m_geometry = OSHGui::Application::Instance().GetRenderer().CreateGeometryBuffer();
-	if( !m_geometry )
-		return false;
-
-	return true;
-}
-
-bool CustomRenderer::get_render_target() {
-	m_render_target = OSHGui::Application::Instance().GetRenderer().GetDefaultRenderTarget();
-	if( !m_render_target )
-		return false;
-
-	return true;
+OSHGui::Drawing::Renderer& CustomRenderer::get_renderer() const {
+	return m_instance->GetRenderer();
 }
 
 void CustomRenderer::start_drawing() {
-	if( !create_geometry_buffer() )
+	m_geometry = get_renderer().CreateGeometryBuffer();
+	if( !m_geometry )
 		return;
 
-	if( !get_render_target() )
+	m_render_target = get_renderer().GetDefaultRenderTarget();
+	if( !m_render_target )
 		return;
 
 	// let renderer begin its work.
-	OSHGui::Application::Instance().GetRenderer().BeginRendering();
+	get_renderer().BeginRendering();
 	// geometry will now be queued for drawing.
 }
 
@@ -74,10 +52,10 @@ void CustomRenderer::end_drawing() const {
 	m_render_target->Deactivate();
 
 	// render oshgui.
-	OSHGui::Application::Instance().Render();
+	m_instance->Render();
 
 	// end the rendering.
-	OSHGui::Application::Instance().GetRenderer().EndRendering();
+	get_renderer().EndRendering();
 }
 
 void CustomRenderer::rect( const OSHGui::Drawing::Color &color, float x, float y, float width, float height ) const {
@@ -85,17 +63,29 @@ void CustomRenderer::rect( const OSHGui::Drawing::Color &color, float x, float y
 	g.DrawRectangle( color, OSHGui::Drawing::PointF( x, y ), OSHGui::Drawing::SizeF( width, height ) );
 }
 
-void CustomRenderer::filled_rect( const OSHGui::Drawing::Color &color, float x, float y, float width, float height ) const
-{
+void CustomRenderer::filled_rect( const OSHGui::Drawing::Color &color, float x, float y, float width, float height ) const {
 	OSHGui::Drawing::Graphics g( *m_geometry );
 	g.FillRectangle( color, OSHGui::Drawing::PointF( x, y ), OSHGui::Drawing::SizeF( width, height ) );
 }
 
-void CustomRenderer::text( const OSHGui::Misc::AnsiString &text, float x, float y ) const {
+void CustomRenderer::text( OSHGui::Drawing::FontPtr font, OSHGui::Drawing::Color color, float x, float y, const char *format, ... ) const {
+	static const int MAX_BUFFER_SIZE = 1024;
+	char buffer[ MAX_BUFFER_SIZE ] = { };
+
+	va_list va;
+	va_start( va, format );
+	vsnprintf_s( buffer, MAX_BUFFER_SIZE, format, va );
+	va_end( va );
+
 	OSHGui::Drawing::Graphics g( *m_geometry );
 
-	// dropshadow.
-	g.DrawString( text, OSHGui::Application::Instance().GetDefaultFont(), OSHGui::Drawing::Color( 0.8f, 0.03f, 0.03f, 0.03f ), OSHGui::Drawing::PointF( x + 1, y + 1 ) );
-	
-	g.DrawString( text, OSHGui::Application::Instance().GetDefaultFont(), OSHGui::Drawing::Color::White(), OSHGui::Drawing::PointF( x, y ) );
+	g.DrawString( buffer, font, color, OSHGui::Drawing::PointF( x, y ) );
+}
+
+void CustomRenderer::text( float x, float y, const char *format, ... ) const {
+	text( m_instance->GetDefaultFont(), OSHGui::Drawing::Color::White(), x, y, format );
+}
+
+void CustomRenderer::text( OSHGui::Drawing::FontPtr font, float x, float y, const char *format, ... ) const {
+	text( font, OSHGui::Drawing::Color::White(), x, y, format );
 }
