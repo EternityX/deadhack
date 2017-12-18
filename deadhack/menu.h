@@ -3,17 +3,17 @@
 class Menu {
 private:
 public:
-	std::shared_ptr< OSHGui::Form > m_form;
+	//std::shared_ptr< OSHGui::Form > m_form;
 
 	Menu();
 	void init();
 
 	class MainForm : public OSHGui::Form {
 	private:
-		void initialize_component();
+		void InitializeComponent();
 	public:
 		MainForm() : Form() {
-			initialize_component();
+			InitializeComponent();
 		}
 	};
 };
