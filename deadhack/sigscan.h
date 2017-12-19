@@ -124,7 +124,7 @@ namespace SigScan {
     
     // scan for pattern in entire module.
     __forceinline uintptr_t find( const PE::Module &module, const std::string &pattern ) {
-        return find( module, module.get_code_size(), pattern );
+        return find( module.get_code_base(), module.get_code_size(), pattern );
     }
 
     // scan for pattern in entire module by module name hash.
@@ -138,7 +138,7 @@ namespace SigScan {
         if( !module )
             return 0;
 
-        return find( module, module.get_code_size(), pattern );
+        return find( module.get_code_base(), module.get_code_size(), pattern );
     }
 
     // scan for pattern in entire module by module name string.
@@ -152,6 +152,6 @@ namespace SigScan {
         if( !module )
             return 0;
 
-        return find( module, module.get_code_size(), pattern );
+        return find( module.get_code_base(), module.get_code_size(), pattern );
     }
 }

@@ -85,6 +85,13 @@ namespace PE {
             return true;
         }
 
+        template< typename t = uintptr_t > __forceinline t RVA( size_t offset ) const {
+            if( !m_base || !offset )
+                return t{};
+
+            return (t)( m_base + offset );
+        }
+
         // returns module base address.
         __forceinline uintptr_t get_base() const {
             return m_base;
@@ -119,11 +126,8 @@ namespace PE {
             return ( m_nt ) ? m_nt->OptionalHeader.SizeOfImage : 0;
         }
 
-        template< typename t = uintptr_t > __forceinline t RVA( size_t offset ) const {
-            if( !m_base || !offset )
-                return t{};
-
-            return (t)( m_base + offset );
+        __forceinline uintptr_t get_code_base() const {
+            return ( m_nt ) ? RVA( m_nt->OptionalHeader.BaseOfCode ) : 0;
         }
         
         // returns info about a data directory entry from OptionalHeader->DataDirectory array.
