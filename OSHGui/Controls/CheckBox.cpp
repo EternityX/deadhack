@@ -30,7 +30,7 @@ namespace OSHGui
 
 		label_->SetLocation( DefaultLabelOffset );
 		label_->SetBackColor( Drawing::Color::Empty() );
-		//label_->SetS( 1 );
+		label_->SetStyle( 1 );
 
 		ApplyStyle( Application::Instance().GetStyle() );
 	}

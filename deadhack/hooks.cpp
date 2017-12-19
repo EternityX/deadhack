@@ -33,10 +33,24 @@ static HRESULT __stdcall Hooks::Reset( IDirect3DDevice9 *device, D3DPRESENT_PARA
 	return ret;
 }
 
+bool __stdcall Hooks::CreateMove( float flInputSampleTime, CUserCmd *cmd ) {
+	bool ret = g_ClientMode_vmt.get_old_method< CreateMove_t >( 24 )( flInputSampleTime, cmd );
+
+	if( !cmd->command_number )
+		return ret;
+
+	// todo; finish this :s
+
+	return false;
+}
+
 bool Hooks::init() {
     // initialize VMTs.
     if( !g_D3D9_vmt.init( g_csgo.m_d3d9_vmt ) )
         return false;
+
+	if( !g_ClientMode_vmt.init( g_csgo.m_client_mode ) )
+		return false;
 
     // hook virtual methods.
     if( !g_D3D9_vmt.hook_method( 17, &Present ) )
@@ -45,11 +59,17 @@ bool Hooks::init() {
 	if( !g_D3D9_vmt.hook_method( 16, &Reset ) )
 		return false;
 
+	if( !g_ClientMode_vmt.hook_method( 24, &CreateMove ) )
+		return false;
+
     return true;
 }
 
 bool Hooks::unload() {
 	if( !g_D3D9_vmt.unhook_all() )
+		return false;
+
+	if( !g_ClientMode_vmt.unhook_all() )
 		return false;
 
 	return true;

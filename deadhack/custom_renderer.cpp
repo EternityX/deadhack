@@ -4,7 +4,7 @@ CustomRenderer::CustomRenderer() : m_renderer{}, m_geometry{}, m_render_target{}
 	
 }
 
-bool CustomRenderer::init( IDirect3DDevice9 *device ) {
+void CustomRenderer::init( IDirect3DDevice9 *device ) {
 	// create renderer.
 	m_renderer = std::make_unique< OSHGui::Drawing::Direct3D9Renderer >( device );
 
@@ -19,8 +19,6 @@ bool CustomRenderer::init( IDirect3DDevice9 *device ) {
 	m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Verdana Bold", 7.0f, true ) );
 	m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Tahoma Bold", 7.0f, false ) );
 	m_instance->SetDefaultFont( m_fonts.at( 0 ) );
-
-	return true;
 }
 
 OSHGui::Drawing::Renderer& CustomRenderer::get_renderer() const {

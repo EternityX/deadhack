@@ -155,5 +155,11 @@
     <ClInclude Include="..\OSHGui\Drawing\Direct3D9\Direct3D9ViewportTarget.hpp">
       <Filter>Header Files\other\OSHGUI\Direct3D9</Filter>
     </ClInclude>
+    <ClInclude Include="iclientmodeshared.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="usercmd.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

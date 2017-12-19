@@ -147,6 +147,7 @@
     <ClInclude Include="csgo.h" />
     <ClInclude Include="hash.h" />
     <ClInclude Include="hooks.h" />
+    <ClInclude Include="iclientmodeshared.h" />
     <ClInclude Include="includes.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="interfaces.h" />
@@ -158,6 +159,7 @@
     <ClInclude Include="custom_renderer.h" />
     <ClInclude Include="sdk.h" />
     <ClInclude Include="sigscan.h" />
+    <ClInclude Include="usercmd.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="vec2.h" />
     <ClInclude Include="vec3.h" />

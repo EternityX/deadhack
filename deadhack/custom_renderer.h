@@ -11,7 +11,7 @@ public:
 	OSHGui::Application*                    m_instance;
 
 	CustomRenderer();
-	bool init( IDirect3DDevice9 *device );
+	void init( IDirect3DDevice9 *device );
 	OSHGui::Drawing::Renderer& get_renderer() const;
 
 	void start_drawing();
