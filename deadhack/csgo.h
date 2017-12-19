@@ -42,6 +42,8 @@ public:
             return false;
 
 		m_client_mode = **(IClientModeShared ***)( ( *(uintptr_t **) m_client )[ 10 ] + 5 );
+		if( !m_client_mode )
+			return false;
         
         return true;
     }
