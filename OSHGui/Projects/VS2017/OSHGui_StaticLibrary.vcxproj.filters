@@ -341,6 +341,9 @@
     <ClCompile Include="..\..\Input\WindowsMessageThreaded.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Controls\ColorButton.cpp">
+      <Filter>Source Files\Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Misc\ConcurrendQueue.hpp">
@@ -702,6 +705,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Input\WindowsMessageThreaded.hpp">
       <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Controls\ColorButton.hpp">
+      <Filter>Header Files\Controls</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

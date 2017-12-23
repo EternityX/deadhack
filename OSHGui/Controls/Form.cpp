@@ -173,7 +173,7 @@ namespace OSHGui
 
 		g.FillRectangle( GetBackColor(), RectangleF( PointF( 2, -2 ), SizeF( GetSize().Width - 4, 2 ) ) );
 
-		//ImagePtr bg = Image::FromFile( "outlets.png" );
+		//ImagePtr image = Image::FromMemory( bg );
 		//g.DrawImage( bg, Color::FromARGB( 123, 255, 255, 255 ), PointF(0, -1), RectangleF(PointF(1, 0), GetSize() + SizeF( -2, 0 ) ) );
 	}
 	//---------------------------------------------------------------------------

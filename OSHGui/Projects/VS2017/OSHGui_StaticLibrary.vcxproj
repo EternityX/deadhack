@@ -23,6 +23,7 @@
     <ClCompile Include="..\..\Controls\Button.cpp" />
     <ClCompile Include="..\..\Controls\CheckBox.cpp" />
     <ClCompile Include="..\..\Controls\ColorBar.cpp" />
+    <ClCompile Include="..\..\Controls\ColorButton.cpp" />
     <ClCompile Include="..\..\Controls\ColorPicker.cpp" />
     <ClCompile Include="..\..\Controls\ComboBox.cpp" />
     <ClCompile Include="..\..\Controls\Control.cpp" />
@@ -273,6 +274,7 @@
     <ClInclude Include="..\..\Controls\Button.hpp" />
     <ClInclude Include="..\..\Controls\CheckBox.hpp" />
     <ClInclude Include="..\..\Controls\ColorBar.hpp" />
+    <ClInclude Include="..\..\Controls\ColorButton.hpp" />
     <ClInclude Include="..\..\Controls\ColorPicker.hpp" />
     <ClInclude Include="..\..\Controls\ComboBox.hpp" />
     <ClInclude Include="..\..\Controls\Control.hpp" />

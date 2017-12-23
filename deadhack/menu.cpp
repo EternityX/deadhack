@@ -1,9 +1,5 @@
 #include "includes.h"
 
-Menu::Menu() : m_form{} {
-
-}
-
 void Menu::init() {
 	// create form.
 	m_form = std::static_pointer_cast< OSHGui::Form >( std::make_shared< MainForm >() );
@@ -20,19 +16,7 @@ void Menu::init() {
 	}));
 }
 
-void Menu::MainForm::InitializeComponent() {
-	this->SetSize( OSHGui::Drawing::SizeI( 600, 400 ) );
-	this->SetBackColor( m_primary_color );
-
-	create_tabs();
-	
-	// init tab content.
-	legitbot();
+void MainForm::team_checkbox_CheckChanged( Control *sender ) {
+	OSHGui::MessageBox::Show( "test nigga" );
 }
 
-void Menu::MainForm::create_tabs() {
-	
-}
-
-void Menu::MainForm::legitbot() {
-}

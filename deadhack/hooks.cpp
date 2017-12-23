@@ -36,8 +36,14 @@ static HRESULT __stdcall Hooks::Reset( IDirect3DDevice9 *device, D3DPRESENT_PARA
 bool __stdcall Hooks::CreateMove( float flInputSampleTime, CUserCmd *cmd ) {
 	bool ret = g_ClientMode_vmt.get_old_method< CreateMove_t >( 24 )( flInputSampleTime, cmd );
 
-	if( !cmd->command_number )
+	// called from CInput::ExtraMouseSample -> return original.
+	if( !cmd->m_command_number )
 		return ret;
+
+	// if we arrived here, called from -> CInput::CreateMove
+	// call EngineClient::SetViewAngles according to what the original returns.
+	if( ret )
+		return false; // todo
 
 	// todo; finish this :s
 

@@ -39,7 +39,7 @@ namespace Utils {
 	//}
 
     // get method from VMT.
-    template < typename t = uintptr_t > __forceinline t get_method( uintptr_t this_ptr, uint16_t index ) {
+    template < typename t = void * > __forceinline t get_method( void *this_ptr, uint16_t index ) {
 		return ( *(t **)this_ptr )[ index ];
 	}
 

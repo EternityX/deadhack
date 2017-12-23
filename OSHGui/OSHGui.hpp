@@ -63,5 +63,6 @@
 #include "Controls/ColorBar.hpp"
 #include "Controls/ScrollBar.hpp"
 #include "Controls/HotkeyControl.hpp"
+#include "Controls/ColorButton.hpp"
 
 #include "Controls/MessageBox.hpp"

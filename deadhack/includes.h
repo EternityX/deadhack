@@ -72,4 +72,5 @@ using ulong_t = unsigned long;
 #include "interfaces.h"
 #include "sdk.h"
 #include "csgo.h"
+#include "offsets.h"
 #include "hooks.h"
