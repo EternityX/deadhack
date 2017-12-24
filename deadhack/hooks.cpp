@@ -15,7 +15,8 @@ static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *p
     else {
 		g_custom_renderer.start_drawing();
 
-		g_custom_renderer.text( 50, 100, "deadcell" );
+		if ( g_cvar.m_misc.watermark )
+			g_custom_renderer.text( 50, 100, "deadcell" );
 
 		g_custom_renderer.end_drawing();
     }

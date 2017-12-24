@@ -170,5 +170,8 @@
     <ClInclude Include="offsets.h">
       <Filter>Header Files\cheat</Filter>
     </ClInclude>
+    <ClInclude Include="cvar.h">
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

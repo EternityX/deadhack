@@ -147,6 +147,7 @@
     <ClInclude Include="clientdll.h" />
     <ClInclude Include="client_class.h" />
     <ClInclude Include="csgo.h" />
+    <ClInclude Include="cvar.h" />
     <ClInclude Include="dt_recv.h" />
     <ClInclude Include="hash.h" />
     <ClInclude Include="hooks.h" />

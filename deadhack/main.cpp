@@ -4,6 +4,7 @@
 CSGO             g_csgo{};
 Input	         g_input{};
 CustomRenderer   g_custom_renderer{};
+CVar             g_cvar{};
 Menu             g_menu{};
 
 static ulong_t __stdcall cheat_init( void *arg ) {

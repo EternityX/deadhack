@@ -6,7 +6,7 @@ private:
 
 public:
 	// ctor.
-	Menu::Menu() : m_form{}, m_control_x_pos{ 25 }, m_control_y_pos{ 10 } { }
+	Menu::Menu() : m_form{}, m_control_x_pos{ 27 }, m_control_y_pos{ 10 } { }
 
 	// initialize form and set hotkey.
 	void init();
@@ -17,6 +17,7 @@ public:
 	// y axis pos.
 	int m_control_y_pos;
 };
+
 extern Menu g_menu;
 
 namespace Controls {
@@ -28,6 +29,9 @@ namespace Controls {
 			GroupBox::SetFont( g_custom_renderer.m_fonts.at( 1 ) );
 			Control::SetBounds( x, y, w, h );
 			SetText( text );
+
+			// reset y axis.
+			g_menu.m_control_y_pos = 10;
 		}
 	};
 
@@ -36,6 +40,7 @@ namespace Controls {
 		void init( const OSHGui::Misc::AnsiString &text, std::vector< OSHGui::Misc::AnsiString > items, int x, int y, Control *parent ) {
 			SetLocation( x, y );
 			SetFont( g_custom_renderer.m_fonts.at( 0 ) );
+			parent->AddControl( this );
 
 			auto label = new OSHGui::Label();
 			label->SetForeColor( OSHGui::Drawing::Color::FromARGB( 255, 201, 201, 201 ) );
@@ -45,7 +50,7 @@ namespace Controls {
 			label->SetText( text );
 			parent->AddControl( label );
 
-			for( auto const& item : items )
+			for( auto const &item : items )
 				AddItem( item );
 		}
 	public:
@@ -63,20 +68,27 @@ namespace Controls {
 
 	class Checkbox : public OSHGui::CheckBox {
 	private:
-		void init( const OSHGui::Misc::AnsiString &text, int x, int y, OSHGui::Drawing::Color fore_color ) {
+		void init( const OSHGui::Misc::AnsiString &text, int x, int y, OSHGui::Drawing::Color fore_color, Control *parent, bool &cvar ) {
 			SetBackColor( fore_color );
 			SetFont( g_custom_renderer.m_fonts.at( 0 ) );
 			SetLocation( x, y );
 			SetText( text );
+			SetChecked( cvar );
+			parent->AddControl( this );
+
+			// click event.
+			this->GetClickEvent() += OSHGui::ClickEventHandler( [ this, &cvar ]( Control *sender ) {
+				cvar = !cvar;
+			});
 		}
 	public:
-		Checkbox( const OSHGui::Misc::AnsiString &text, int x, int y, OSHGui::Drawing::Color fore_color ) {
-			init( text, x, y, fore_color );
+		Checkbox( const OSHGui::Misc::AnsiString &text, int x, int y, OSHGui::Drawing::Color fore_color, Control *parent, bool &cvar ) {
+			init( text, x, y, fore_color, parent, cvar );
 		}
 
-		// automatic y axis positioning.
-		Checkbox( const OSHGui::Misc::AnsiString &text, OSHGui::Drawing::Color fore_color ) {
-			init( text, g_menu.m_control_x_pos, g_menu.m_control_y_pos, fore_color );
+		// automatic positioning.
+		Checkbox( const OSHGui::Misc::AnsiString &text, OSHGui::Drawing::Color fore_color, Control *parent, bool &cvar ) {
+			init( text, g_menu.m_control_x_pos, g_menu.m_control_y_pos, fore_color, parent, cvar );
 			g_menu.m_control_y_pos += 18;
 		}
 	};
@@ -88,62 +100,32 @@ public:
 	OSHGui::Drawing::Color m_primary_color = OSHGui::Drawing::Color::FromARGB( 255, 206, 115, 136 );
 
 private:
-	// tab pages.
-	OSHGui::TabPage *m_page_legitbot;
-	OSHGui::TabPage *m_page_ragebot;
-	OSHGui::TabPage *m_tab_visuals;
-	OSHGui::TabPage *m_tab_misc;
-	OSHGui::TabPage *m_tab_config;
+	std::vector< std::shared_ptr< OSHGui::TabPage > > m_pages;
 
-	// initialize all components.
+	// tab pages.
+	enum Pages {
+		PAGE_LEGITBOT,
+		PAGE_RAGEBOT,
+		PAGE_VISUALS,
+		PAGE_MISC
+	};
+
+	// initialize all controls.
 	void InitializeComponent() {
 		this->SetSize( OSHGui::Drawing::SizeI( 600, 400 ) );
 		this->SetBackColor( m_primary_color );
 
 		create_tabs();
 
-		// init tab content.
+		// init tab controls.
 		visuals();
 	}
 
-	void create_tabs() {
-		OSHGui::TabControl* tab = new OSHGui::TabControl();
+	// create tabs.
+	void create_tabs();
 
-		m_tab_visuals = new OSHGui::TabPage();
-		m_tab_visuals->SetText( "Visuals" );
-
-		// set style.
-		tab->SetSize( 576, 380 );
-		tab->SetBackColor( OSHGui::Drawing::Color::FromARGB( 255, 32, 32, 32 ) );
-		tab->SetLocation( 6, -15 );
-
-		// add all pages.
-		tab->AddTabPage( m_tab_visuals );
-
-		this->AddControl( tab );
-	}
-
-	// visual tab components.
-	void visuals() {
-		// player esp groupbox.
-		Controls::Groupbox *player_esp_groupbox = new Controls::Groupbox( "Player ESP", 17, 6, 256, 334 );
-
-		Controls::Combobox *activation_type_combo = new Controls::Combobox( "Activation type", { "On-key", "Toggle", "Always" }, player_esp_groupbox );
-
-		Controls::Checkbox *teammate_check = new Controls::Checkbox( "Teammates", m_primary_color );
-		teammate_check->GetClickEvent() += OSHGui::ClickEventHandler( std::bind( &MainForm::team_checkbox_CheckChanged, this, std::placeholders::_1 ) );
-
-		Controls::Checkbox *bbox_check = new Controls::Checkbox( "Bounding box", m_primary_color );
-
-		player_esp_groupbox->AddControl( activation_type_combo );
-		player_esp_groupbox->AddControl( teammate_check );
-		player_esp_groupbox->AddControl( bbox_check );
-		
-		m_tab_visuals->AddControl( player_esp_groupbox );
-	}
-
-	// events
-	void team_checkbox_CheckChanged( Control *sender );
+	// visual tab controls.
+	void visuals();
 
 public:
 	MainForm() : Form() {

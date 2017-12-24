@@ -50,6 +50,7 @@ using ulong_t = unsigned long;
 #include "vec2.h"
 #include "vec3.h"
 #include "angle.h"
+#include "cvar.h"
 
 // direct3d9.
 #include <d3d9.h>
