@@ -19,9 +19,15 @@ public:
 	
 	void rect( const OSHGui::Drawing::Color &color, float x, float y, float width, float height ) const;
 	void filled_rect( const OSHGui::Drawing::Color &color, float x, float y, float width, float height ) const;
-	void text( OSHGui::Drawing::FontPtr font, OSHGui::Drawing::Color color, float x, float y, const char *format,... ) const;
-	void text( OSHGui::Drawing::FontPtr font, float x, float y, const char *format,... ) const;
-	void text( float x, float y, const char *format, ... ) const;
+
+	void ansi_text( OSHGui::Drawing::FontPtr font, OSHGui::Drawing::Color color, float x, float y, const char *format,... ) const;
+	void ansi_text( OSHGui::Drawing::FontPtr font, float x, float y, const char *format,... ) const;
+	void ansi_text( float x, float y, const char *format, ... ) const;
+
+	void unicode_text( OSHGui::Drawing::FontPtr font, OSHGui::Drawing::Color color, float x, float y, wchar_t *format,... ) const;
+	void unicode_text( float x, float y, wchar_t *format,... ) const;
+	void unicode_text( OSHGui::Drawing::FontPtr font, float x, float y, wchar_t *format,... ) const;
+	void unicode_text( OSHGui::Drawing::Color color, float x, float y, wchar_t *format,... ) const;
 };
 
 extern CustomRenderer g_custom_renderer;

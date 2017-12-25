@@ -59,6 +59,7 @@ namespace OSHGui
 			 * \return End-X Koordinate des gezeichneten Textes
 			 */
 			virtual float DrawText(GeometryBuffer &buffer, const Misc::AnsiString &text, const PointF &position, const RectangleF *clip, const ColorRectangle &colors, const float spaceExtra = 0.0f, const float scaleX = 1.0f, const float scaleY = 1.0f) const;
+			virtual float DrawText( GeometryBuffer &buffer, const Misc::UnicodeString &text, const PointF &position, const RectangleF *clip, const ColorRectangle &colors, const float spaceExtra = 0.0f, const float scaleX = 1.0f, const float scaleY = 1.0f ) const;
 
 			/**
 			 * Ruft die Höhe einer Textzeile ab.

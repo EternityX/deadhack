@@ -37,9 +37,10 @@ namespace Controls {
 
 	class Combobox : public OSHGui::ComboBox {
 	private:
-		void init( const OSHGui::Misc::AnsiString &text, std::vector< OSHGui::Misc::AnsiString > items, int x, int y, Control *parent ) {
+		void init( const OSHGui::Misc::AnsiString &text, std::vector< OSHGui::Misc::AnsiString > items, int x, int y, int max_items, Control *parent ) {
 			SetLocation( x, y );
 			SetFont( g_custom_renderer.m_fonts.at( 0 ) );
+			SetMaxShowItems( max_items );
 			parent->AddControl( this );
 
 			auto label = new OSHGui::Label();
@@ -55,13 +56,13 @@ namespace Controls {
 		}
 	public:
 		// manual positioning.
-		Combobox( const OSHGui::Misc::AnsiString &text, std::vector< OSHGui::Misc::AnsiString > items, int x, int y, Control *parent ) {
-			init( text, items, x, y, parent );
+		Combobox( const OSHGui::Misc::AnsiString &text, std::vector< OSHGui::Misc::AnsiString > items, int x, int y, int max_items, Control *parent ) {
+			init( text, items, x, y, max_items, parent );
 		}
 
 		// automatic positioning.
-		Combobox( const OSHGui::Misc::AnsiString &text, std::vector< OSHGui::Misc::AnsiString > items, Control *parent ) {
-			init( text, items, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 3, g_menu.m_control_y_pos + 10, parent );
+		Combobox( const OSHGui::Misc::AnsiString &text, std::vector< OSHGui::Misc::AnsiString > items, int max_items, Control *parent ) {
+			init( text, items, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 3, g_menu.m_control_y_pos + 10, max_items, parent );
 			g_menu.m_control_y_pos += 40;
 		}
 	};
@@ -74,6 +75,7 @@ namespace Controls {
 			SetLocation( x, y );
 			SetText( text );
 			SetChecked( cvar );
+
 			parent->AddControl( this );
 
 			// click event.
@@ -107,7 +109,8 @@ private:
 		PAGE_LEGITBOT,
 		PAGE_RAGEBOT,
 		PAGE_VISUALS,
-		PAGE_MISC
+		PAGE_MISC,
+		PAGE_CONFIG
 	};
 
 	// initialize all controls.

@@ -275,6 +275,18 @@ namespace OSHGui
 			DrawString(text, font, color, PointF(x, y));
 		}
 
+		void Graphics::DrawString( const Misc::UnicodeString &text, const FontPtr &font, const Color &color, const PointF &origin )
+		{
+			font->DrawText( buffer, text, origin, nullptr, color );
+
+			buffer.SetActiveTexture( nullptr );
+		}
+
+		void Graphics::DrawString( const Misc::UnicodeString &text, const FontPtr &font, const Color &color, float x, float y )
+		{
+			DrawString( text, font, color, PointF( x, y ) );
+		}
+
 		void Graphics::DrawImage(const ImagePtr &image, const ColorRectangle &color, const PointF &origin)
 		{
 			DrawImage(image, color, RectangleF(origin, image->GetSize()));

@@ -173,6 +173,30 @@ namespace OSHGui
 			return glyphPosition.X;
 		}
 		//---------------------------------------------------------------------------
+		float Font::DrawText( GeometryBuffer &buffer, const Misc::UnicodeString &text, const PointF &position, const RectangleF *clip, const ColorRectangle &colors, const float spaceExtra, const float scaleX, const float scaleY ) const
+		{
+			const auto base = position.Y + GetBaseline( scaleY );
+			auto glyphPosition( position );
+
+			for( auto c : text )
+			{
+				if( const auto glyph = GetGlyphData( static_cast<uint32_t>( c ) ) )
+				{
+					auto image = glyph->GetImage();
+					glyphPosition.Y = base - ( image->GetOffset().Y - image->GetOffset().Y * scaleY );
+					image->Render( buffer, RectangleF( glyphPosition, glyph->GetSize( scaleX, scaleY ) ), clip, colors );
+					glyphPosition.X += glyph->GetAdvance( scaleX );// - 1.f;
+
+					if( c == ' ' )
+					{
+						glyphPosition.X += spaceExtra;
+					}
+				}
+			}
+
+			return glyphPosition.X;
+		}
+		//---------------------------------------------------------------------------
 		void Font::Rasterise(uint32_t startCodepoint, uint32_t endCodepoint) const
 		{
 			

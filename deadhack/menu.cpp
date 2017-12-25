@@ -19,21 +19,23 @@ void Menu::init() {
 void MainForm::create_tabs() {
 	OSHGui::TabControl* tab = new OSHGui::TabControl();
 
-	for( auto i = 0; i < 4; ++i )
-		m_pages.push_back( std::make_shared<OSHGui::TabPage>() );
+	// create pages.
+	for( int i = 0; i < 5; ++i )
+		m_pages.push_back( std::make_shared< OSHGui::TabPage >() );
 
-	// set titles.
+	// set page titles.
 	m_pages.at( PAGE_LEGITBOT )->SetText( "Legitbot" );
 	m_pages.at( PAGE_RAGEBOT )->SetText( "Ragebot" );
 	m_pages.at( PAGE_VISUALS )->SetText( "Visuals" );
 	m_pages.at( PAGE_MISC )->SetText( "Miscellaneous" );
+	m_pages.at( PAGE_CONFIG )->SetText( "Configuration" );
 
-	// set style.
+	// set page style.
 	tab->SetSize( 576, 380 );
 	tab->SetBackColor( OSHGui::Drawing::Color::FromARGB( 255, 32, 32, 32 ) );
 	tab->SetLocation( 6, -15 );
 
-	// add all pages.
+	// add all pages to tab control.
 	for( auto const &item : m_pages )
 		tab->AddTabPage( item.get() );
 
@@ -43,8 +45,6 @@ void MainForm::create_tabs() {
 void MainForm::visuals() {
 	// player esp groupbox.
 	Controls::Groupbox *player_esp_groupbox = new Controls::Groupbox( "Player ESP", 17, 6, 260, 334 );
-	Controls::Combobox *activation_type_combo = new Controls::Combobox( "Activation type", { "On-key", "Toggle", "Always" }, player_esp_groupbox );
-	Controls::Checkbox *teammate_check = new Controls::Checkbox( "Teammates", m_primary_color, player_esp_groupbox, g_cvar.m_misc.watermark );
 
 	m_pages.at( PAGE_VISUALS )->AddControl( player_esp_groupbox );
 
