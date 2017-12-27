@@ -20,8 +20,11 @@ using ulong_t = unsigned long;
 #include <stdio.h>
 #include <array>
 #include <vector>
+#include <map>
 #include <memory>
 #include <sstream>
+#include <fstream>
+#include <iostream>
 #include <cctype>
 #include <random>
 #include <thread>
@@ -39,6 +42,7 @@ using ulong_t = unsigned long;
 #endif
 
 // other stuff.
+#include "ini.h"
 #include "hash.h"
 #include "pe_types.h"
 #include "utils.h"

@@ -31,6 +31,7 @@ void MainForm::create_tabs() {
 	m_pages.at( PAGE_CONFIG )->SetText( "Configuration" );
 
 	// set page style.
+	tab->SetFont( g_custom_renderer.m_fonts.at( 4 ) );
 	tab->SetSize( 576, 380 );
 	tab->SetBackColor( OSHGui::Drawing::Color::FromARGB( 255, 32, 32, 32 ) );
 	tab->SetLocation( 6, -15 );

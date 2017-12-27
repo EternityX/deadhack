@@ -5,17 +5,17 @@ private:
 	std::shared_ptr< OSHGui::Form > m_form;
 
 public:
-	// ctor.
-	Menu::Menu() : m_form{}, m_control_x_pos{ 27 }, m_control_y_pos{ 10 } { }
-
-	// initialize form and set hotkey.
-	void init();
-
 	// x axis pos.
 	int m_control_x_pos;
 
 	// y axis pos.
 	int m_control_y_pos;
+
+	// ctor.
+	Menu::Menu() : m_form{}, m_control_x_pos{ 27 }, m_control_y_pos{ 10 } { }
+
+	// initialize form and set hotkey.
+	void init();
 };
 
 extern Menu g_menu;

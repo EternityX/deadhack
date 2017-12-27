@@ -39,7 +39,7 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		auto color = Color::FromARGB( 165, 206, 115, 136 );
+		auto color = Color::FromARGB( 185, 140, 56, 80 );
 		auto color2 = Color::FromARGB( 255, 206, 115, 136 );
 
 		g.FillRectangle(color, PointF(0, 0), SizeF(1, 12));
