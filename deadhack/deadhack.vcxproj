@@ -153,6 +153,7 @@
     <ClInclude Include="hooks.h" />
     <ClInclude Include="iclientmodeshared.h" />
     <ClInclude Include="includes.h" />
+    <ClInclude Include="ini.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="interfaces.h" />
     <ClInclude Include="math.h" />

@@ -173,5 +173,8 @@
     <ClInclude Include="cvar.h">
       <Filter>Header Files\other</Filter>
     </ClInclude>
+    <ClInclude Include="ini.h">
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
