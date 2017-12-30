@@ -142,7 +142,6 @@ void MainForm::configuration() {
 		OSHGui::MessageBox::ShowDialog( "Are you sure you want to load the selected config?", "", OSHGui::MessageBoxButtons::YesNo, [ this ]( OSHGui::DialogResult result ) {
 			if( result == OSHGui::DialogResult::Yes ) {
 				g_config.load( items.at( index ) );
-
 				// reinit controls so checkboxes and other controls update with new values.
 				reinit();
 			}
