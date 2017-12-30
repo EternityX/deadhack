@@ -21,7 +21,7 @@ void CustomRenderer::init( IDirect3DDevice9 *device ) {
 
 	// unicode font for use when tahoma can't display the character.
 	// arial unicode is probably the best for our use, but it's not included with windows?...
-	m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Arial Unicode MS", 8.0f, false ) );
+    m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Arial Unicode MS", 8.0f, false ) );
 
 	m_instance->SetDefaultFont( m_fonts.at( 0 ) );
 }

@@ -16,8 +16,17 @@ void Menu::init() {
 	}));
 }
 
+// FIXME: this is very very ghetto, we are basically drawing new controls over the old ones...
+void MainForm::reinit() {
+	Invalidate();
+
+	// reinitialize tab content.
+	visuals();
+	configuration();
+}
+
 void MainForm::create_tabs() {
-	OSHGui::TabControl* tab = new OSHGui::TabControl();
+	m_tab_control = new OSHGui::TabControl();
 
 	// create pages.
 	for( int i = 0; i < 5; ++i )
@@ -31,16 +40,16 @@ void MainForm::create_tabs() {
 	m_pages.at( PAGE_CONFIG )->SetText( "Configuration" );
 
 	// set page style.
-	tab->SetFont( g_custom_renderer.m_fonts.at( 4 ) );
-	tab->SetSize( 576, 380 );
-	tab->SetBackColor( OSHGui::Drawing::Color::FromARGB( 255, 32, 32, 32 ) );
-	tab->SetLocation( 6, -15 );
+	m_tab_control->SetFont( g_custom_renderer.m_instance->GetDefaultFont() );
+	m_tab_control->SetSize( 576, 380 );
+	m_tab_control->SetBackColor( OSHGui::Drawing::Color::FromARGB( 255, 32, 32, 32 ) );
+	m_tab_control->SetLocation( 6, -15 );
 
 	// add all pages to tab control.
-	for( auto const &item : m_pages )
-		tab->AddTabPage( item.get() );
+	for( auto &item : m_pages )
+		m_tab_control->AddTabPage( item.get() );
 
-	this->AddControl( tab );
+	this->AddControl( m_tab_control );
 }
 
 void MainForm::visuals() {
@@ -51,7 +60,94 @@ void MainForm::visuals() {
 
 	// other visuals groupbox.
 	Controls::Groupbox *other_esp_groupbox = new Controls::Groupbox( "Other visuals", player_esp_groupbox->GetRight() + 19, 6, 259, 334 );
-	Controls::Checkbox *watermark_check = new Controls::Checkbox( "Watermark", m_primary_color, other_esp_groupbox, g_cvar.m_misc.watermark );
+	Controls::Checkbox *watermark_check = new Controls::Checkbox( "Watermark", m_primary_color, other_esp_groupbox, &g_cvar.m_misc.watermark->bValue );
 
 	m_pages.at( PAGE_VISUALS )->AddControl( other_esp_groupbox );
+}
+
+void MainForm::configuration() {
+	// player esp groupbox.
+	Controls::Groupbox *config_groupbox = new Controls::Groupbox( "Configs", 17, 6, 260, 334 );
+
+	// list index.
+	static int index = 0;
+
+	// list view.
+	OSHGui::ListBox* list = new OSHGui::ListBox();
+	list->SetSize( 234, 300 );
+	list->SetLocation( config_groupbox->GetWidth() / 2 - list->GetWidth() / 2 - 3, 10 );
+	list->ExpandSizeToShowItems( 20 );
+	list->SetAutoScrollEnabled( true );
+
+	// get index from event.
+	list->GetSelectedIndexChangedEvent() += OSHGui::SelectedIndexChangedEventHandler( [ this, list ]( Control *sender ) {
+		index = list->GetSelectedIndex();
+	}); 
+
+	// items.
+	static std::vector<std::string> items = g_config.get_config_files();
+
+	// fill list with configs.
+	for( auto const &item : items )
+		list->AddItem( item.c_str() );
+
+	config_groupbox->AddControl( list );
+
+	m_pages.at( PAGE_CONFIG )->AddControl( config_groupbox );
+
+	Controls::Groupbox *config2_groupbox = new Controls::Groupbox( "Tools", config_groupbox->GetRight() + 19, 6, 259, 334 );
+
+	Controls::Textbox *name_textbox = new Controls::Textbox( "", config2_groupbox );
+
+	// new button.
+	Controls::Button *button_new = new Controls::Button( "New", config2_groupbox );
+	button_new->GetClickEvent() += OSHGui::ClickEventHandler( [ this, name_textbox, list ]( Control *sender ) {
+		if( items.size() > 15 ) {
+			OSHGui::MessageBox::Show( "You cannot create anymore configs." );
+			return;
+		}
+
+		g_config.save( name_textbox->GetText(), true );
+		items = g_config.get_config_files();
+
+		for( auto &item : items ) {		
+			// reinit list view items.
+			for( int i = 0; i < list->GetItemsCount(); i++ ) {
+				auto list_item = list->GetItem( i );
+				if( !list_item )
+					continue;
+
+				if( item.c_str() == list_item->GetItemText() ) {
+					list->RemoveItem( i );
+					continue;
+				}
+			}
+
+			list->AddItem( item.c_str() );
+		}
+	}); config2_groupbox->AddControl( button_new );
+
+	// save button.
+	Controls::Button *button_save = new Controls::Button( "Save", config2_groupbox );
+	button_save->GetClickEvent() += OSHGui::ClickEventHandler( [ this ]( Control *sender ) {
+		OSHGui::MessageBox::ShowDialog( "Saving will override any changes, are you sure you want to save?", "", OSHGui::MessageBoxButtons::YesNo, [ this ]( OSHGui::DialogResult result ) {
+			if( result == OSHGui::DialogResult::Yes )
+				g_config.save( items.at( index ), false );
+		});		
+	}); config2_groupbox->AddControl( button_save );
+
+	// load button.
+	Controls::Button *button_load = new Controls::Button( "Load", config2_groupbox );
+	button_load->GetClickEvent() += OSHGui::ClickEventHandler( [ this ]( Control *sender ) {
+		OSHGui::MessageBox::ShowDialog( "Are you sure you want to load the selected config?", "", OSHGui::MessageBoxButtons::YesNo, [ this ]( OSHGui::DialogResult result ) {
+			if( result == OSHGui::DialogResult::Yes ) {
+				g_config.load( items.at( index ) );
+
+				// reinit controls so checkboxes and other controls update with new values.
+				reinit();
+			}
+		});
+	}); config2_groupbox->AddControl( button_load );
+
+	m_pages.at( PAGE_CONFIG )->AddControl( config2_groupbox );
 }

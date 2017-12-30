@@ -6,6 +6,7 @@ Input	         g_input{};
 CustomRenderer   g_custom_renderer{};
 CVar             g_cvar{};
 Menu             g_menu{};
+Config           g_config{};
 
 static ulong_t __stdcall cheat_init( void *arg ) {
     if( !g_csgo.init() ) {
@@ -21,6 +22,8 @@ static ulong_t __stdcall cheat_init( void *arg ) {
 #endif
 		return 0;
 	}
+
+	g_config.init();
 
     if( !Hooks::init() ) {
 #ifdef CHEAT_DBG
@@ -42,8 +45,8 @@ static ulong_t __stdcall cheat_free( void *arg ) {
 		std::this_thread::sleep_for( std::chrono::milliseconds( 25 ) );
 
 	// fixes crashing when reinjecting.
-	if( OSHGui::Application::HasBeenInitialized() )
-		OSHGui::Application::Instance().GetRenderer().PreD3DReset();
+	if( g_custom_renderer.m_instance->HasBeenInitialized() )
+		g_custom_renderer.get_renderer().PreD3DReset();
 
 	// unhook everything.
 	if( !Hooks::unload() )

@@ -303,7 +303,7 @@ namespace OSHGui
 		{
 			if( firstVisibleItemIndex_ + i == selectedIndex_ )
 			{
-				g.DrawString( items_[ firstVisibleItemIndex_ + i ]->GetItemText(), GetFont(), Color::FromARGB( 255, 51, 198, 248 ), PointF( itemX + 1, itemY + i * padding ) );
+				g.DrawString( items_[ firstVisibleItemIndex_ + i ]->GetItemText(), GetFont(), Color::FromARGB( 255, 206, 115, 136 ), PointF( itemX + 1, itemY + i * padding ) );
 				//g.FillRectangle(Color::Red(), PointF(itemX - 1, itemY + i * padding - 1), SizeF(itemAreaSize_.Width + 2, padding));
 			}
 			else

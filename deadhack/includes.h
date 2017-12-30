@@ -25,6 +25,7 @@ using ulong_t = unsigned long;
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 #include <cctype>
 #include <random>
 #include <thread>
@@ -41,9 +42,16 @@ using ulong_t = unsigned long;
         );
 #endif
 
+// OSHGUI.
+#include "OSHGui.hpp"
+#include "Input/WindowsMessage.hpp"
+#include "Drawing/Direct3D9/Direct3D9Renderer.hpp"
+#include "Drawing/RenderTarget.hpp"
+
 // other stuff.
-#include "ini.h"
 #include "hash.h"
+#include "cfg_manager.h"
+#include "config.h"
 #include "pe_types.h"
 #include "utils.h"
 #include "module.h"
@@ -62,10 +70,6 @@ using ulong_t = unsigned long;
 #pragma comment( lib, "D3dx9.lib" )
 
 // OSHGUI.
-#include "OSHGui.hpp"
-#include "Input/WindowsMessage.hpp"
-#include "Drawing/Direct3D9/Direct3D9Renderer.hpp"
-#include "Drawing/RenderTarget.hpp"
 #include "custom_renderer.h"
 #include "menu.h"
 

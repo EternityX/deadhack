@@ -4,7 +4,7 @@ class CVar {
 private:
 public:
 	struct {
-		bool watermark;
+		config_manager::CVar::cvar_s *watermark;
 	} m_misc;
 };
 

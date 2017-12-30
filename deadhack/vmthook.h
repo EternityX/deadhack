@@ -18,15 +18,15 @@ private:
     }
 
 public:
-    __forceinline VMTHook() : m_vmt_base{ 0 }, m_old_vmt{ nullptr }, m_total_methods{ 0 }, m_new_vmt{ 0 }, m_new_vmt_start{ nullptr } {
+    __forceinline VMTHook() : m_vmt_base{ 0 }, m_old_vmt{ nullptr }, m_total_methods{ 0 }, m_new_vmt{ nullptr }, m_new_vmt_start{ nullptr } {
 
     }
 
-    __forceinline VMTHook( void *base ) : m_vmt_base{ 0 }, m_old_vmt{ nullptr }, m_total_methods{ 0 }, m_new_vmt{ 0 }, m_new_vmt_start{ nullptr } {
+    __forceinline VMTHook( void *base ) : m_vmt_base{ 0 }, m_old_vmt{ nullptr }, m_total_methods{ 0 }, m_new_vmt{ nullptr }, m_new_vmt_start{ nullptr } {
         init( base );
     }
 
-    __forceinline VMTHook( uintptr_t base ) : m_vmt_base{ 0 }, m_old_vmt{ nullptr }, m_total_methods{ 0 }, m_new_vmt{ 0 }, m_new_vmt_start{ nullptr } {
+    __forceinline VMTHook( uintptr_t base ) : m_vmt_base{ 0 }, m_old_vmt{ nullptr }, m_total_methods{ 0 }, m_new_vmt{ nullptr }, m_new_vmt_start{ nullptr } {
         init( base );
     }
 

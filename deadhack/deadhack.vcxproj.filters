@@ -75,6 +75,9 @@
     <ClCompile Include="..\OSHGui\Drawing\Direct3D9\Direct3D9ViewportTarget.cpp">
       <Filter>Source Files\other\OSHGUI\Direct3D9</Filter>
     </ClCompile>
+    <ClCompile Include="config.cpp">
+      <Filter>Source Files\other</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes.h">
@@ -173,7 +176,10 @@
     <ClInclude Include="cvar.h">
       <Filter>Header Files\other</Filter>
     </ClInclude>
-    <ClInclude Include="ini.h">
+    <ClInclude Include="config.h">
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="cfg_manager.h">
       <Filter>Header Files\other</Filter>
     </ClInclude>
   </ItemGroup>

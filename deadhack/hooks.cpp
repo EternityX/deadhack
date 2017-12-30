@@ -14,9 +14,9 @@ static HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *p
     }
     else {
 		g_custom_renderer.start_drawing();
-		if( g_cvar.m_misc.watermark ) {
+		if( g_cvar.m_misc.watermark->bValue ) {
 			g_custom_renderer.ansi_text( 50, 50, "deadcell" );
-			g_custom_renderer.unicode_text( OSHGui::Drawing::Color::FromARGB( 255, 206, 115, 136 ), 45, 61, L"⌈ 愛 平和 ⌋" );
+			g_custom_renderer.unicode_text( OSHGui::Drawing::Color::White(), 45, 61, L"⌈ 愛 平和 ⌋" );
 		}
 
 		g_custom_renderer.end_drawing();
