@@ -17,7 +17,7 @@ void CustomRenderer::init( IDirect3DDevice9 *device ) {
     m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Tahoma Bold", 7.0f, false ) );
     
     // fallback font.
-    // m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "meiryo", 8.0f, false ) );
+    m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Arial Unicode MS", 8.0f, false ) );
 
 	m_instance->SetDefaultFont( m_fonts[ 0 ] );
 }
