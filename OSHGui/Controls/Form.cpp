@@ -173,8 +173,8 @@ namespace OSHGui
 
 		g.FillRectangle( GetBackColor(), RectangleF( PointF( 2, -2 ), SizeF( GetSize().Width - 4, 2 ) ) );
 
-		ImagePtr image = Image::FromFile( "outlets.png" );
-		g.DrawImage( image, Color::FromARGB( 123, 255, 255, 255 ), PointF(0, -1), RectangleF(PointF(1, 0), GetSize() + SizeF( -2, 0 ) ) );
+		// ImagePtr image = Image::FromFile( "outlets.png" );
+		// g.DrawImage( image, Color::FromARGB( 123, 255, 255, 255 ), PointF(0, -1), RectangleF(PointF(1, 0), GetSize() + SizeF( -2, 0 ) ) );
 	}
 	//---------------------------------------------------------------------------
 	//Form::Captionbar::Button

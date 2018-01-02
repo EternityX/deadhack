@@ -48,11 +48,9 @@ static ulong_t __stdcall cheat_free( void *arg ) {
 	if( g_custom_renderer.m_instance->HasBeenInitialized() )
 		g_custom_renderer.get_renderer().PreD3DReset();
 
-	// unhook everything.
 	if( !Hooks::unload() )
 		DBG_ERROR( "Hooks::unload failed" );
 
-	// remove wndproc hook.
 	if( !g_input.remove() )
 		 DBG_ERROR( "g_input.remove failed" );
 

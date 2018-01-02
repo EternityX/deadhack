@@ -719,7 +719,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>freetype.lib;simpleimageloader.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\Dependencies\Lib\$(PlatformTarget)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\Dependencies\Lib\$(PlatformTarget);..\..\Dependencies\Source\FreeType\Release\x86;..\..\Dependencies\source\SimpleImageLoader\Release\x86</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -1,5 +1,7 @@
 #pragma once
 
+using Color = OSHGui::Drawing::Color;
+
 class CustomRenderer {
 private:
     std::unique_ptr< OSHGui::Drawing::Direct3D9Renderer > m_renderer;
@@ -17,17 +19,11 @@ public:
 	void start_drawing();
 	void end_drawing() const;
 	
-	void rect( const OSHGui::Drawing::Color &color, float x, float y, float width, float height ) const;
-	void filled_rect( const OSHGui::Drawing::Color &color, float x, float y, float width, float height ) const;
+	void rect( const Color &color, float x, float y, float width, float height ) const;
+	void filled_rect( const Color &color, float x, float y, float width, float height ) const;
 
-	void ansi_text( OSHGui::Drawing::FontPtr font, OSHGui::Drawing::Color color, float x, float y, const char *format,... ) const;
-	void ansi_text( OSHGui::Drawing::FontPtr font, float x, float y, const char *format,... ) const;
-	void ansi_text( float x, float y, const char *format, ... ) const;
-
-	void unicode_text( OSHGui::Drawing::FontPtr font, OSHGui::Drawing::Color color, float x, float y, wchar_t *format,... ) const;
-	void unicode_text( float x, float y, wchar_t *format,... ) const;
-	void unicode_text( OSHGui::Drawing::FontPtr font, float x, float y, wchar_t *format,... ) const;
-	void unicode_text( OSHGui::Drawing::Color color, float x, float y, wchar_t *format,... ) const;
+	void ansi_text( OSHGui::Drawing::FontPtr font, const Color &color, float x, float y, const std::string str, ... ) const;
+	void unicode_text( OSHGui::Drawing::FontPtr font, const Color &color, float x, float y, const std::wstring wstr, ... ) const;
 };
 
 extern CustomRenderer g_custom_renderer;

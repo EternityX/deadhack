@@ -1,27 +1,24 @@
 ﻿#include "includes.h"
 
 HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *pSourceRect, const RECT *pDestRect, HWND hDestWindowOverride, const RGNDATA *pDirtyRegion ) {
-    static bool init{ false };
+    static bool once{ false };
 
-    if( !init ) {
-		// init oshgui and renderer.
-		g_custom_renderer.init( device );
+    if( !once ) { // todo - dex; move to entry...
+        g_custom_renderer.init( device );
 
-		// init menu.
-		g_menu.init();
-	    
-		init = true;
+        g_menu.init();
+
+        once = true;
     }
+    
     else {
-		g_custom_renderer.start_drawing();
-
-		if( g_cvar.m_misc.watermark->bValue ) {
-			g_custom_renderer.ansi_text( 50, 50, "deadcell alpha" );
-			g_custom_renderer.ansi_text( 50, 60, "version 0.1" );
-		}
-
-
-		g_custom_renderer.end_drawing();
+        g_custom_renderer.start_drawing();
+        
+        if( g_cvar.m_misc.watermark->bValue ) {
+        	g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ 0 ], Color::White(), 2.f, 2.f, "deadcell" );
+        }
+        
+        g_custom_renderer.end_drawing();
     }
 
     return g_D3D9_vmt.get_old_method< Present_t >( 17 )( device, pSourceRect, pDestRect, hDestWindowOverride, pDirtyRegion );
@@ -37,19 +34,18 @@ HRESULT __stdcall Hooks::Reset( IDirect3DDevice9 *device, D3DPRESENT_PARAMETERS 
 	return ret;
 }
 
-// called at the start of a new level, after the entities have been received and created.
-void __stdcall Hooks::LevelInitPostEntity() {
-	g_CHLClient_vmt.get_old_method< LevelInitPostEntity_t >( 6 )();
+void __fastcall Hooks::LevelInitPostEntity( CHLClient *ecx, uintptr_t edx ) {
+	g_CHLClient_vmt.get_old_method< LevelInitPostEntity_t >( 6 )( ecx );
 	// todo: store localplayer here.
 }
 
-void __stdcall Hooks::LevelShutdown() {
-	g_CHLClient_vmt.get_old_method< LevelShutdown_t >( 7 )();
+void __fastcall Hooks::LevelShutdown( CHLClient *ecx, uintptr_t edx ) {
+	g_CHLClient_vmt.get_old_method< LevelShutdown_t >( 7 )( ecx );
 	// todo: null localplayer here.
 }
 
-bool __stdcall Hooks::CreateMove( float flInputSampleTime, CUserCmd *cmd ) {
-	bool ret = g_ClientMode_vmt.get_old_method< CreateMove_t >( 24 )( flInputSampleTime, cmd );
+bool __fastcall Hooks::CreateMove( uintptr_t ecx, uintptr_t edx, float flInputSampleTime, CUserCmd *cmd ) {
+	bool ret = g_ClientMode_vmt.get_old_method< CreateMove_t >( 24 )( ecx, flInputSampleTime, cmd );
 
 	// called from CInput::ExtraMouseSample -> return original.
 	if( !cmd->m_command_number )
