@@ -49,3 +49,12 @@ bool Config::save( std::string file_name, bool should_reset ) {
 
 	return cfg_manager.Save( file_name, should_reset );
 }
+
+bool Config::remove( const std::string &file_name ) {
+	if( file_name.empty() )
+		return false;
+
+	std::string temp = m_directory + "/" + file_name;
+
+	return std::remove( temp.c_str() ) == 0;
+}

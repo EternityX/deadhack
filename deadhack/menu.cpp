@@ -67,7 +67,7 @@ void MainForm::visuals() {
 
 void MainForm::configuration() {
 	// player esp groupbox.
-	Controls::Groupbox *config_groupbox = new Controls::Groupbox( "Configs", 17, 6, 260, 334 );
+	Controls::Groupbox *config_groupbox = new Controls::Groupbox( "Profiles", 17, 6, 260, 334 );
 
 	// list index.
 	static int index = 0;
@@ -78,6 +78,7 @@ void MainForm::configuration() {
 	list->SetLocation( config_groupbox->GetWidth() / 2 - list->GetWidth() / 2 - 3, 10 );
 	list->ExpandSizeToShowItems( 20 );
 	list->SetAutoScrollEnabled( true );
+	list->SetFont( g_custom_renderer.m_fonts.at( 0 ) );
 
 	// get index from event.
 	list->GetSelectedIndexChangedEvent() += OSHGui::SelectedIndexChangedEventHandler( [ this, list ]( Control *sender ) {
@@ -91,26 +92,34 @@ void MainForm::configuration() {
 	for( auto const &item : items )
 		list->AddItem( item.c_str() );
 
+	// add list to groupbox.
 	config_groupbox->AddControl( list );
 
 	m_pages.at( PAGE_CONFIG )->AddControl( config_groupbox );
 
-	Controls::Groupbox *config2_groupbox = new Controls::Groupbox( "Tools", config_groupbox->GetRight() + 19, 6, 259, 334 );
+	Controls::Groupbox *config2_groupbox = new Controls::Groupbox( "Configuration", config_groupbox->GetRight() + 19, 6, 259, 334 );
 
+	// config name textbox.
 	Controls::Textbox *name_textbox = new Controls::Textbox( "", config2_groupbox );
 
 	// new button.
 	Controls::Button *button_new = new Controls::Button( "New", config2_groupbox );
 	button_new->GetClickEvent() += OSHGui::ClickEventHandler( [ this, name_textbox, list ]( Control *sender ) {
+		if ( name_textbox->GetText().empty() ) {
+			OSHGui::MessageBox::Show( "You must set a name." );
+			return;
+		}
+
 		if( items.size() > 15 ) {
-			OSHGui::MessageBox::Show( "You cannot create anymore configs." );
+			OSHGui::MessageBox::Show( "You cannot create anymore profiles." );
 			return;
 		}
 
 		g_config.save( name_textbox->GetText(), true );
+
 		items = g_config.get_config_files();
 
-		for( auto &item : items ) {		
+		for( auto &item : items ) {
 			// reinit list view items.
 			for( int i = 0; i < list->GetItemsCount(); i++ ) {
 				auto list_item = list->GetItem( i );
@@ -129,24 +138,64 @@ void MainForm::configuration() {
 
 	// save button.
 	Controls::Button *button_save = new Controls::Button( "Save", config2_groupbox );
-	button_save->GetClickEvent() += OSHGui::ClickEventHandler( [ this ]( Control *sender ) {
-		OSHGui::MessageBox::ShowDialog( "Saving will override any changes, are you sure you want to save?", "", OSHGui::MessageBoxButtons::YesNo, [ this ]( OSHGui::DialogResult result ) {
-			if( result == OSHGui::DialogResult::Yes )
+	button_save->GetClickEvent() += OSHGui::ClickEventHandler( [ this, list ]( Control *sender ) {
+		if( items.empty() || list->GetSelectedIndex() == -1 )
+			return;
+
+		OSHGui::MessageBox::ShowDialog( "Saving will override any changes, are you sure you want to save?", "", OSHGui::MessageBoxButtons::YesNo, [ this, list ]( OSHGui::DialogResult result ) {
+			if( result == OSHGui::DialogResult::Yes ) {
 				g_config.save( items.at( index ), false );
+			}
 		});		
 	}); config2_groupbox->AddControl( button_save );
 
 	// load button.
 	Controls::Button *button_load = new Controls::Button( "Load", config2_groupbox );
-	button_load->GetClickEvent() += OSHGui::ClickEventHandler( [ this ]( Control *sender ) {
-		OSHGui::MessageBox::ShowDialog( "Are you sure you want to load the selected config?", "", OSHGui::MessageBoxButtons::YesNo, [ this ]( OSHGui::DialogResult result ) {
+	button_load->GetClickEvent() += OSHGui::ClickEventHandler( [ this, list ]( Control *sender ) {
+		if( items.empty() || list->GetSelectedIndex() == -1 )
+			return;
+
+		OSHGui::MessageBox::ShowDialog( "Are you sure you want to load the selected profile?", "", OSHGui::MessageBoxButtons::YesNo, [ this ]( OSHGui::DialogResult result ) {
 			if( result == OSHGui::DialogResult::Yes ) {
 				g_config.load( items.at( index ) );
+
 				// reinit controls so checkboxes and other controls update with new values.
-				reinit();
+				// bad, don't do this.
+				// reinit();
 			}
 		});
 	}); config2_groupbox->AddControl( button_load );
+
+	// delete button.
+	Controls::Button *button_delete = new Controls::Button( "Delete", config2_groupbox );
+	button_delete->GetClickEvent() += OSHGui::ClickEventHandler( [ this, list ]( Control *sender ) {
+		if( items.empty() || list->GetSelectedIndex() == -1 )
+			return;
+
+		OSHGui::MessageBox::ShowDialog( "Are you sure you want to delete the selected profile?", "", OSHGui::MessageBoxButtons::YesNo, [ this, list ]( OSHGui::DialogResult result ) {
+			if( result == OSHGui::DialogResult::Yes ) {
+				g_config.remove( items.at( index ) );
+				list->RemoveItem( index );
+				items = g_config.get_config_files();
+
+				for( auto &item : items ) {
+					// reinit list view items.
+					for( int i = 0; i < list->GetItemsCount(); i++ ) {
+						auto list_item = list->GetItem( i );
+						if( !list_item )
+							continue;
+
+						if( item.c_str() == list_item->GetItemText() ) {
+							list->RemoveItem( i );
+							continue;
+						}
+					}
+
+					list->AddItem( item.c_str() );
+				}
+			}
+		});
+	}); config2_groupbox->AddControl( button_delete );
 
 	m_pages.at( PAGE_CONFIG )->AddControl( config2_groupbox );
 }

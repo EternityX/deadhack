@@ -81,6 +81,16 @@ namespace Controls {
 			SetText( text );
 			SetChecked( *cvar );
 
+			// atleast it's better than reinitializing the controls...
+			OSHGui::Timer *timer = new OSHGui::Timer();
+			timer->SetInterval( 250 );
+			timer->Start();
+			parent->AddControl( timer );
+
+			timer->GetTickEvent() += OSHGui::TickEventHandler( [ this, cvar ]( Control *sender ) {
+				this->SetChecked( *cvar );
+			});
+
 			parent->AddControl( this );
 
 			// click event.
@@ -120,7 +130,7 @@ namespace Controls {
 		// automatic positioning.
 		Button( const AnsiString &text, Control *parent ) {
 			// set size here.
-			Control::SetSize( 175, 20 );
+			Control::SetSize( 160, 20 );
 
 			init( text, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 3, g_menu.m_control_y_pos, parent );
 			g_menu.m_control_y_pos += 28;
@@ -145,7 +155,7 @@ namespace Controls {
 		// automatic positioning.
 		Textbox( const AnsiString &text, Control *parent ) {
 			// set size here.
-			Control::SetSize( 175, 20 );
+			Control::SetSize( 160, 20 );
 
 			init( text, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 3, g_menu.m_control_y_pos, parent );
 			g_menu.m_control_y_pos += 28;
