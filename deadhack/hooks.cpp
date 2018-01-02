@@ -15,7 +15,7 @@ HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *pSourceR
         g_custom_renderer.start_drawing();
         
         if( g_cvar.m_misc.watermark->bValue ) {
-        	g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ 0 ], Color::White(), 2.f, 2.f, "deadcell" );
+        	g_custom_renderer.unicode_text( g_custom_renderer.m_fonts[ 0 ], Color::White(), 2.f, 2.f, L"deadcell - 中国のファッキングダイ" );
         }
         
         g_custom_renderer.end_drawing();

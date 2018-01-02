@@ -126,7 +126,7 @@ void CustomRenderer::unicode_text( OSHGui::Drawing::FontPtr font, const Color &c
     }
 
     // just try to use the fallback font...
-    if( !invalid_font )
+    if( invalid_font )
         font = m_fonts[ FONT_ARIALUNICODEMS_BOLD_8PX ];
 
     OSHGui::Drawing::Graphics g( *m_geometry );
