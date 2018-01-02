@@ -12,14 +12,16 @@ void CustomRenderer::init( IDirect3DDevice9 *device ) {
 
 	m_instance = OSHGui::Application::InstancePtr();
 
-	m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Verdana", 7.0f, true ) );
-    m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Verdana Bold", 7.0f, true ) );
-    m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Tahoma Bold", 7.0f, false ) );
+    m_fonts.resize( FONT_MAX );
+
+	m_fonts[ FONT_VERDANA_7PX ]      = OSHGui::Drawing::FontManager::LoadFont( "Verdana", 7.0f, true );
+    m_fonts[ FONT_VERDANA_BOLD_7PX ] = OSHGui::Drawing::FontManager::LoadFont( "Verdana Bold", 7.0f, true );
+    m_fonts[ FONT_TAHOMA_BOLD_7PX ]  = OSHGui::Drawing::FontManager::LoadFont( "Tahoma Bold", 7.0f, false );
     
     // fallback font.
-    m_fonts.push_back( OSHGui::Drawing::FontManager::LoadFont( "Arial Unicode MS", 8.0f, false ) );
+    m_fonts[ FONT_ARIALUNICODEMS_BOLD_8PX ] = OSHGui::Drawing::FontManager::LoadFont( "Arial Unicode MS", 8.0f, false );
 
-	m_instance->SetDefaultFont( m_fonts[ 0 ] );
+	m_instance->SetDefaultFont( m_fonts[ FONT_VERDANA_7PX ] );
 }
 
 OSHGui::Drawing::Renderer& CustomRenderer::get_renderer() const {
@@ -86,6 +88,7 @@ void CustomRenderer::ansi_text( OSHGui::Drawing::FontPtr font, const Color &colo
 
     // todo; now we have to iterate over the font, check if the desired char is inside the font (should be a simple array / vector search) and draw...
     //       if not, fallback to the unicode font (should have lots of chars).
+    //       do we really want this here yet?
 
     OSHGui::Drawing::Graphics g( *m_geometry );
 
@@ -96,6 +99,7 @@ void CustomRenderer::unicode_text( OSHGui::Drawing::FontPtr font, const Color &c
     va_list      va;
     int          str_len;
     std::wstring buf;
+    bool         invalid_font;
 
     if( wstr.empty() )
         return;
@@ -113,8 +117,17 @@ void CustomRenderer::unicode_text( OSHGui::Drawing::FontPtr font, const Color &c
 
     std::vswprintf( &buf[ 0 ], str_len + 1, wstr.c_str(), va );
 
-    // todo; now we have to iterate over the font, check if the desired char is inside the font (should be a simple array / vector search) and draw...
-    //       if not, fallback to the unicode font (should have lots of chars).
+    // ensure this string has all the characters needed.
+    invalid_font = false;
+
+    for( const auto &c : buf ) {
+        if( !font->GetGlyphData( c ) )
+            invalid_font = true;
+    }
+
+    // just try to use the fallback font...
+    if( !invalid_font )
+        font = m_fonts[ FONT_ARIALUNICODEMS_BOLD_8PX ];
 
     OSHGui::Drawing::Graphics g( *m_geometry );
 
