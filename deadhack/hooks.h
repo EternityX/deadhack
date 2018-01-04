@@ -12,6 +12,7 @@ namespace Hooks {
 	using LevelInitPostEntity_t = void (__thiscall *)( CHLClient * );
 	using LevelShutdown_t       = void (__thiscall *)( CHLClient * );
 	using CreateMove_t          = bool (__thiscall *)( uintptr_t, float, CUserCmd * );
+	using OverrideView_t        = void (__thiscall *)( uintptr_t, CViewSetup * );
 
     // our funcs.
     static HRESULT __stdcall Present( IDirect3DDevice9 *device, const RECT *pSourceRect, const RECT *pDestRect, HWND hDestWindowOverride, const RGNDATA *pDirtyRegion );
@@ -19,6 +20,7 @@ namespace Hooks {
 	static void __fastcall LevelInitPostEntity( CHLClient *ecx, uintptr_t edx );
 	static void __fastcall LevelShutdown( CHLClient *ecx, uintptr_t edx );
 	static bool __fastcall CreateMove( uintptr_t ecx, uintptr_t edx, float flInputSampleTime, CUserCmd *cmd );
+	static void __fastcall OverrideView( uintptr_t ecx, uintptr_t edx, CViewSetup *pSetup );
 
     // initialize hooks.
     bool init();

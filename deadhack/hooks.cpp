@@ -14,9 +14,8 @@ HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *pSourceR
     else {
         g_custom_renderer.start_drawing();
         
-        if( g_cvar.m_misc.watermark->bValue ) {
+        if( g_cvar.m_misc.watermark->bValue )
         	g_custom_renderer.unicode_text( g_custom_renderer.m_fonts[ FONT_VERDANA_7PX ], Color::White(), 2.f, 2.f, L"deadcell - 中国のファッキングダイ" );
-        }
         
         g_custom_renderer.end_drawing();
     }
@@ -61,6 +60,10 @@ bool __fastcall Hooks::CreateMove( uintptr_t ecx, uintptr_t edx, float flInputSa
 	return false;
 }
 
+void __fastcall Hooks::OverrideView( uintptr_t ecx, uintptr_t edx, CViewSetup *pSetup ) {
+	g_CHLClient_vmt.get_old_method< OverrideView_t >( 18 )( ecx, pSetup );
+}
+
 bool Hooks::init() {
     // initialize VMTs.
     if( !g_D3D9_vmt.init( g_csgo.m_d3d9_vmt ) )
@@ -86,6 +89,9 @@ bool Hooks::init() {
 		return false;
 
 	if( !g_ClientMode_vmt.hook_method( 24, &CreateMove ) )
+		return false;
+
+	if( !g_ClientMode_vmt.hook_method( 18, &OverrideView ) )
 		return false;
 
     return true;

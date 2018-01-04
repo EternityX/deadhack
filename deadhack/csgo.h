@@ -14,6 +14,7 @@ public:
 
     // interfaces.
     CHLClient *m_client;
+	IEngineClient *m_engine;
 	IClientModeShared *m_client_mode;
 
     // functions.
@@ -40,6 +41,10 @@ public:
         m_client = get_interface< CHLClient >( CT_HASH32( "VClient" ) );
         if( !m_client )
             return false;
+
+		m_engine = get_interface< IEngineClient >( CT_HASH32( "VEngineClient" ) );
+		if( !m_engine )
+			return false;
 
 		m_client_mode = **(IClientModeShared ***)( ( *(uintptr_t **)m_client )[ 10 ] + 5 );
 		if( !m_client_mode )
