@@ -193,8 +193,6 @@ private:
 		configuration();
 	}
 
-	void reinit();
-
 	// create tabs.
 	void create_tabs();
 

@@ -11,18 +11,9 @@ void Menu::init() {
 	g_custom_renderer.m_instance->Enable();
 
 	// register hotkey.
-	g_custom_renderer.m_instance->RegisterHotkey( OSHGui::Hotkey( OSHGui::Key::Insert, [] {
+	/*g_custom_renderer.m_instance->RegisterHotkey( OSHGui::Hotkey( OSHGui::Key::Insert, [] {
 		OSHGui::Application::Instance().Toggle();
-	}));
-}
-
-// FIXME: this is very very ghetto, we are basically drawing new controls over the old ones...
-void MainForm::reinit() {
-	Invalidate();
-
-	// reinitialize tab content.
-	visuals();
-	configuration();
+	}));*/
 }
 
 void MainForm::create_tabs() {

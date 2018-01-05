@@ -203,6 +203,31 @@ bool Input::handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
 	if( !OSHGui::Application::Instance().HasBeenInitialized() )
 		return false;
 
+	static bool is_down = false;
+	static bool is_clicked = false;
+
+	if ( m_key_pressed[ VK_INSERT ] ) {
+		is_clicked = false;
+		is_down = true;
+	}
+	else if ( !m_key_pressed[ VK_INSERT ] && is_down ) {
+		is_clicked = true;
+		is_down = false;
+	}
+	else {
+		is_clicked = false;
+		is_down = false;
+	}
+
+	if( is_clicked ) {
+		if( OSHGui::Application::Instance().IsEnabled() )
+			OSHGui::Application::Instance().Disable();
+		else
+			OSHGui::Application::Instance().Enable();
+
+		// todo; disable mouse input.
+	}
+
 	if( OSHGui::Application::Instance().IsEnabled() ) {
 		// pass input to oshgui.
 		MSG new_msg;
@@ -212,13 +237,9 @@ bool Input::handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
 		new_msg.lParam = lparam;
 
 		process_message( &new_msg );
-	}
-	else {
-		if( m_key_pressed[ VK_INSERT ] )
-			OSHGui::Application::Instance().Toggle();
 
-		return false;
+		return true;
 	}
-	
-	return true;
+
+	return false;
 }
