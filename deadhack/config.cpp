@@ -13,6 +13,7 @@ void Config::init() {
 	cfg_manager.set_script_directory( m_directory );
 
 	REGISTER_CVAR( g_cvar.m_misc.watermark, "watermark", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_misc.override_fov, "override_fov", config_manager::CVar::CVAR_TYPE_INT, "90" );
 
 	load( "settings" );
 }

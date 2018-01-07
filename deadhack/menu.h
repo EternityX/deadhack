@@ -5,8 +5,9 @@ constexpr int default_y_pos = 10;
 
 class Menu {
 private:
-	std::shared_ptr< OSHGui::Form > m_form;
 public:
+	std::shared_ptr< OSHGui::Form > m_form;
+
 	// x axis pos.
 	int m_control_x_pos;
 
@@ -158,6 +159,82 @@ namespace Controls {
 			Control::SetSize( 160, 20 );
 
 			init( text, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 3, g_menu.m_control_y_pos, parent );
+			g_menu.m_control_y_pos += 28;
+		}
+	};
+
+	class Slider : public OSHGui::TrackBar {
+	private:
+		void init( const AnsiString &text, int x, int y, Color back_color, Control *parent, float min, float max, int *value ) {
+			SetFont( g_custom_renderer.m_fonts.at( FONT_VERDANA_BOLD_7PX ) );
+			SetBackColor( back_color );
+			SetLocation( x, y );
+			SetMinimum( min );
+			SetMaximum( max );
+			SetPrecision( 0 );
+			SetText( text );
+
+			OSHGui::Timer *timer = new OSHGui::Timer();
+			timer->SetInterval( 5 );
+			timer->Start();
+			parent->AddControl( timer );
+
+			// tick event.
+			timer->GetTickEvent() += OSHGui::TickEventHandler( [ this, value ]( Control *sender ) {
+				this->SetValue( *value );
+			});
+
+			parent->AddControl( this );
+
+			// value changed event.
+			this->GetValueChangedEvent() += OSHGui::ValueChangedEventHandler( [ this, value ]( Control *sender ) {
+				*value = this->GetValue();
+			});
+		}
+
+		void init( const AnsiString &text, int x, int y, Color back_color, Control *parent, float min, float max, float *value, int precision ) {
+			SetFont( g_custom_renderer.m_fonts.at( FONT_VERDANA_BOLD_7PX ) );
+			SetBackColor( back_color );
+			SetLocation( x, y );
+			SetMinimum( min );
+			SetMaximum( max );
+			SetPrecision( precision );
+			SetText( text );
+
+			OSHGui::Timer *timer = new OSHGui::Timer();
+			timer->SetInterval( 5 );
+			timer->Start();
+			parent->AddControl( timer );
+
+			// tick event.
+			timer->GetTickEvent() += OSHGui::TickEventHandler( [ this, value ]( Control *sender ) {
+				this->SetValue( *value );
+			});
+
+			parent->AddControl( this );
+
+			// value changed event.
+			this->GetValueChangedEvent() += OSHGui::ValueChangedEventHandler( [ this, value ]( Control *sender ) {
+				*value = this->GetValue();
+			});
+		}
+	public:
+		Slider( const AnsiString &text, int x, int y, Color back_color, Control *parent, float min, float max, int *value ) {
+			init( text, x, y, back_color, parent, min, max, value );
+		}
+
+		Slider( const AnsiString &text, int x, int y, Color back_color, Control *parent, float min, float max, float *value, int precision ) {
+			init( text, x, y, back_color, parent, min, max, value, precision );
+		}
+
+		// automatic positioning.
+		Slider( const AnsiString &text, Color back_color, Control *parent, float min, float max, int *value ) {
+			init( text, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 2, g_menu.m_control_y_pos + 4, back_color, parent, min, max, value );
+			g_menu.m_control_y_pos += 28;
+		}
+
+		Slider( const AnsiString &text, Color back_color, Control *parent, float min, float max, float *value, int precision ) {
+			init( text, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 2, g_menu.m_control_y_pos, back_color, parent, min, max, value, precision );
 			g_menu.m_control_y_pos += 28;
 		}
 	};

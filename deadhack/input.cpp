@@ -200,7 +200,7 @@ bool Input::handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
 		default: break;
 	}
 
-	if( !OSHGui::Application::Instance().HasBeenInitialized() )
+	if( !g_custom_renderer.m_instance->HasBeenInitialized() )
 		return false;
 
 	static bool is_down = false;
@@ -220,15 +220,20 @@ bool Input::handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
 	}
 
 	if( is_clicked ) {
-		if( OSHGui::Application::Instance().IsEnabled() )
-			OSHGui::Application::Instance().Disable();
-		else
-			OSHGui::Application::Instance().Enable();
+		// lol bad, fix later.
+		static ConVar *cl_mouseenable = g_csgo.m_convar->FindVar( "cl_mouseenable" );
 
-		// todo; disable mouse input.
+		if( g_custom_renderer.m_instance->IsEnabled() ) {
+			g_custom_renderer.m_instance->Disable();
+			cl_mouseenable->SetValue( 1 );
+		}
+		else {
+			g_custom_renderer.m_instance->Enable();
+			cl_mouseenable->SetValue( 0 );
+		}
 	}
 
-	if( OSHGui::Application::Instance().IsEnabled() ) {
+	if( g_custom_renderer.m_instance->IsEnabled() ) {
 		// pass input to oshgui.
 		MSG new_msg;
 		new_msg.hwnd = hwnd;

@@ -44,6 +44,7 @@ namespace OSHGui
 		label_->SetBackColor( Drawing::Color::Empty() );
 		label_->SetForeColor( Drawing::Color::FromARGB( 255, 205, 205, 205 ) );
 		label_->SetStyle( 1 );
+		label_->SetFont( Application::Instance().GetDefaultFont() );
 
 		label_value_->SetLocation( Drawing::PointF( sliderLocation_.Left - label_value_->GetWidth() / 2 + 5, 8 ) );
 		label_value_->SetForeColor( Drawing::Color::FromARGB( 255, 205, 205, 205 ) );
@@ -192,6 +193,7 @@ namespace OSHGui
 		Control::CalculateAbsoluteLocation();
 
 		sliderAbsoluteLocation_ = absoluteLocation_ + sliderLocation_;
+		minusAbsoluteLocation_ = absoluteLocation_ - Drawing::PointI( 5, 0 );
 
 		label_->SetParent( this );
 		label_value_->SetParent( this );
@@ -219,6 +221,16 @@ namespace OSHGui
 		//	
 		//}
 
+		//// minus
+		//if( value_ != minimum_ )
+		//	g.FillRectangle( Color::FromARGB( 255, 100, 100, 100 ), PointF( -4, 10 ), SizeF( 3, 1 ) );
+
+		//// plus
+		//if( value_ != maximum_ ) {
+		//	g.FillRectangle( Color::FromARGB( 255, 100, 100, 100 ), PointF( GetRight() - 40, 10 ), SizeF( 3, 1 ) );
+		//	g.FillRectangle( Color::FromARGB( 255, 100, 100, 100 ), PointF( GetRight() - 39, 9 ), SizeF( 1, 3 ) );
+		//}
+
 		g.FillRectangleGradient( Color::FromARGB( 255, 18, 18, 18 ), PointF( 4, DefaultTickOffset ), SizeF( 160, 7 ) );
 		g.FillRectangleGradient( ColorRectangle( color, Color::FromARGB( 255, 55, 55, 55 ) ), PointF( 5, DefaultTickOffset + 1 ), SizeF( 158, 5 ) );
 
@@ -232,19 +244,13 @@ namespace OSHGui
 	{
 		Control::OnMouseDown( mouse );
 
-		drag_ = true;
-		OnGotMouseCapture();
-
-		/*if (Intersection::TestRectangle(sliderAbsoluteLocation_, GrabSize, mouse.GetLocation()))
-		{
-		drag_ = true;
-		OnGotMouseCapture();
-		}
-		else if (Intersection::TestRectangle(sliderAbsoluteLocation_, SliderSize, mouse.GetLocation()))
-		{
-		drag_ = true;
-		OnGotMouseCapture();
+		/*if (Intersection::TestRectangle( Drawing::PointF( absoluteLocation_.X - 5, absoluteLocation_.Y ), Drawing::SizeF( 90, 90 ), mouse.GetLocation())) {
+			SetValueInternal( value_ - 1 );
+			OnGotMouseCapture();
 		}*/
+
+		drag_ = true;
+		OnGotMouseCapture();
 	}
 	//---------------------------------------------------------------------------
 	void TrackBar::OnMouseUp( const MouseMessage &mouse )
@@ -300,15 +306,15 @@ namespace OSHGui
 			case Key::End:
 				SetValueInternal( maximum_ - minimum_ );
 				break;
-			case Key::Left:
+			/*case Key::Left:
 				SetValueInternal( value_ - 0.1f );
-				break;
+				break;*/
 			case Key::Down:
 				SetValueInternal( value_ - 1 );
 				break;
-			case Key::Right:
+			/*case Key::Right:
 				SetValueInternal( value_ + 0.1f );
-				break;
+				break;*/
 			case Key::Up:
 				SetValueInternal( value_ + 1 );
 				break;

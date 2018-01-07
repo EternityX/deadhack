@@ -5,7 +5,7 @@ private:
 public:
 	struct {
 		config_manager::CVar::cvar_s *watermark;
-		config_manager::CVar::cvar_s *hide_confirmations;
+		config_manager::CVar::cvar_s *override_fov;
 	} m_misc;
 };
 

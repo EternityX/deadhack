@@ -1,6 +1,7 @@
 #pragma once
 
 #pragma warning( disable : 4307 ) // warning C4307: '*': integral constant overflow
+#pragma warning( disable : 4244 ) // warning C4244: '=': conversion possible loss of data
 
 // note - dex; undefine this when distributing!!
 #define CHEAT_DBG
@@ -81,5 +82,6 @@ using ulong_t = unsigned long;
 #include "interfaces.h"
 #include "sdk.h"
 #include "csgo.h"
+#include "netvars.h"
 #include "offsets.h"
 #include "hooks.h"

@@ -303,3 +303,4 @@ __pycache__/
 
 # OpenCover UI analysis results
 OpenCover/
+OSHGui/Projects/VS2017/OSHGui_Sample\.cpp

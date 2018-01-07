@@ -16,3 +16,4 @@
 #include "clientdll.h"
 #include "iclientmodeshared.h"
 #include "cinput.h"
+#include "icvar.h"

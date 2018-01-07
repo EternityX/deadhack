@@ -136,6 +136,8 @@ namespace OSHGui
 		Drawing::PointI sliderLocation_;
 		Drawing::PointI sliderAbsoluteLocation_;
 
+		Drawing::PointI minusAbsoluteLocation_;
+
 		std::unique_ptr<Label> label_;
 		std::unique_ptr<Label> label_value_;
 

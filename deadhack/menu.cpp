@@ -8,7 +8,7 @@ void Menu::init() {
 	g_custom_renderer.m_instance->Run( m_form );
 
 	// enable it.
-	g_custom_renderer.m_instance->Enable();
+	//g_custom_renderer.m_instance->Enable();
 
 	// register hotkey.
 	/*g_custom_renderer.m_instance->RegisterHotkey( OSHGui::Hotkey( OSHGui::Key::Insert, [] {
@@ -50,14 +50,21 @@ void MainForm::visuals() {
 	m_pages.at( PAGE_VISUALS )->AddControl( player_esp_groupbox );
 
 	// other visuals groupbox.
-	Controls::Groupbox *other_esp_groupbox = new Controls::Groupbox( "Other visuals", player_esp_groupbox->GetRight() + 19, 6, 259, 334 );
+	Controls::Groupbox *other_esp_groupbox = new Controls::Groupbox( "Other ESP", player_esp_groupbox->GetRight() + 19, 6, 259, 150 );
 	Controls::Checkbox *watermark_check = new Controls::Checkbox( "Watermark", m_primary_color, other_esp_groupbox, &g_cvar.m_misc.watermark->bValue );
 
 	m_pages.at( PAGE_VISUALS )->AddControl( other_esp_groupbox );
+
+	// effects groupbox.
+	Controls::Groupbox *effects_groupbox = new Controls::Groupbox( "Effects", player_esp_groupbox->GetRight() + 19, other_esp_groupbox->GetBottom() + 14, 259, 170 );
+
+	Controls::Slider *overridefov_slider = new Controls::Slider( "Camera FOV", m_primary_color, effects_groupbox, 0, 180, &g_cvar.m_misc.override_fov->iValue );
+
+	m_pages.at( PAGE_VISUALS )->AddControl( effects_groupbox );
 }
 
 void MainForm::configuration() {
-	// player esp groupbox.
+	// profile groupbox.
 	Controls::Groupbox *config_groupbox = new Controls::Groupbox( "Profiles", 17, 6, 260, 334 );
 
 	// list index.
@@ -77,7 +84,7 @@ void MainForm::configuration() {
 	}); 
 
 	// items.
-	static std::vector<std::string> items = g_config.get_config_files();
+	static std::vector< std::string > items = g_config.get_config_files();
 
 	// fill list with configs.
 	for( auto const &item : items )
@@ -147,13 +154,8 @@ void MainForm::configuration() {
 			return;
 
 		OSHGui::MessageBox::ShowDialog( "Are you sure you want to load the selected profile?", "", OSHGui::MessageBoxButtons::YesNo, [ this ]( OSHGui::DialogResult result ) {
-			if( result == OSHGui::DialogResult::Yes ) {
+			if( result == OSHGui::DialogResult::Yes )
 				g_config.load( items.at( index ) );
-
-				// reinit controls so checkboxes and other controls update with new values.
-				// bad, don't do this.
-				// reinit();
-			}
 		});
 	}); config2_groupbox->AddControl( button_load );
 

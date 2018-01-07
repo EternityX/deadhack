@@ -13,9 +13,10 @@ public:
     uintptr_t m_d3d9_vmt;
 
     // interfaces.
-    CHLClient *m_client;
-	IEngineClient *m_engine;
-	IClientModeShared *m_client_mode;
+    CHLClient            *m_client;
+	IEngineClient        *m_engine;
+	IClientModeShared    *m_client_mode;
+	ICVar                *m_convar;
 
     // functions.
 
@@ -48,6 +49,10 @@ public:
 
 		m_client_mode = **(IClientModeShared ***)( ( *(uintptr_t **)m_client )[ 10 ] + 5 );
 		if( !m_client_mode )
+			return false;
+
+		m_convar = get_interface< ICVar >( CT_HASH32( "VEngineCvar" ) );
+		if( !m_convar )
 			return false;
         
         return true;

@@ -155,12 +155,14 @@
     <ClInclude Include="hash.h" />
     <ClInclude Include="hooks.h" />
     <ClInclude Include="iclientmodeshared.h" />
+    <ClInclude Include="icvar.h" />
     <ClInclude Include="includes.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="interfaces.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="module.h" />
+    <ClInclude Include="netvars.h" />
     <ClInclude Include="offsets.h" />
     <ClInclude Include="pe.h" />
     <ClInclude Include="pe_types.h" />

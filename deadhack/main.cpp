@@ -4,11 +4,15 @@
 CSGO             g_csgo{};
 Input	         g_input{};
 CustomRenderer   g_custom_renderer{};
+NetVars          g_netvars{};
 CVar             g_cvar{};
 Menu             g_menu{};
 Config           g_config{};
+Offsets          g_offsets{};
 
 static ulong_t __stdcall cheat_init( void *arg ) {
+	g_config.init();
+
     if( !g_csgo.init() ) {
 #ifdef CHEAT_DBG
         DBG_ERROR( "g_csgo.init failed" );
@@ -23,7 +27,14 @@ static ulong_t __stdcall cheat_init( void *arg ) {
 		return 0;
 	}
 
-	g_config.init();
+	g_netvars.init();
+	
+	if( !g_offsets.init() ) {
+#ifdef CHEAT_DBG
+		DBG_ERROR( "Offsets::init failed" );
+#endif
+		return 0;
+	}
 
     if( !Hooks::init() ) {
 #ifdef CHEAT_DBG
@@ -47,6 +58,10 @@ static ulong_t __stdcall cheat_free( void *arg ) {
 	// fixes crashing when reinjecting.
 	if( g_custom_renderer.m_instance->HasBeenInitialized() )
 		g_custom_renderer.get_renderer().PreD3DReset();
+
+	// lol bad, fix later
+	ConVar *cl_mouseenable = g_csgo.m_convar->FindVar( "cl_mouseenable" );
+	cl_mouseenable->SetValue( 1 );
 
 	if( !Hooks::unload() )
 		DBG_ERROR( "Hooks::unload failed" );

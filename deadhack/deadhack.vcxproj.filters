@@ -170,9 +170,6 @@
     <ClInclude Include="dt_recv.h">
       <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
-    <ClInclude Include="offsets.h">
-      <Filter>Header Files\cheat</Filter>
-    </ClInclude>
     <ClInclude Include="cvar.h">
       <Filter>Header Files\other</Filter>
     </ClInclude>
@@ -181,6 +178,15 @@
     </ClInclude>
     <ClInclude Include="cfg_manager.h">
       <Filter>Header Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="netvars.h">
+      <Filter>Header Files\cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="offsets.h">
+      <Filter>Header Files\cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="icvar.h">
+      <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
