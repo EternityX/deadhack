@@ -163,13 +163,13 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		g.FillRectangle( Color::FromARGB( 255, 16, 16, 16 ), RectangleF( PointF( -6, -10 ), GetSize() + SizeF( 12, 16 ) ) );
-		g.FillRectangle( Color::FromARGB( 255, 62, 62, 62 ), RectangleF( PointF( -5, -9 ), GetSize() + SizeF( 10, 14 ) ) );
-		g.FillRectangle( Color::FromARGB( 255, 42, 42, 42 ), RectangleF( PointF( -4, -8 ), GetSize() + SizeF( 8, 12 ) ) );
-		g.FillRectangle( Color::FromARGB( 255, 62, 62, 62 ), RectangleF( PointF( 0, -4 ), GetSize() + SizeF( 0, 4 ) ) );
-		g.FillRectangle( Color::FromARGB( 255, 25, 25, 25 ), RectangleF( PointF( 1, 1 ), GetSize() - SizeF( 2, 2 ) ) );
+		g.FillRectangle( Color::FromARGB( 255, 23, 23, 30 ), RectangleF( PointF( -6, -10 ), GetSize() + SizeF( 12, 16 ) ) );
+		g.FillRectangle( Color::FromARGB( 255, 62, 62, 72 ), RectangleF( PointF( -5, -9 ), GetSize() + SizeF( 10, 14 ) ) );
+		g.FillRectangle( Color::FromARGB( 255, 39, 39, 47 ), RectangleF( PointF( -4, -8 ), GetSize() + SizeF( 8, 12 ) ) );
+		g.FillRectangle( Color::FromARGB( 255, 62, 62, 72 ), RectangleF( PointF( 0, -4 ), GetSize() + SizeF( 0, 4 ) ) );
+		g.FillRectangle( Color::FromARGB( 255, 23, 23, 30 ), RectangleF( PointF( 1, 1 ), GetSize() - SizeF( 2, 2 ) ) );
 
-		g.FillRectangleGradient( ColorRectangle( Color::FromARGB( 255, 14, 14, 14 ), Color::FromARGB( 255, 25, 25, 25 ) ), RectangleF( PointF( 1, captionBar_->GetBottom() - 13 ), SizeF( GetWidth() - 2, 25 ) ) );
+		g.FillRectangleGradient( ColorRectangle( Color::FromARGB( 255, 14, 14, 22 ), Color::FromARGB( 255, 23, 23, 30 ) ), RectangleF( PointF( 1, captionBar_->GetBottom() - 13 ), SizeF( GetWidth() - 2, 25 ) ) );
 
 		g.FillRectangle( GetBackColor(), RectangleF( PointF( 2, -2 ), SizeF( GetSize().Width - 4, 2 ) ) );
 

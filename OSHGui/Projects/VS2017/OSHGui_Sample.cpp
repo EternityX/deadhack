@@ -35,6 +35,89 @@ void InitializeOSHGui(LPDIRECT3DDEVICE9 device)
 	//4. create our form
 	auto form = std::make_shared<Form>();
 	form->SetText("Test");
+	form->SetLocation( PointI( 6, 10 ) );
+	form->SetSize( SizeI( 600, 400 ) );
+
+	CheckBox* check = new CheckBox( );
+	check->SetText( "Checkbox" );
+	check->SetLocation( PointI( 14, 15 ) );
+	check->SetFont( font );
+
+	TrackBar* track = new TrackBar( );
+	track->SetPrecision( 1 );
+	track->SetLocation( PointI( 30, 40 ) );
+	track->SetText( "Slider" );
+	track->SetMinimum( 0 );
+	track->SetMaximum( 180 );
+
+	ComboBox* combo = new ComboBox( );
+	combo->SetLocation( PointI( 34, 65 ) );
+	combo->SetFont( font );
+	combo->SetMaxShowItems( 6 );
+	combo->AddItem( "Item one" );
+	combo->AddItem( "Item two" );
+	combo->AddItem( "Item three" );
+	combo->AddItem( "Item four" );
+	combo->AddItem( "Item five" );
+	combo->AddItem( "Item six" );
+	combo->AddItem( "Item seven" );
+	combo->AddItem( "Item eight" );
+	combo->AddItem( "Item nine" );
+
+	GroupBox* groupbox = new GroupBox( );
+	groupbox->SetLocation( PointI( 17, 12 ) );
+	groupbox->SetText( "Groupbox" );
+	groupbox->SetSize( 234, 322 );
+
+	HotkeyControl* hotkey = new HotkeyControl( );
+	hotkey->SetLocation( 34, 95 );
+	hotkey->SetFont( font );
+
+	TextBox* textbox = new TextBox( );
+	textbox->SetLocation( 34, 125 );
+	textbox->SetFont( font );
+	textbox->SetForeColor( Color::FromARGB( 255, 201, 201, 201 ) );
+
+	Button* button = new Button( );
+	button->SetLocation( 34, 155 );
+	button->SetText( "Button" );
+	button->SetFont( font );
+	button->SetForeColor( Color::FromARGB( 255, 201, 201, 201 ) );
+
+	TabPage* page = new TabPage( );
+	page->SetText( "Legitbot" );
+
+	TabPage* page2 = new TabPage( );
+	page2->SetText( "Ragebot" );
+
+	TabPage* page3 = new TabPage( );
+	page3->SetText( "Visuals" );
+
+	TabPage* page4 = new TabPage( );
+	page4->SetText( "Miscellaneous" );
+
+	TabPage* page5 = new TabPage( );
+	page5->SetText( "Config" );
+
+	TabControl* tab = new TabControl( );
+	tab->SetSize( 576, 380 );
+	tab->SetLocation( PointI( 6, -15 ) );
+	tab->AddTabPage( page );
+	tab->AddTabPage( page2 );
+	tab->AddTabPage( page3 );
+	tab->AddTabPage( page4 );
+	tab->AddTabPage( page5 );
+	tab->SetBackColor( Color::FromARGB( 255, 32, 32, 32 ) );
+
+	page->AddControl( groupbox );
+	groupbox->AddControl( check );
+	groupbox->AddControl( track );
+	groupbox->AddControl( combo );
+	groupbox->AddControl( hotkey );
+	groupbox->AddControl( textbox );
+	groupbox->AddControl( button );
+
+	form->AddControl( tab );
 
 	//5. set this form as our mainform
 	app.Run(form);

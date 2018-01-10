@@ -205,7 +205,7 @@ namespace OSHGui
 
 		Graphics g( *geometry_ );
 
-		const auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 46, 46, 46 ) : Color::FromARGB( 255, 36, 36, 36 );
+		const auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 46, 46, 52 ) : Color::FromARGB( 255, 36, 36, 44 );
 
 		/*if (!GetBackColor().IsTranslucent())
 		{
@@ -231,11 +231,11 @@ namespace OSHGui
 		//	g.FillRectangle( Color::FromARGB( 255, 100, 100, 100 ), PointF( GetRight() - 39, 9 ), SizeF( 1, 3 ) );
 		//}
 
-		g.FillRectangleGradient( Color::FromARGB( 255, 18, 18, 18 ), PointF( 4, DefaultTickOffset ), SizeF( 160, 7 ) );
-		g.FillRectangleGradient( ColorRectangle( color, Color::FromARGB( 255, 55, 55, 55 ) ), PointF( 5, DefaultTickOffset + 1 ), SizeF( 158, 5 ) );
+		g.FillRectangleGradient( Color::FromARGB( 255, 18, 18, 24 ), PointF( 4, DefaultTickOffset ), SizeF( 160, 7 ) );
+		g.FillRectangleGradient( ColorRectangle( color, Color::FromARGB( 255, 55, 55, 62 ) ), PointF( 5, DefaultTickOffset + 1 ), SizeF( 158, 5 ) );
 
 		if( value_ )
-			g.FillRectangleGradient( ColorRectangle( GetBackColor(), GetBackColor() - Color::FromARGB( 0, 45, 40, 40 ) ), RectangleF( PointF( sliderLocation_.Left + 5, 8 ), SizeF( SliderSize.Width - sliderLocation_.Left - 8, 5 ) ) );
+			g.FillRectangleGradient( ColorRectangle( GetBackColor(), GetBackColor() - Color::FromARGB( 0, 45, 40, 45 ) ), RectangleF( PointF( sliderLocation_.Left + 5, 8 ), SizeF( SliderSize.Width - sliderLocation_.Left - 8, 5 ) ) );
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

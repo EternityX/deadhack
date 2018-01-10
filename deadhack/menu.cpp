@@ -33,7 +33,7 @@ void MainForm::create_tabs() {
 	// set page style.
 	m_tab_control->SetFont( g_custom_renderer.m_instance->GetDefaultFont() );
 	m_tab_control->SetSize( 576, 380 );
-	m_tab_control->SetBackColor( OSHGui::Drawing::Color::FromARGB( 255, 32, 32, 32 ) );
+	m_tab_control->SetBackColor( OSHGui::Drawing::Color::FromARGB( 255, 32, 32, 38 ) );
 	m_tab_control->SetLocation( 6, -15 );
 
 	// add all pages to tab control.
@@ -47,20 +47,17 @@ void MainForm::visuals() {
 	// player esp groupbox.
 	Controls::Groupbox *player_esp_groupbox = new Controls::Groupbox( "Player ESP", 17, 6, 260, 334 );
 
-	m_pages.at( PAGE_VISUALS )->AddControl( player_esp_groupbox );
-
 	// other visuals groupbox.
 	Controls::Groupbox *other_esp_groupbox = new Controls::Groupbox( "Other ESP", player_esp_groupbox->GetRight() + 19, 6, 259, 150 );
 	Controls::Checkbox *watermark_check = new Controls::Checkbox( "Watermark", m_primary_color, other_esp_groupbox, &g_cvar.m_misc.watermark->bValue );
 
-	m_pages.at( PAGE_VISUALS )->AddControl( other_esp_groupbox );
-
 	// effects groupbox.
 	Controls::Groupbox *effects_groupbox = new Controls::Groupbox( "Effects", player_esp_groupbox->GetRight() + 19, other_esp_groupbox->GetBottom() + 14, 259, 170 );
-
 	Controls::Slider *overridefov_slider = new Controls::Slider( "Camera FOV", m_primary_color, effects_groupbox, 0, 180, &g_cvar.m_misc.override_fov->iValue );
 
 	m_pages.at( PAGE_VISUALS )->AddControl( effects_groupbox );
+	m_pages.at( PAGE_VISUALS )->AddControl( other_esp_groupbox );
+	m_pages.at( PAGE_VISUALS )->AddControl( player_esp_groupbox );
 }
 
 void MainForm::configuration() {

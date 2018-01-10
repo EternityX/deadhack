@@ -188,5 +188,11 @@
     <ClInclude Include="icvar.h">
       <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
+    <ClInclude Include="cglobalvars.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="icliententitylist.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

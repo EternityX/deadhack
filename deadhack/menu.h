@@ -163,6 +163,21 @@ namespace Controls {
 		}
 	};
 
+	class ColorButton : public OSHGui::ColorButton {
+	private:
+	public:
+		void init( int x, int y, Control *parent, Control *control ) {
+			SetLocation( x, y );
+			this->Focus();
+
+			parent->AddControl( this );
+		}
+
+		ColorButton( Control *parent, Control *control ) {
+			init( parent->GetRight() - 66, control->GetTop() + 2, parent, control );
+		}
+	};
+
 	class Slider : public OSHGui::TrackBar {
 	private:
 		void init( const AnsiString &text, int x, int y, Color back_color, Control *parent, float min, float max, int *value ) {

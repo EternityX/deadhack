@@ -80,8 +80,8 @@ namespace OSHGui
 
 		Graphics g( *geometry_ );
 
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), PointF( -1, -1 ), SizeF( 16, 10 ) );
-		g.FillRectangle( color_, PointF( 0, 0 ), SizeF( 14, 8 ) );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 26 ), PointF( -1, -1 ), SizeF( 16, 9 ) );
+		g.FillRectangle( color_, PointF( 0, 0 ), SizeF( 14, 7 ) );
 		//g.DrawRectangle( color_, Drawing::PointI( absoluteLocation_.X + 7, absoluteLocation_.Y ), Drawing::SizeF( 35, 20 ) );
 	}
 }

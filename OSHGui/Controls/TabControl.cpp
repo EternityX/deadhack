@@ -444,19 +444,19 @@ namespace OSHGui
 
 		Graphics g( *geometry_ );
 
-		const auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 75, 75, 75 ) + GetMouseOverFocusColor() : Color::FromARGB( 255, 75, 75, 75 );
+		const auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 55, 55, 64 ) + GetMouseOverFocusColor() : Color::FromARGB( 255, 55, 55, 64 );
 
 		if( active_ )
 		{
-			g.FillRectangleGradient( Color::FromARGB( 255, 64, 64, 64 ), PointF( 0, 0 ), GetSize() );
-			g.FillRectangleGradient( ColorRectangle( color, Color::FromARGB( 255, 45, 45, 45 ) ), PointF( 1, 1 ), GetSize() - SizeF( 2, 0 ) );
+			g.FillRectangleGradient( Color::FromARGB( 255, 55, 55, 64 ), PointF( 0, 0 ), GetSize() );
+			g.FillRectangleGradient( ColorRectangle( color, Color::FromARGB( 255, 35, 35, 43 ) ), PointF( 1, 1 ), GetSize() - SizeF( 2, 0 ) );
 		}
 		else
 		{
-			const auto backInactive = ( isInside_ ? GetBackColor() + Color::FromARGB( 0, 75, 75, 75 ) : GetBackColor() + Color::FromARGB( 0, 50, 50, 50 ) ) - Color::FromARGB( 0, 47, 47, 47 );
+			const auto backInactive = ( isInside_ ? Color::FromARGB( 255, 32, 32, 42 ) + Color::FromARGB( 0, 55, 55, 64 ) : Color::FromARGB( 255, 32, 32, 42 ) + Color::FromARGB( 0, 50, 50, 58 ) ) - Color::FromARGB( 0, 35, 35, 43 );
 
-			g.FillRectangle( backInactive + Color::FromARGB( 0, 9, 9, 9 ), PointF( 0, 0 ), GetSize() );
-			g.FillRectangleGradient( ColorRectangle( backInactive, backInactive - Color::FromARGB( 0, 20, 20, 20 ) ), PointF( 1, 1 ), GetSize() - SizeF( 2, 1 ) );
+			g.FillRectangle( backInactive + Color::FromARGB( 0, 9, 9, 12 ), PointF( 0, 0 ), GetSize() );
+			g.FillRectangleGradient( ColorRectangle( backInactive, backInactive - Color::FromARGB( 0, 23, 23, 30 ) ), PointF( 1, 1 ), GetSize() - SizeF( 2, 1 ) );
 		}
 	}
 	//---------------------------------------------------------------------------

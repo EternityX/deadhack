@@ -68,7 +68,7 @@ public:
 			if( !m_offsets[ base ][ var ].m_offset ) {
 				m_offsets[ base ][ var ].m_datamap_var = false;
 				m_offsets[ base ][ var ].m_prop_ptr    = prop;
-				m_offsets[ base ][ var ].m_offset      = ( size_t )( prop->m_Offset + offset );
+				m_offsets[ base ][ var ].m_offset      = (size_t)( prop->m_Offset + offset );
 			}
 		}
 	}

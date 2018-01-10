@@ -359,19 +359,19 @@ namespace OSHGui
 
 		Graphics g( *geometry_ );
 
-		const auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 46, 46, 46 ) : Color::FromARGB( 255, 41, 41, 41 );
+		const auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 46, 46, 53 ) : Color::FromARGB( 255, 41, 41, 49 );
 
 		//g.FillRectangle(color, PointF(0, 1), realSize_ - SizeF(0, 2));
 		//g.FillRectangle(color, PointF(1, 0), realSize_ - SizeF(2, 0));
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), PointF( 0, 0 ), SizeF( 160, 20 ) );
-		g.FillRectangleGradient( ColorRectangle( color, Color::FromARGB( 255, 36, 36, 36 ) ), PointF( 1, 1 ), SizeF( 158, 18 ) );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 24 ), PointF( 0, 0 ), SizeF( 160, 20 ) );
+		g.FillRectangleGradient( ColorRectangle( color, Color::FromARGB( 255, 36, 36, 44 ) ), PointF( 1, 1 ), SizeF( 158, 18 ) );
 
 		const auto arrowLeft = realSize_.Width - 10;
 		const auto arrowTop = realSize_.Height - 13;
 		g.FillRectangle( Color::FromARGB( 255, 0, 0, 0 ), PointF( arrowLeft - 2, arrowTop - 3 ), SizeF( 5, 1 ) );
 		for( auto i = 0; i < 3; ++i )
 		{
-			g.FillRectangle( Color::FromARGB( 255, 156, 156, 156 ), PointF( arrowLeft - i, arrowTop - i ), SizeF( 1 + i * 2, 1 ) );
+			g.FillRectangle( Color::FromARGB( 255, 156, 156, 168 ), PointF( arrowLeft - i, arrowTop - i ), SizeF( 1 + i * 2, 1 ) );
 		}
 	}
 	//---------------------------------------------------------------------------

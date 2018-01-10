@@ -16,6 +16,7 @@ public:
     CHLClient            *m_client;
 	IEngineClient        *m_engine;
 	IClientModeShared    *m_client_mode;
+	CGlobalVars          *m_global_vars;
 	ICVar                *m_convar;
 
     // functions.
@@ -49,6 +50,10 @@ public:
 
 		m_client_mode = **(IClientModeShared ***)( ( *(uintptr_t **)m_client )[ 10 ] + 5 );
 		if( !m_client_mode )
+			return false;
+
+		m_global_vars = **( CGlobalVars *** )( SigScan::find( m_client_dll, "A1 ? ? ? ? 5E 8B 40 10" ) + 1 );
+		if( !m_global_vars )
 			return false;
 
 		m_convar = get_interface< ICVar >( CT_HASH32( "VEngineCvar" ) );

@@ -199,9 +199,9 @@ namespace OSHGui
 
 		Graphics g( *geometry_ );
 
-		g.FillRectangle( Color::FromARGB( 255, 50, 50, 50 ), trackLocation_, trackSize_ );
+		g.FillRectangle( Color::FromARGB( 255, 50, 50, 60 ), trackLocation_, trackSize_ );
 
-		g.FillRectangle( Color::FromARGB( 255, 67, 67, 67 ), sliderLocation_ + PointF( 1, 1 ), sliderSize_ - SizeF( 2, 2 ) );
+		g.FillRectangle( Color::FromARGB( 255, 67, 67, 77 ), sliderLocation_ + PointF( 1, 1 ), sliderSize_ - SizeF( 2, 2 ) );
 		/*g.FillRectangle(Color::FromARGB( 255, 67, 67, 67 ), sliderLocation_ + PointF(sliderSize_.Width, 1), SizeF(1, sliderSize_.Height - 2));
 		g.FillRectangle(Color::FromARGB( 255, 67, 67, 67 ), sliderLocation_ + PointF(1, sliderSize_.Height - 1), SizeF(sliderSize_.Width - 2, 1));
 		g.FillRectangle(Color::FromARGB( 255, 67, 67, 67 ), sliderLocation_ + PointF(0, 1), SizeF(1, sliderSize_.Height - 2));
@@ -308,13 +308,13 @@ namespace OSHGui
 
 		Graphics g( *geometry_ );
 
-		const auto color = isInside_ ? GetForeColor() + Color( 0, 50, 50, 50 ) : GetForeColor();
+		const auto color = isInside_ ? GetForeColor() + Color( 0, 50, 50, 60 ) : GetForeColor();
 
 		if( direction_ == ScrollBarDirection::Up )
 		{
 			for( auto i = 0; i < 3; ++i )
 			{
-				g.FillRectangle( Color::FromARGB( 255, 156, 156, 156 ), iconLocation_ + PointF( -i - 12, i + 15 ), SizeF( 1 + i * 2, 1 ) );
+				g.FillRectangle( Color::FromARGB( 255, 156, 156, 164 ), iconLocation_ + PointF( -i - 12, i + 15 ), SizeF( 1 + i * 2, 1 ) );
 				//g.FillRectangle(color, iconLocation_ + PointF(-i, i), SizeF(1 + i * 2, 1));
 			}
 		}
@@ -323,7 +323,7 @@ namespace OSHGui
 			//g.FillRectangle(Color::FromARGB(255, 0, 0, 0), PointF(arrowLeft - 2, arrowTop - 3), SizeF(5, 1));
 			for( auto i = 0; i < 3; ++i )
 			{
-				g.FillRectangle( Color::FromARGB( 255, 156, 156, 156 ), iconLocation_ - PointF( i + 12, i + 15 ), SizeF( 1 + i * 2, 1 ) );
+				g.FillRectangle( Color::FromARGB( 255, 156, 156, 164 ), iconLocation_ - PointF( i + 12, i + 15 ), SizeF( 1 + i * 2, 1 ) );
 			}
 
 			/*for (auto i = 0; i < 4; ++i)

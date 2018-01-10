@@ -288,13 +288,13 @@ namespace OSHGui
 
 		Graphics g( *geometry_ );
 
-		g.FillRectangle( Color::FromARGB( 255, 40, 40, 40 ), PointF( 1, 1 ), GetSize() - SizeF( 2, 2 ) );
+		g.FillRectangle( Color::FromARGB( 255, 40, 40, 50 ), PointF( 1, 1 ), GetSize() - SizeF( 2, 2 ) );
 
-		const auto color = GetBackColor() + Color::FromARGB( 0, 54, 53, 52 );
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), PointF( 0, 0 ), SizeF( GetWidth(), 1 ) );
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), PointF( 0, 1 ), SizeF( 1, GetHeight() - 1 ) );
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), PointF( GetWidth() - 1, 1 ), SizeF( 1, GetHeight() - 1 ) );
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), PointF( 1, GetHeight() - 1 ), SizeF( GetWidth() - 2, 1 ) );
+		const auto color = GetBackColor() + Color::FromARGB( 0, 54, 53, 60 );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 24 ), PointF( 0, 0 ), SizeF( GetWidth(), 1 ) );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 24 ), PointF( 0, 1 ), SizeF( 1, GetHeight() - 1 ) );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 24 ), PointF( GetWidth() - 1, 1 ), SizeF( 1, GetHeight() - 1 ) );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 24 ), PointF( 1, GetHeight() - 1 ), SizeF( GetWidth() - 2, 1 ) );
 
 		const auto itemX = 4;
 		const auto itemY = 5;
@@ -303,12 +303,12 @@ namespace OSHGui
 		{
 			if( firstVisibleItemIndex_ + i == selectedIndex_ )
 			{
-				g.FillRectangle(Color::FromARGB( 255, 54, 54, 54 ), PointF(itemX - 1, itemY + i * padding - 1), SizeF(itemAreaSize_.Width + 2, padding));
+				g.FillRectangle(Color::FromARGB( 255, 54, 54, 64 ), PointF(itemX - 1, itemY + i * padding - 1), SizeF(itemAreaSize_.Width + 2, padding));
 				g.DrawString( items_[ firstVisibleItemIndex_ + i ]->GetItemText(), GetFont(), Color::FromARGB( 255, 206, 115, 136 ), PointF( itemX + 1, itemY + i * padding ) );
 			}
 			else
 			{
-				g.DrawString( items_[ firstVisibleItemIndex_ + i ]->GetItemText(), GetFont(), Color::FromARGB( 255, 201, 201, 201 ), PointF( itemX + 1, itemY + i * padding ) );
+				g.DrawString( items_[ firstVisibleItemIndex_ + i ]->GetItemText(), GetFont(), Color::FromARGB( 255, 201, 201, 218 ), PointF( itemX + 1, itemY + i * padding ) );
 			}
 		}
 	}

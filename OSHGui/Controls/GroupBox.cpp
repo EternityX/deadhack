@@ -99,20 +99,20 @@ namespace OSHGui
 
 		Graphics g( *geometry_ );
 
-		g.FillRectangle( Color::FromARGB( 255, 24, 24, 24 ), PointF( 0, 6 ), GetSize() - SizeI( 0, 6 ) );
+		g.FillRectangle( Color::FromARGB( 255, 27, 27, 34 ), PointF( 0, 6 ), GetSize() - SizeI( 0, 6 ) );
 
-		g.FillRectangle( Color::FromARGB( 255, 51, 51, 51 ), PointF( 0, 5 ), SizeF( 10, 1 ) );
-		g.FillRectangle( Color::FromARGB( 255, 51, 51, 51 ), PointF( 20 + captionLabel_->GetWidth(), 5 ), SizeF( GetWidth() - captionLabel_->GetWidth() - 20, 1 ) );
-		g.FillRectangle( Color::FromARGB( 255, 51, 51, 51 ), PointF( 0, 6 ), SizeF( 1, GetHeight() - 6 ) );
-		g.FillRectangle( Color::FromARGB( 255, 51, 51, 51 ), PointF( GetWidth() - 1, 6 ), SizeF( 1, GetHeight() - 6 ) );
-		g.FillRectangle( Color::FromARGB( 255, 51, 51, 51 ), PointF( 1, GetHeight() - 1 ), SizeF( GetWidth() - 2, 1 ) );
+		g.FillRectangle( Color::FromARGB( 255, 51, 51, 58 ), PointF( 0, 5 ), SizeF( 10, 1 ) );
+		g.FillRectangle( Color::FromARGB( 255, 51, 51, 58 ), PointF( 20 + captionLabel_->GetWidth(), 5 ), SizeF( GetWidth() - captionLabel_->GetWidth() - 20, 1 ) );
+		g.FillRectangle( Color::FromARGB( 255, 51, 51, 58 ), PointF( 0, 6 ), SizeF( 1, GetHeight() - 6 ) );
+		g.FillRectangle( Color::FromARGB( 255, 51, 51, 58 ), PointF( GetWidth() - 1, 6 ), SizeF( 1, GetHeight() - 6 ) );
+		g.FillRectangle( Color::FromARGB( 255, 51, 51, 58 ), PointF( 1, GetHeight() - 1 ), SizeF( GetWidth() - 2, 1 ) );
 
 		//outline
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), PointF( 0, 4 ), SizeF( 10, 1 ) );
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), PointF( 20 + captionLabel_->GetWidth(), 4 ), SizeF( GetWidth() - captionLabel_->GetWidth() - 20, 1 ) );
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), PointF( -1, 4 ), SizeF( 1, GetHeight() - 3 ) );
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), PointF( GetWidth(), 4 ), SizeF( 1, GetHeight() - 3 ) );
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), PointF( 0, GetHeight() ), SizeF( GetWidth(), 1 ) );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 26 ), PointF( 0, 4 ), SizeF( 10, 1 ) );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 26 ), PointF( 20 + captionLabel_->GetWidth(), 4 ), SizeF( GetWidth() - captionLabel_->GetWidth() - 20, 1 ) );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 26 ), PointF( -1, 4 ), SizeF( 1, GetHeight() - 3 ) );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 26 ), PointF( GetWidth(), 4 ), SizeF( 1, GetHeight() - 3 ) );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 26 ), PointF( 0, GetHeight() ), SizeF( GetWidth(), 1 ) );
 	}
 	//---------------------------------------------------------------------------
 }

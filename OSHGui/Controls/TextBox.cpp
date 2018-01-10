@@ -193,10 +193,10 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 46, 46, 46 ) : Color::FromARGB( 255, 41, 41, 41 );
+		auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 46, 46, 53 ) : Color::FromARGB( 255, 41, 41, 51 );
 
-		g.FillRectangle(GetBackColor() - Color::FromARGB(0, 18, 18, 18), PointF(0, 0), GetSize());
-		g.FillRectangleGradient(ColorRectangle( color, Color::FromARGB( 255, 36, 36, 36 ) ), PointF(1, 1), GetSize() - SizeF(2, 2));
+		g.FillRectangle(GetBackColor() - Color::FromARGB(0, 18, 18, 24), PointF(0, 0), GetSize());
+		g.FillRectangleGradient(ColorRectangle( color, Color::FromARGB( 255, 36, 36, 44 ) ), PointF(1, 1), GetSize() - SizeF(2, 2));
 
 		if (showCaret_)
 		{

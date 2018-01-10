@@ -17,3 +17,4 @@
 #include "iclientmodeshared.h"
 #include "cinput.h"
 #include "icvar.h"
+#include "cglobalvars.h"

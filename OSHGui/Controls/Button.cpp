@@ -109,13 +109,13 @@ namespace OSHGui
 
 		Graphics g( *geometry_ );
 
-		auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 46, 46, 46 ) : Color::FromARGB( 255, 41, 41, 41 );
+		auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 46, 46, 54 ) : Color::FromARGB( 255, 41, 41, 49 );
 
 		if( isClicked_ )
-			color = Color::FromARGB( 255, 56, 56, 56 );
+			color = Color::FromARGB( 255, 56, 56, 64 );
 
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), PointF( 0, 0 ), GetSize() );
-		g.FillRectangleGradient( ColorRectangle( color, Color::FromARGB( 255, 36, 36, 36 ) ), PointF( 1, 1 ), GetSize() - SizeF( 2, 2 ) );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 24 ), PointF( 0, 0 ), GetSize() );
+		g.FillRectangleGradient( ColorRectangle( color, Color::FromARGB( 255, 36, 36, 43 ) ), PointF( 1, 1 ), GetSize() - SizeF( 2, 2 ) );
 	}
 	//---------------------------------------------------------------------------
 	//Event-Handling

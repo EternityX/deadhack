@@ -133,9 +133,9 @@ namespace OSHGui
 
 		Graphics g( *geometry_ );
 
-		const auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 75, 75, 75 ) + GetMouseOverFocusColor() : Color::FromARGB( 255, 75, 75, 75 );
+		const auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 75, 75, 86 ) + GetMouseOverFocusColor() : Color::FromARGB( 255, 75, 75, 86 );
 
-		g.FillRectangle( Color::FromARGB( 255, 18, 18, 18 ), RectangleF( PointF( 1, 1 ), SizeF( 8, 8 ) ) );
+		g.FillRectangle( Color::FromARGB( 255, 18, 18, 24 ), RectangleF( PointF( 1, 1 ), SizeF( 8, 8 ) ) );
 
 		//g.FillRectangleGradient(ColorRectangle(Color::White(), Color::White() - Color::FromARGB(0, 137, 137, 137)), RectangleF(PointF(1, 1), SizeF(15, 15)));
 		g.FillRectangleGradient( color, RectangleF( PointF( 2, 2 ), SizeF( 6, 6 ) ) );
@@ -143,7 +143,7 @@ namespace OSHGui
 		if( checked_ )
 		{
 			//g.FillRectangle(Color::White(), RectangleF(PointF(5, 5), SizeF(7, 7)));
-			g.FillRectangleGradient( ColorRectangle( GetBackColor(), GetBackColor() - Color::FromARGB( 0, 45, 40, 40 ) ), RectangleF( PointF( 2, 2 ), SizeF( 6, 6 ) ) );
+			g.FillRectangleGradient( ColorRectangle( GetBackColor(), GetBackColor() - Color::FromARGB( 0, 45, 40, 50 ) ), RectangleF( PointF( 2, 2 ), SizeF( 6, 6 ) ) );
 		}
 	}
 	//---------------------------------------------------------------------------
