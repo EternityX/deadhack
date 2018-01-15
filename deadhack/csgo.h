@@ -16,6 +16,7 @@ public:
     CHLClient            *m_client;
 	IEngineClient        *m_engine;
 	IClientModeShared    *m_client_mode;
+	IClientEntityList    *m_entity_list;
 	CGlobalVars          *m_global_vars;
 	ICVar                *m_convar;
 
@@ -52,7 +53,11 @@ public:
 		if( !m_client_mode )
 			return false;
 
-		m_global_vars = **( CGlobalVars *** )( SigScan::find( m_client_dll, "A1 ? ? ? ? 5E 8B 40 10" ) + 1 );
+		m_entity_list = get_interface< IClientEntityList >( CT_HASH32( "VClientEntityList" ) );
+		if( !m_entity_list )
+			return false;
+
+		m_global_vars = **(CGlobalVars ***)( SigScan::find( m_client_dll, "A1 ? ? ? ? 5E 8B 40 10" ) + 1 );
 		if( !m_global_vars )
 			return false;
 

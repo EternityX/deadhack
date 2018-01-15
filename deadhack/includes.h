@@ -82,6 +82,12 @@ using ulong_t = unsigned long;
 #include "interfaces.h"
 #include "sdk.h"
 #include "csgo.h"
+
+#include "c_csplayer.h"
+
+#include "client.h"
 #include "netvars.h"
 #include "offsets.h"
 #include "hooks.h"
+
+#include "visuals.h"

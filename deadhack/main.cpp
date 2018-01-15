@@ -9,6 +9,7 @@ CVar             g_cvar{};
 Menu             g_menu{};
 Config           g_config{};
 Offsets          g_offsets{};
+Client           g_client{};
 
 static ulong_t __stdcall cheat_init( void *arg ) {
 	g_config.init();
@@ -42,10 +43,6 @@ static ulong_t __stdcall cheat_init( void *arg ) {
 #endif
         return 0;
     }
-
-#ifdef CHEAT_DBG
-    MessageBoxA( nullptr, "loaded", "cheat_init", 0 );
-#endif
 
     return 1;
 }

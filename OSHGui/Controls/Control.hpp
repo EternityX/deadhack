@@ -608,7 +608,7 @@ namespace OSHGui
 		 * \param mouse
 		 * \return true, falls die Nachricht verarbeitet wurde
 		 */
-		bool ProcessMouseMessage(const MouseMessage &mouse);
+		virtual bool ProcessMouseMessage(const MouseMessage &mouse);
 		/**
 		 * Verarbeitet eine Tastatur-Nachricht. Sollte nicht vom Benutzer aufgerufen werden.
 		 *

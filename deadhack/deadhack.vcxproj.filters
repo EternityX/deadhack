@@ -78,6 +78,12 @@
     <ClCompile Include="config.cpp">
       <Filter>Source Files\other</Filter>
     </ClCompile>
+    <ClCompile Include="visuals.cpp">
+      <Filter>Source Files\cheat</Filter>
+    </ClCompile>
+    <ClCompile Include="client.cpp">
+      <Filter>Source Files\cheat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes.h">
@@ -193,6 +199,18 @@
     </ClInclude>
     <ClInclude Include="icliententitylist.h">
       <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="visuals.h">
+      <Filter>Header Files\cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="c_csplayer.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="icliententity.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="client.h">
+      <Filter>Header Files\cheat</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

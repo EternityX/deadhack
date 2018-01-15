@@ -15,8 +15,8 @@ HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *pSourceR
         g_custom_renderer.start_drawing();
         
 		if( g_cvar.m_misc.watermark->bValue )
-			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_VERDANA_7PX ], Color::White(), 2.f, 2.f, "deadcell.cc" );
-        
+			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_VERDANA_7PX ], Color::White(), 22.f, 22.f, "deadcell.cc" );
+
         g_custom_renderer.end_drawing();
     }
 
@@ -35,12 +35,12 @@ HRESULT __stdcall Hooks::Reset( IDirect3DDevice9 *device, D3DPRESENT_PARAMETERS 
 
 void __fastcall Hooks::LevelInitPostEntity( CHLClient *ecx, uintptr_t edx ) {
 	g_CHLClient_vmt.get_old_method< LevelInitPostEntity_t >( 6 )( ecx );
-	// todo: store localplayer here.
+	g_client.m_local = C_CSPlayer::get_local();
 }
 
 void __fastcall Hooks::LevelShutdown( CHLClient *ecx, uintptr_t edx ) {
 	g_CHLClient_vmt.get_old_method< LevelShutdown_t >( 7 )( ecx );
-	// todo: null localplayer here.
+	g_client.m_local = nullptr;
 }
 
 bool __fastcall Hooks::CreateMove( uintptr_t ecx, uintptr_t edx, float flInputSampleTime, CUserCmd *cmd ) {

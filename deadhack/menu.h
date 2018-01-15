@@ -168,13 +168,34 @@ namespace Controls {
 	public:
 		void init( int x, int y, Control *parent, Control *control ) {
 			SetLocation( x, y );
-			this->Focus();
-
 			parent->AddControl( this );
 		}
 
 		ColorButton( Control *parent, Control *control ) {
 			init( parent->GetRight() - 66, control->GetTop() + 2, parent, control );
+		}
+	};
+
+	class Hotkey : public OSHGui::HotkeyControl {
+	private:
+	public:
+		void init( const AnsiString &text, int x, int y, Control *parent ) {
+			SetLocation( x, y );
+			
+			auto label = new OSHGui::Label();
+			label->SetForeColor( Color::FromARGB( 255, 201, 201, 201 ) );
+			label->SetFont( g_custom_renderer.m_fonts.at( 0 ) );
+			label->SetLocation( GetLeft(), GetTop() - 13 );
+			label->SetStyle( 1 );
+			label->SetText( text );
+			parent->AddControl( label );
+
+			parent->AddControl( this );
+		}
+
+		Hotkey( const AnsiString &text, Control *parent ) {
+			init( text, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 3, g_menu.m_control_y_pos, parent );
+			g_menu.m_control_y_pos += 28;
 		}
 	};
 

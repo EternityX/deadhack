@@ -8,7 +8,10 @@ public:
 };
 
 class IEngineClient {
-	
+public:
+	int GetLocalPlayer() {
+		return Utils::get_method< int(__thiscall *)( decltype( this ) )>( this, 12 )( this );
+	}
 };
 
 struct CViewSetup {

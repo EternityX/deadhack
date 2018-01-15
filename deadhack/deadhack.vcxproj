@@ -129,12 +129,14 @@
     <ClCompile Include="..\OSHGui\Drawing\Direct3D9\Direct3D9Texture.cpp" />
     <ClCompile Include="..\OSHGui\Drawing\Direct3D9\Direct3D9TextureTarget.cpp" />
     <ClCompile Include="..\OSHGui\Drawing\Direct3D9\Direct3D9ViewportTarget.cpp" />
+    <ClCompile Include="client.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="hooks.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="custom_renderer.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="visuals.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OSHGui\Drawing\Direct3D9\Direct3D9GeometryBuffer.hpp" />
@@ -147,14 +149,17 @@
     <ClInclude Include="cfg_manager.h" />
     <ClInclude Include="cglobalvars.h" />
     <ClInclude Include="cinput.h" />
+    <ClInclude Include="client.h" />
     <ClInclude Include="clientdll.h" />
     <ClInclude Include="client_class.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="csgo.h" />
+    <ClInclude Include="c_csplayer.h" />
     <ClInclude Include="cvar.h" />
     <ClInclude Include="dt_recv.h" />
     <ClInclude Include="hash.h" />
     <ClInclude Include="hooks.h" />
+    <ClInclude Include="icliententity.h" />
     <ClInclude Include="icliententitylist.h" />
     <ClInclude Include="iclientmodeshared.h" />
     <ClInclude Include="icvar.h" />
@@ -174,6 +179,7 @@
     <ClInclude Include="utils.h" />
     <ClInclude Include="vec2.h" />
     <ClInclude Include="vec3.h" />
+    <ClInclude Include="visuals.h" />
     <ClInclude Include="vmthook.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
