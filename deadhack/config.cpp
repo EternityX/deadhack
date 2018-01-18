@@ -12,8 +12,17 @@ void Config::init() {
 
 	cfg_manager.set_script_directory( m_directory );
 
-	REGISTER_CVAR( g_cvar.m_misc.watermark, "watermark", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
-	REGISTER_CVAR( g_cvar.m_misc.override_fov, "override_fov", config_manager::CVar::CVAR_TYPE_INT, "90" );
+	REGISTER_CVAR( g_cvar.m_visuals.activation_type, "esp_activation_type", config_manager::CVar::CVAR_TYPE_INT, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.activation_key, "esp_activation_key", config_manager::CVar::CVAR_TYPE_INT, "6" );
+	REGISTER_CVAR( g_cvar.m_visuals.teammates, "teammates", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.bbox, "bbox", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.healthbar, "healthbar", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.name, "name", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.flags, "flags", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.money, "money", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+
+	REGISTER_CVAR( g_cvar.m_visuals.watermark, "watermark", config_manager::CVar::CVAR_TYPE_BOOL, "1" );
+	REGISTER_CVAR( g_cvar.m_visuals.override_fov, "override_fov", config_manager::CVar::CVAR_TYPE_INT, "90" );
 
 	load( "settings" );
 }

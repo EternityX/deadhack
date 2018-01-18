@@ -23,6 +23,16 @@ namespace OSHGui
 		ApplyStyle( Application::Instance().GetStyle() );
 	}
 
+	Drawing::Color ColorButton::GetColor() 
+	{
+		return color_;
+	}
+
+	void ColorButton::SetColor( Drawing::Color color ) 
+	{
+		color_ = color;
+	}
+
 	void ColorButton::Expand()
 	{
 		droppedDown_ = true;

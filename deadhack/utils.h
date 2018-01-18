@@ -126,4 +126,8 @@ namespace Utils {
     template< typename t > __forceinline t get_random_int_range( const t &min, const t &max ) {
         return t{};
     }
+
+	template < typename t > __forceinline t clamp( t in, t low, t high ) {
+		return std::min( std::max( in, low ), high );
+	}
 }

@@ -1,7 +1,7 @@
 #pragma once
 
-class vec2_t;
-class vec3_t;
+class Vec2_t;
+class Vec3_t;
 
 namespace Math {
     // pi constants.

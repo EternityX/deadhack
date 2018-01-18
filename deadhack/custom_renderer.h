@@ -5,9 +5,17 @@ using Color = OSHGui::Drawing::Color;
 enum : uint32_t {
     FONT_VERDANA_7PX = 0,
     FONT_VERDANA_BOLD_7PX,
-    FONT_TAHOMA_BOLD_7PX,
+    FONT_04B03_6PX,
     FONT_ARIALUNICODEMS_BOLD_8PX,
     FONT_MAX
+};
+
+enum : uint32_t {
+	NO_FLAGS = 0,
+	CENTERED_X = 1,
+	CENTERED_Y = 2,
+	OUTLINED = 4,
+	DROPSHADOW = 8
 };
 
 class CustomRenderer {
@@ -30,8 +38,8 @@ public:
 	void rect( const Color &color, float x, float y, float width, float height ) const;
 	void filled_rect( const Color &color, float x, float y, float width, float height ) const;
 
-	void ansi_text( OSHGui::Drawing::FontPtr font, const Color &color, float x, float y, const std::string str, ... ) const;
-	void unicode_text( OSHGui::Drawing::FontPtr font, const Color &color, float x, float y, const std::wstring wstr, ... ) const;
+	void ansi_text( OSHGui::Drawing::FontPtr font, const Color &color, const Color &shadow_color, float x, float y, int flags, const std::string str, ... ) const;
+	void unicode_text( OSHGui::Drawing::FontPtr font, const Color &color, const Color &shadow_color, float x, float y, int flags, const std::wstring wstr, ... ) const;
 };
 
 extern CustomRenderer g_custom_renderer;

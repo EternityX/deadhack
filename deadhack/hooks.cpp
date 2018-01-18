@@ -14,8 +14,10 @@ HRESULT __stdcall Hooks::Present( IDirect3DDevice9 *device, const RECT *pSourceR
     else {
         g_custom_renderer.start_drawing();
         
-		if( g_cvar.m_misc.watermark->bValue )
-			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_VERDANA_7PX ], Color::White(), 22.f, 22.f, "deadcell.cc" );
+		g_visuals.work();
+
+		if( g_cvar.m_visuals.watermark->bValue )
+			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_VERDANA_7PX ], Color::White(), Color::Black(), 22.f, 22.f, DROPSHADOW, "deadcell.cc // staff build 0.0.3" );
 
         g_custom_renderer.end_drawing();
     }
@@ -61,7 +63,7 @@ bool __fastcall Hooks::CreateMove( uintptr_t ecx, uintptr_t edx, float flInputSa
 }
 
 void __fastcall Hooks::OverrideView( uintptr_t ecx, uintptr_t edx, CViewSetup *pSetup ) {
-	pSetup->m_fov = g_cvar.m_misc.override_fov->iValue;
+	pSetup->m_fov = g_cvar.m_visuals.override_fov->iValue;
 	g_CHLClient_vmt.get_old_method< OverrideView_t >( 18 )( ecx, pSetup );
 }
 

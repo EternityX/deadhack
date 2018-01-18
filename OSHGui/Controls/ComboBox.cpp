@@ -196,11 +196,12 @@ namespace OSHGui
 		return listBox_->GetItem( index );
 	}
 	//---------------------------------------------------------------------------
-	void ComboBox::SetSelectedIndex( int index )
+	void ComboBox::SetSelectedIndex( int index, bool should_collapse )
 	{
 		listBox_->SetSelectedIndex( index );
 
-		Collapse();
+		if( should_collapse )
+			Collapse();
 	}
 	//---------------------------------------------------------------------------
 	int ComboBox::GetSelectedIndex() const

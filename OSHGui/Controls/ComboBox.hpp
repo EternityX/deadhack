@@ -91,7 +91,7 @@ namespace OSHGui
 		 *
 		 * \param index
 		 */
-		void SetSelectedIndex(int index);
+		void SetSelectedIndex( int index, bool should_collapse = true);
 		/**
 		 * Gibt den ausgewählten Index zurück.
 		 *

@@ -10,6 +10,7 @@ Menu             g_menu{};
 Config           g_config{};
 Offsets          g_offsets{};
 Client           g_client{};
+Visuals          g_visuals{};
 
 static ulong_t __stdcall cheat_init( void *arg ) {
 	g_config.init();

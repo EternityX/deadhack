@@ -16,7 +16,7 @@ void CustomRenderer::init( IDirect3DDevice9 *device ) {
 
 	m_fonts[ FONT_VERDANA_7PX ]      = OSHGui::Drawing::FontManager::LoadFont( "Verdana", 7.0f, true );
     m_fonts[ FONT_VERDANA_BOLD_7PX ] = OSHGui::Drawing::FontManager::LoadFont( "Verdana Bold", 7.0f, true );
-    m_fonts[ FONT_TAHOMA_BOLD_7PX ]  = OSHGui::Drawing::FontManager::LoadFont( "Tahoma Bold", 7.0f, false );
+    m_fonts[ FONT_04B03_6PX ]  = OSHGui::Drawing::FontManager::LoadFont( "04b03", 6.0f, false );
     
     // fallback font.
     m_fonts[ FONT_ARIALUNICODEMS_BOLD_8PX ] = OSHGui::Drawing::FontManager::LoadFont( "Arial Unicode MS", 8.0f, false );
@@ -64,7 +64,7 @@ void CustomRenderer::filled_rect( const Color &color, float x, float y, float wi
 	g.FillRectangle( color, OSHGui::Drawing::PointF( x, y ), OSHGui::Drawing::SizeF( width, height ) );
 }
 
-void CustomRenderer::ansi_text( OSHGui::Drawing::FontPtr font, const Color &color, float x, float y, const std::string str, ... ) const {
+void CustomRenderer::ansi_text( OSHGui::Drawing::FontPtr font, const Color &color, const Color &shadow_color, float x, float y, int flags, const std::string str, ... ) const {
 	// OSHGui::Drawing::FontPtr font_to_use;
     va_list     va;
     int         str_len;
@@ -92,10 +92,31 @@ void CustomRenderer::ansi_text( OSHGui::Drawing::FontPtr font, const Color &colo
 
     OSHGui::Drawing::Graphics g( *m_geometry );
 
+	if( flags & CENTERED_X || flags & CENTERED_Y ) {
+		OSHGui::Misc::TextHelper text_helper( font );
+		text_helper.SetText( str );
+
+		if( flags & CENTERED_X )
+			x -= ( text_helper.GetSize().Width / 2.0f );
+
+		if ( flags & CENTERED_Y )
+			y -= text_helper.GetSize().Height / 2.0f;
+	}
+
+	if( flags & DROPSHADOW )
+		g.DrawString( buf, font, shadow_color, x + 1, y + 1 );
+
+	if( flags & OUTLINED ) {
+		g.DrawString( buf, font, shadow_color, x, y + 1 );
+		g.DrawString( buf, font, shadow_color, x, y - 1 );
+		g.DrawString( buf, font, shadow_color, x + 1, y );
+		g.DrawString( buf, font, shadow_color, x - 1, y );
+	}
+
     g.DrawString( buf, font, color, x, y );
 }
 
-void CustomRenderer::unicode_text( OSHGui::Drawing::FontPtr font, const Color &color, float x, float y, const std::wstring wstr, ... ) const {
+void CustomRenderer::unicode_text( OSHGui::Drawing::FontPtr font, const Color &color, const Color &shadow_color, float x, float y, int flags, const std::wstring wstr, ... ) const {
     va_list      va;
     int          str_len;
     std::wstring buf;
@@ -130,6 +151,16 @@ void CustomRenderer::unicode_text( OSHGui::Drawing::FontPtr font, const Color &c
         font = m_fonts[ FONT_ARIALUNICODEMS_BOLD_8PX ];
 
     OSHGui::Drawing::Graphics g( *m_geometry );
+
+	if( flags & DROPSHADOW )
+		g.DrawString( buf, font, shadow_color, x + 1, y + 1 );
+
+	if( flags & OUTLINED ) {
+		g.DrawString( buf, font, shadow_color, x, y + 1 );
+		g.DrawString( buf, font, shadow_color, x, y - 1 );
+		g.DrawString( buf, font, shadow_color, x + 1, y );
+		g.DrawString( buf, font, shadow_color, x - 1, y );
+	}
 
     g.DrawString( buf, font, color, x, y );
 }

@@ -14,9 +14,11 @@
 #include "client_class.h"
 
 #include "clientdll.h"
-#include "icliententity.h"
 #include "iclientmodeshared.h"
+#include "icliententity.h"
 #include "icliententitylist.h"
 #include "cinput.h"
 #include "icvar.h"
 #include "cglobalvars.h"
+
+#include "def.h"

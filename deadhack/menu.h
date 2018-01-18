@@ -43,11 +43,10 @@ namespace Controls {
 
 	class Combobox : public OSHGui::ComboBox {
 	private:
-		void init( const AnsiString &text, std::vector< AnsiString > items, int x, int y, int max_items, Control *parent ) {
+		void init( const AnsiString &text, std::vector< AnsiString > items, int x, int y, int max_items, Control *parent, int *cvar ) {
 			SetLocation( x, y );
 			SetFont( g_custom_renderer.m_fonts.at( 0 ) );
 			SetMaxShowItems( max_items );
-			parent->AddControl( this );
 
 			auto label = new OSHGui::Label();
 			label->SetForeColor( Color::FromARGB( 255, 201, 201, 201 ) );
@@ -59,16 +58,32 @@ namespace Controls {
 
 			for( auto const &item : items )
 				AddItem( item );
+
+			OSHGui::Timer *timer = new OSHGui::Timer();
+			timer->SetInterval( 250 );
+			timer->Start();
+			parent->AddControl( timer );
+
+			timer->GetTickEvent() += OSHGui::TickEventHandler( [ this, cvar ]( Control *sender ) {
+				this->SetSelectedIndex( *cvar, false );
+			});
+
+			parent->AddControl( this );
+
+			// click event.
+			this->GetSelectedIndexChangedEvent() += OSHGui::SelectedIndexChangedEventHandler( [ this, cvar ]( Control *sender ) {
+				*cvar = this->GetSelectedIndex();
+			});
 		}
 	public:
 		// manual positioning.
-		Combobox( const AnsiString &text, std::vector< AnsiString > items, int x, int y, int max_items, Control *parent ) {
-			init( text, items, x, y, max_items, parent );
+		Combobox( const AnsiString &text, std::vector< AnsiString > items, int x, int y, int max_items, Control *parent, int *cvar ) {
+			init( text, items, x, y, max_items, parent, cvar );
 		}
 
 		// automatic positioning.
-		Combobox( const AnsiString &text, std::vector< AnsiString > items, int max_items, Control *parent ) {
-			init( text, items, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 3, g_menu.m_control_y_pos + 10, max_items, parent );
+		Combobox( const AnsiString &text, std::vector< AnsiString > items, int max_items, Control *parent, int *cvar ) {
+			init( text, items, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 3, g_menu.m_control_y_pos + 10, max_items, parent, cvar );
 			g_menu.m_control_y_pos += 40;
 		}
 	};
@@ -82,7 +97,6 @@ namespace Controls {
 			SetText( text );
 			SetChecked( *cvar );
 
-			// atleast it's better than reinitializing the controls...
 			OSHGui::Timer *timer = new OSHGui::Timer();
 			timer->SetInterval( 250 );
 			timer->Start();
@@ -169,6 +183,20 @@ namespace Controls {
 		void init( int x, int y, Control *parent, Control *control ) {
 			SetLocation( x, y );
 			parent->AddControl( this );
+
+			OSHGui::Timer *timer = new OSHGui::Timer();
+			timer->SetInterval( 5 );
+			timer->Start();
+			parent->AddControl( timer );
+
+			timer->GetTickEvent() += OSHGui::TickEventHandler( [ this ]( Control *sender ) {
+				
+			});
+
+			// click event.
+			this->GetClickEvent() += OSHGui::ClickEventHandler( [ this ]( Control *sender ) {
+				
+			});	
 		}
 
 		ColorButton( Control *parent, Control *control ) {
@@ -179,8 +207,9 @@ namespace Controls {
 	class Hotkey : public OSHGui::HotkeyControl {
 	private:
 	public:
-		void init( const AnsiString &text, int x, int y, Control *parent ) {
+		void init( const AnsiString &text, int x, int y, Control *parent, int *cvar ) {
 			SetLocation( x, y );
+			SetFont( g_custom_renderer.m_fonts.at( 0 ) );
 			
 			auto label = new OSHGui::Label();
 			label->SetForeColor( Color::FromARGB( 255, 201, 201, 201 ) );
@@ -190,12 +219,27 @@ namespace Controls {
 			label->SetText( text );
 			parent->AddControl( label );
 
+			OSHGui::Timer *timer = new OSHGui::Timer();
+			timer->SetInterval( 5 );
+			timer->Start();
+			parent->AddControl( timer );
+
+			timer->GetTickEvent() += OSHGui::TickEventHandler( [ this, cvar ]( Control *sender ) {
+				this->SetHotkey( (OSHGui::Key)*cvar );
+			});
+
 			parent->AddControl( this );
+
+			// click event.
+			this->GetHotkeyChangedEvent() += OSHGui::HotkeyChangedEventHandler( [ this, cvar ]( Control *sender ) {
+				*cvar = (int)GetHotkey();
+			});
 		}
 
-		Hotkey( const AnsiString &text, Control *parent ) {
-			init( text, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 3, g_menu.m_control_y_pos, parent );
-			g_menu.m_control_y_pos += 28;
+		Hotkey( const AnsiString &text, Control *parent, int *cvar ) {
+			Control::SetSize( 160, 20 );
+			init( text, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 3, g_menu.m_control_y_pos + 10, parent, cvar );
+			g_menu.m_control_y_pos += 40;
 		}
 	};
 

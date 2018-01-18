@@ -7,10 +7,37 @@ public:
 	}
 };
 
+typedef struct player_info_s {
+	int64_t          __pad0;
+	int              xuid_low;
+	int              xuid_high;
+	char             m_szPlayerName[ 128 ];
+	int              m_nUserID;
+	char             m_szSteamID[ 33 ];
+	unsigned int     m_nSteam3ID;
+	char             m_szFriendsName[ 128 ];
+	bool             m_bIsFakePlayer;
+	bool             m_bIsHLTV;
+	unsigned int     m_dwCustomFiles[ 4 ];
+	unsigned char    m_FilesDownloaded;
+} player_info_t;
+
 class IEngineClient {
 public:
+	bool GetPlayerInfo( int nClientIndex, player_info_t *pinfo ) {
+		return Utils::get_method< bool(__thiscall *)( decltype( this ), int, player_info_t * )>( this, 8 )( this, nClientIndex, pinfo );
+	}
+
 	int GetLocalPlayer() {
 		return Utils::get_method< int(__thiscall *)( decltype( this ) )>( this, 12 )( this );
+	}
+
+	const D3DMATRIX &world_to_screen_matrix() {
+		ulong_t function_ptr    = ( *(ulong_t **)this )[ 37 ];
+		ulong_t render_ptr      = *(ulong_t *)( function_ptr + 1 );
+		ulong_t view_matrix     = *(ulong_t *)( render_ptr + 0xDC ) + 0x3DC;
+
+		return (D3DMATRIX &)*(ulong_t *)view_matrix;
 	}
 };
 
@@ -27,7 +54,7 @@ struct CViewSetup {
 	PAD( 0x80 )
 	float    m_fov;
 	float    m_fov_viewmodel;
-	Ang_t    m_origin; // need to use vec3_t but it's incomplete.
+	Vec3_t    m_origin;
 	Ang_t    m_angles;
 	float    m_znear;
 	float    m_zfar;

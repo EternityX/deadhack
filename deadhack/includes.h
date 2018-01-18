@@ -49,6 +49,8 @@ using ulong_t = unsigned long;
 #include "Drawing/Direct3D9/Direct3D9Renderer.hpp"
 #include "Drawing/RenderTarget.hpp"
 
+#include "ThemidaSDK.h"
+
 // other stuff.
 #include "hash.h"
 #include "cfg_manager.h"
@@ -83,11 +85,14 @@ using ulong_t = unsigned long;
 #include "sdk.h"
 #include "csgo.h"
 
-#include "c_csplayer.h"
-
-#include "client.h"
 #include "netvars.h"
 #include "offsets.h"
+
+#include "cbaseentity.h"
+#include "ccsplayer.h"
+
+#include "client.h"
+
 #include "hooks.h"
 
 #include "visuals.h"

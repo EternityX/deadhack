@@ -12,6 +12,8 @@ namespace OSHGui
 	{
 	public:
 		ColorButton();
+		Drawing::Color GetColor();
+		void SetColor( Drawing::Color color );
 		void Expand();
 		void Collapse();
 		void OnMouseDown( const MouseMessage &mouse );

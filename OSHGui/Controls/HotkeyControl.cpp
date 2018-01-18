@@ -34,8 +34,8 @@ namespace OSHGui
 			HotkeyNames[Key::RButton] = EnumToString(RButton);
 			HotkeyNames[Key::Cancel] = EnumToString(Cancel);
 			HotkeyNames[Key::MButton] = EnumToString(MButton);
-			HotkeyNames[Key::XButton1] = EnumToString(XButton1);
-			HotkeyNames[Key::XButton2] = EnumToString(XButton2);
+			HotkeyNames[Key::XButton1] = "Mouse 4";
+			HotkeyNames[Key::XButton2] = "Mouse 5";
 			HotkeyNames[Key::Back] = EnumToString(Back);
 			HotkeyNames[Key::Tab] = EnumToString(Tab);
 			HotkeyNames[Key::LineFeed] = EnumToString(LineFeed);
@@ -239,7 +239,7 @@ namespace OSHGui
 
 		textBox_->SetSize(160, 24);
 
-		clearButtonLocation_ = Drawing::PointI(160 - 12, GetHeight() * 0.5f - 4);
+		clearButtonLocation_ = Drawing::PointI(160 - 12, GetHeight() * 0.5f - 2);
 	}
 	//---------------------------------------------------------------------------
 	void HotkeyControl::SetFont(const Drawing::FontPtr &font)
@@ -314,34 +314,34 @@ namespace OSHGui
 	{
 		auto ModifierToString = [](Key modifier) -> Misc::AnsiString
 		{
-			std::vector<Misc::AnsiString> modifierNames;
-			if ((modifier & Key::Control) == Key::Control) modifierNames.push_back("Control");
-			if ((modifier & Key::Alt) == Key::Alt) modifierNames.push_back("Alt");
-			if ((modifier & Key::Shift) == Key::Shift) modifierNames.push_back("Shift");
+			Misc::AnsiString modifierName;
+			if ((modifier & Key::Control) == Key::Control) modifierName = "Control";
+			if ((modifier & Key::Alt) == Key::Alt) modifierName = "Alt";
+			if ((modifier & Key::Shift) == Key::Shift) modifierName = "Shift";
 
-			std::stringstream s;
-			for (auto i = 0; i < modifierNames.size(); ++i)
-			{
-				if (i > 0)
-				{
-					s << " + ";
-				}
-				s << modifierNames[i];
-			}
-			return s.str();
+			//std::stringstream s;
+			//for (auto i = 0; i < modifierNames.size(); ++i)
+			//{
+			//	/*if (i > 0)
+			//	{
+			//		s << " + ";
+			//	}*/
+			//	s << modifierNames[i];
+			//}
+			return modifierName;
 		};
 
 		if (modifier_ == Key::None && hotkey_ == Key::None)
 		{
 			textBox_->SetText(HotkeyNames[hotkey_]);
 		}
-		else if (modifier_ != Key::None && hotkey_ != Key::None && (hotkey_ != Key::ShiftKey && hotkey_ != Key::Menu && hotkey_ != Key::ControlKey))
+		/*else if (modifier_ != Key::None && hotkey_ != Key::None && (hotkey_ != Key::ShiftKey && hotkey_ != Key::Menu && hotkey_ != Key::ControlKey))
 		{
 			auto modifierText = ModifierToString(modifier_);
 			auto hotkeyText = HotkeyNames[hotkey_];
 
 			textBox_->SetText(modifierText + " + " + hotkeyText);
-		}
+		}*/
 		else if (hotkey_ != Key::None && (hotkey_ != Key::ShiftKey && hotkey_ != Key::Menu && hotkey_ != Key::ControlKey))
 		{
 			const auto hotkeyText = HotkeyNames[hotkey_];

@@ -194,23 +194,38 @@
     <ClInclude Include="icvar.h">
       <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
-    <ClInclude Include="cglobalvars.h">
-      <Filter>Header Files\cheat\sdk</Filter>
-    </ClInclude>
     <ClInclude Include="icliententitylist.h">
       <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
     <ClInclude Include="visuals.h">
       <Filter>Header Files\cheat</Filter>
     </ClInclude>
-    <ClInclude Include="c_csplayer.h">
-      <Filter>Header Files\cheat\sdk</Filter>
-    </ClInclude>
     <ClInclude Include="icliententity.h">
       <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
     <ClInclude Include="client.h">
       <Filter>Header Files\cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="iclientunknown.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="iclientrenderable.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="iclientnetworkable.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="cglobalvars.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="cbaseentity.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="ccsplayer.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="def.h">
+      <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

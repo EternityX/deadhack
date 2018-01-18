@@ -46,14 +46,22 @@ void MainForm::create_tabs() {
 void MainForm::visuals() {
 	// player esp groupbox.
 	Controls::Groupbox *player_esp_groupbox = new Controls::Groupbox( "Player ESP", 17, 6, 260, 334 );
+	Controls::Combobox *activation_type = new Controls::Combobox( "Activation Type", { "Always", "On-key", "Toggle" }, 3, player_esp_groupbox, &g_cvar.m_visuals.activation_type->iValue  );
+	Controls::Hotkey *activation_hotkey = new Controls::Hotkey( "Activation Key", player_esp_groupbox, &g_cvar.m_visuals.activation_key->iValue );
+	Controls::Checkbox *teammates_check = new Controls::Checkbox( "Teammates", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.teammates->bValue );
+	Controls::Checkbox *bbox_check = new Controls::Checkbox( "Bounding Box", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.bbox->bValue );
+	Controls::Checkbox *health_check = new Controls::Checkbox( "Health bar", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.healthbar->bValue );
+	Controls::Checkbox *name_check = new Controls::Checkbox( "Name", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.name->bValue );
+	Controls::Checkbox *flags_check = new Controls::Checkbox( "Flags", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.flags->bValue );
+	Controls::Checkbox *money_check = new Controls::Checkbox( "Money", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.money->bValue );
 
 	// other visuals groupbox.
 	Controls::Groupbox *other_esp_groupbox = new Controls::Groupbox( "Other ESP", player_esp_groupbox->GetRight() + 19, 6, 259, 150 );
-	Controls::Checkbox *watermark_check = new Controls::Checkbox( "Watermark", m_primary_color, other_esp_groupbox, &g_cvar.m_misc.watermark->bValue );
+	Controls::Checkbox *watermark_check = new Controls::Checkbox( "Watermark", m_primary_color, other_esp_groupbox, &g_cvar.m_visuals.watermark->bValue );
 
 	// effects groupbox.
 	Controls::Groupbox *effects_groupbox = new Controls::Groupbox( "Effects", player_esp_groupbox->GetRight() + 19, other_esp_groupbox->GetBottom() + 14, 259, 170 );
-	Controls::Slider *overridefov_slider = new Controls::Slider( "Camera FOV", m_primary_color, effects_groupbox, 0, 180, &g_cvar.m_misc.override_fov->iValue );
+	Controls::Slider *overridefov_slider = new Controls::Slider( "Camera FOV", m_primary_color, effects_groupbox, 0, 180, &g_cvar.m_visuals.override_fov->iValue );
 
 	m_pages.at( PAGE_VISUALS )->AddControl( effects_groupbox );
 	m_pages.at( PAGE_VISUALS )->AddControl( other_esp_groupbox );
