@@ -89,9 +89,9 @@ void Visuals::player( C_CSPlayer* entity ) {
 		return;
 
 	// esp dormancy fade.
-	if ( entity->IsDormant( ) && m_player_alpha[ m_cur_index ] > 0.f )
+	if ( entity->IsDormant() && m_player_alpha[ m_cur_index ] > 0.f )
 		m_player_alpha[ m_cur_index ] -= 1.f / 2.5f * g_csgo.m_global_vars->m_frametime;
-	else if ( m_player_alpha[ m_cur_index ] < 1.f )
+	else if ( m_player_alpha[ m_cur_index ] < 1.f && entity->IsDormant() )
 		m_player_alpha[ m_cur_index ] = 1.f;
 
 	Vec3_t abs_origin = entity->GetAbsOrigin( );
