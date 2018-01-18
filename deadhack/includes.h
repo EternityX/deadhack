@@ -88,7 +88,9 @@ using ulong_t = unsigned long;
 #include "netvars.h"
 #include "offsets.h"
 
+// structs.
 #include "cbaseentity.h"
+#include "cbasecombatweapon.h"
 #include "ccsplayer.h"
 
 #include "client.h"

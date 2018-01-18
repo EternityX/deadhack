@@ -52,6 +52,7 @@ void MainForm::visuals() {
 	Controls::Checkbox *bbox_check = new Controls::Checkbox( "Bounding Box", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.bbox->bValue );
 	Controls::Checkbox *health_check = new Controls::Checkbox( "Health bar", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.healthbar->bValue );
 	Controls::Checkbox *name_check = new Controls::Checkbox( "Name", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.name->bValue );
+	Controls::Checkbox *weapon_check = new Controls::Checkbox( "Weapon", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.weapon->bValue );
 	Controls::Checkbox *flags_check = new Controls::Checkbox( "Flags", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.flags->bValue );
 	Controls::Checkbox *money_check = new Controls::Checkbox( "Money", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.money->bValue );
 

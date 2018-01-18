@@ -20,5 +20,6 @@
 #include "cinput.h"
 #include "icvar.h"
 #include "cglobalvars.h"
+#include "chandle.h"
 
 #include "def.h"

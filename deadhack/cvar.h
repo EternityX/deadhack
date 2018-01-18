@@ -11,6 +11,7 @@ public:
 		config_manager::CVar::cvar_s *healthbar;
 		config_manager::CVar::cvar_s *name;
 		config_manager::CVar::cvar_s *flags;
+		config_manager::CVar::cvar_s *weapon;
 		config_manager::CVar::cvar_s *money;
 		config_manager::CVar::cvar_s *watermark;
 		config_manager::CVar::cvar_s *override_fov;

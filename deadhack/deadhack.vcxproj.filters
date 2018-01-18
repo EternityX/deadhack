@@ -227,5 +227,11 @@
     <ClInclude Include="def.h">
       <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
+    <ClInclude Include="cbasecombatweapon.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="chandle.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

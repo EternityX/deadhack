@@ -91,7 +91,7 @@ void Visuals::player( C_CSPlayer* entity ) {
 	// esp dormancy fade.
 	if ( entity->IsDormant() && m_player_alpha[ m_cur_index ] > 0.f )
 		m_player_alpha[ m_cur_index ] -= 1.f / 2.5f * g_csgo.m_global_vars->m_frametime;
-	else if ( m_player_alpha[ m_cur_index ] < 1.f && entity->IsDormant() )
+	else if ( m_player_alpha[ m_cur_index ] < 1.f && !entity->IsDormant() )
 		m_player_alpha[ m_cur_index ] = 1.f;
 
 	Vec3_t abs_origin = entity->GetAbsOrigin( );
@@ -112,18 +112,50 @@ void Visuals::player( C_CSPlayer* entity ) {
 	if( g_cvar.m_visuals.healthbar->bValue )
 		draw_healthbar( x, y, h, entity->get_health() );
 
+	if( g_cvar.m_visuals.weapon->bValue ) {
+		C_BaseCombatWeapon *weapon = entity->get_active_weapon();
+		if( weapon ) {
+			std::string weapon_name = weapon->GetClientClass()->m_pNetworkName;
+			if( !weapon_name.empty() ) {
+				if ( !std::strncmp( weapon_name.c_str(), "C", 1 ) )
+					weapon_name.erase( 0, 1 );
+				if ( !std::strncmp( weapon_name.c_str(), "Weapon", 6 ) )
+					weapon_name.erase( 0, 6 );
+
+				transform( weapon_name.begin(), weapon_name.end(), weapon_name.begin(), std::tolower );
+
+				g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], 
+											 Color::FromARGB( m_player_alpha[ m_cur_index ] * 220, 255, 255, 255 ), 
+											 Color::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
+											 x + w * 0.5f, y + h + 8, CENTERED_X | OUTLINED, weapon_name.c_str() );
+			}
+		}
+	}
+
 	if( g_cvar.m_visuals.name->bValue )
-		g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_VERDANA_BOLD_7PX ], Color::FromARGB( m_player_alpha[ m_cur_index ] * 220, 255, 255, 255 ), Color::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), x + w * 0.5f, y - 12, CENTERED_X | DROPSHADOW, player_info.m_szPlayerName );
+		g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_VERDANA_BOLD_7PX ], 
+									 Color::FromARGB( m_player_alpha[ m_cur_index ] * 220, 255, 255, 255 ), 
+									 Color::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
+									 x + w * 0.5f, y - 12, CENTERED_X | DROPSHADOW, player_info.m_szPlayerName );
 
 	if( g_cvar.m_visuals.money->bValue )
-		g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], Color::FromARGB( m_player_alpha[ m_cur_index ] * 200, 149, 184, 6 ), Color::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), x + w + 3, y + flag_count++ * 8, OUTLINED, "$%i", entity->get_account() );
+		g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], 
+									 Color::FromARGB( m_player_alpha[ m_cur_index ] * 200, 149, 184, 6 ), 
+									 Color::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
+									 x + w + 3, y + flag_count++ * 8, OUTLINED, "$%i", entity->get_account() );
 
 	if( g_cvar.m_visuals.flags->bValue ) {
 		if( entity->has_helmet() )
-			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], Color::FromARGB( m_player_alpha[ m_cur_index ] * 200, 255, 255, 255 ), Color::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), x + w + 3, y + flag_count++ * 8, OUTLINED, "H" );
+			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], 
+										 Color::FromARGB( m_player_alpha[ m_cur_index ] * 200, 255, 255, 255 ), 
+										 Color::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
+										 x + w + 3, y + flag_count++ * 8, OUTLINED, "H" );
 
 		if( entity->has_defuser() )
-			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], Color::FromARGB( m_player_alpha[ m_cur_index ] * 200, 255, 255, 255 ), Color::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), x + w + 3, y + flag_count++ * 8, OUTLINED, "K" );
+			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], 
+										 Color::FromARGB( m_player_alpha[ m_cur_index ] * 200, 255, 255, 255 ), 
+										 Color::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
+										 x + w + 3, y + flag_count++ * 8, OUTLINED, "K" );
 	}
 }
 

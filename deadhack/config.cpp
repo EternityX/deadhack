@@ -19,6 +19,7 @@ void Config::init() {
 	REGISTER_CVAR( g_cvar.m_visuals.healthbar, "healthbar", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
 	REGISTER_CVAR( g_cvar.m_visuals.name, "name", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
 	REGISTER_CVAR( g_cvar.m_visuals.flags, "flags", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.weapon, "weapon", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
 	REGISTER_CVAR( g_cvar.m_visuals.money, "money", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
 
 	REGISTER_CVAR( g_cvar.m_visuals.watermark, "watermark", config_manager::CVar::CVAR_TYPE_BOOL, "1" );

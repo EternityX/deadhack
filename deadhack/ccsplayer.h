@@ -2,6 +2,9 @@
 
 class C_CSPlayer : public C_BaseEntity {
 private:
+	template < class T > static T get_field_value( C_CSPlayer *player, int offset ) {
+		return *(T *)( (uint32_t)player + offset );
+	}
 
 public:
 	static C_CSPlayer* get_local() {
@@ -46,5 +49,9 @@ public:
 
 	int C_CSPlayer::get_account() {
 		return *(int *)( (ulong_t)this + g_offsets.m_iAccount );
+	}
+
+	C_BaseCombatWeapon *C_CSPlayer::get_active_weapon() {
+		return (C_BaseCombatWeapon *)g_csgo.m_entity_list->GetClientEntityFromHandle( get_field_value< CHandle< C_BaseCombatWeapon > >( this, g_offsets.m_hActiveWeapon ) );
 	}
 };

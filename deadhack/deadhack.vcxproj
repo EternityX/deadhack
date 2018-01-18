@@ -146,9 +146,11 @@
     <ClInclude Include="..\OSHGui\Drawing\Direct3D9\Direct3D9TextureTarget.hpp" />
     <ClInclude Include="..\OSHGui\Drawing\Direct3D9\Direct3D9ViewportTarget.hpp" />
     <ClInclude Include="angle.h" />
+    <ClInclude Include="cbasecombatweapon.h" />
     <ClInclude Include="cbaseentity.h" />
     <ClInclude Include="cfg_manager.h" />
     <ClInclude Include="cglobalvars.h" />
+    <ClInclude Include="chandle.h" />
     <ClInclude Include="cinput.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="clientdll.h" />

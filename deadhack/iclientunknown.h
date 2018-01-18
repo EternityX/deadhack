@@ -9,7 +9,6 @@ public:
 	virtual const CBaseHandle& GetRefEHandle( ) const = 0;
 };
 
-
 class ICollideable;
 class IClientNetworkable;
 class IClientRenderable;
