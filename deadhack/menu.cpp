@@ -17,6 +17,8 @@ void Menu::init() {
 }
 
 void MainForm::create_tabs() {
+	VM_PUMA_WHITE_START
+
 	m_tab_control = new OSHGui::TabControl();
 
 	// create pages.
@@ -35,34 +37,113 @@ void MainForm::create_tabs() {
 	m_tab_control->SetSize( 576, 380 );
 	m_tab_control->SetBackColor( OSHGui::Drawing::Color::FromARGB( 255, 32, 32, 38 ) );
 	m_tab_control->SetLocation( 6, -15 );
+	m_tab_control->SetButtonWidth( 116 );
 
 	// add all pages to tab control.
 	for( auto &item : m_pages )
 		m_tab_control->AddTabPage( item.get() );
 
 	this->AddControl( m_tab_control );
+
+	VM_PUMA_WHITE_END
 }
 
 void MainForm::visuals() {
 	// player esp groupbox.
+
+	OSHGui::TabControl *player_tab = new OSHGui::TabControl();
+	player_tab->SetSize( 241, 310 );
+	player_tab->SetBackColor( OSHGui::Drawing::Color::FromARGB( 255, 27, 27, 34 ) );
+	player_tab->SetFont( g_custom_renderer.m_instance->GetDefaultFont() );
+	player_tab->SetButtonWidth( 81 );
+
+	OSHGui::TabPage *generic_esp_page = new OSHGui::TabPage();
+	generic_esp_page->SetText( "General" );
+	generic_esp_page->SetBorder( false );
+
+	OSHGui::TabPage *player_chams = new OSHGui::TabPage();
+	player_chams->SetText( "Models" );
+	player_chams->SetBorder( false );
+
+	OSHGui::TabPage *extra_esp_page = new OSHGui::TabPage();
+	extra_esp_page->SetText( "Extra" );
+	extra_esp_page->SetBorder( false );
+
+	player_tab->AddTabPage( generic_esp_page );
+	player_tab->AddTabPage( player_chams );
+	player_tab->AddTabPage( extra_esp_page );
+
 	Controls::Groupbox *player_esp_groupbox = new Controls::Groupbox( "Player ESP", 17, 6, 260, 334 );
-	Controls::Combobox *activation_type = new Controls::Combobox( "Activation Type", { "Always", "On-key", "Toggle" }, 3, player_esp_groupbox, &g_cvar.m_visuals.activation_type->iValue  );
-	Controls::Hotkey *activation_hotkey = new Controls::Hotkey( "Activation Key", player_esp_groupbox, &g_cvar.m_visuals.activation_key->iValue );
-	Controls::Checkbox *teammates_check = new Controls::Checkbox( "Teammates", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.teammates->bValue );
-	Controls::Checkbox *bbox_check = new Controls::Checkbox( "Bounding Box", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.bbox->bValue );
-	Controls::Checkbox *health_check = new Controls::Checkbox( "Health bar", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.healthbar->bValue );
-	Controls::Checkbox *name_check = new Controls::Checkbox( "Name", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.name->bValue );
-	Controls::Checkbox *weapon_check = new Controls::Checkbox( "Weapon", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.weapon->bValue );
-	Controls::Checkbox *flags_check = new Controls::Checkbox( "Flags", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.flags->bValue );
-	Controls::Checkbox *money_check = new Controls::Checkbox( "Money", m_primary_color, player_esp_groupbox, &g_cvar.m_visuals.money->bValue );
+
+	player_esp_groupbox->AddControl( player_tab );
+
+	// generic esp page.
+	g_menu.m_control_x_pos = 19;
+	Controls::Combobox *activation_type = new Controls::Combobox( "Activation type", { "Always", "On-key", "Toggle" }, 3, generic_esp_page, &g_cvar.m_visuals.activation_type->iValue, player_esp_groupbox->GetWidth() - 15 );
+	Controls::Hotkey *activation_hotkey = new Controls::Hotkey( "Activation key", generic_esp_page, &g_cvar.m_visuals.activation_key->iValue, player_esp_groupbox->GetWidth() - 15 );
+	Controls::Checkbox *teammates_check = new Controls::Checkbox( "Teammates", m_primary_color, generic_esp_page, &g_cvar.m_visuals.teammates->bValue );
+	Controls::Checkbox *bbox_check = new Controls::Checkbox( "Bounding box", m_primary_color, generic_esp_page, &g_cvar.m_visuals.bbox->bValue );
+	Controls::Checkbox *health_check = new Controls::Checkbox( "Health bar", m_primary_color, generic_esp_page, &g_cvar.m_visuals.healthbar->bValue );
+	Controls::Checkbox *name_check = new Controls::Checkbox( "Name", m_primary_color, generic_esp_page, &g_cvar.m_visuals.name->bValue );
+	Controls::Checkbox *weapon_check = new Controls::Checkbox( "Weapon", m_primary_color, generic_esp_page, &g_cvar.m_visuals.weapon->bValue );
+	Controls::Combobox *ammo_combo = new Controls::Combobox( "Ammo", { "Off", "Bar", "Text" }, 3, generic_esp_page, &g_cvar.m_visuals.ammo->iValue, player_esp_groupbox->GetWidth() - 15 );
+	Controls::Checkbox *flags_check = new Controls::Checkbox( "Flags", m_primary_color, generic_esp_page, &g_cvar.m_visuals.flags->bValue );
+	Controls::Checkbox *money_check = new Controls::Checkbox( "Money", m_primary_color, generic_esp_page, &g_cvar.m_visuals.money->bValue );
+	g_menu.m_control_x_pos = 27;
+
+	// model page.
+	g_menu.m_control_x_pos = 19;
+	g_menu.m_control_y_pos = 10;
+	Controls::Combobox *cham_type = new Controls::Combobox( "Type", { "Material", "Flat", "Gold" }, 3, player_chams, &g_cvar.m_visuals.cham_type->iValue, player_esp_groupbox->GetWidth() - 15 );
+	Controls::Checkbox *player_chams_check = new Controls::Checkbox( "Player", m_primary_color, player_chams, &g_cvar.m_visuals.player_chams->bValue );
+	Controls::Checkbox *ignorez_check = new Controls::Checkbox( "Two pass", m_primary_color, player_chams, &g_cvar.m_visuals.player_chams_ignorez->bValue );
+	Controls::Checkbox *outline_check = new Controls::Checkbox( "Outline", m_primary_color, player_chams, &g_cvar.m_visuals.cham_outline->bValue );
+	g_menu.m_control_x_pos = 27;
 
 	// other visuals groupbox.
-	Controls::Groupbox *other_esp_groupbox = new Controls::Groupbox( "Other ESP", player_esp_groupbox->GetRight() + 19, 6, 259, 150 );
-	Controls::Checkbox *watermark_check = new Controls::Checkbox( "Watermark", m_primary_color, other_esp_groupbox, &g_cvar.m_visuals.watermark->bValue );
+	Controls::Groupbox *other_esp_groupbox = new Controls::Groupbox( "World ESP", player_esp_groupbox->GetRight() + 19, 6, 259, 150 );
+	Controls::Checkbox *dropped_weapon_check = new Controls::Checkbox( "Dropped weapons", m_primary_color, other_esp_groupbox, &g_cvar.m_visuals.dropped_weapons->bValue );
+	Controls::Checkbox *objective_check = new Controls::Checkbox( "Objectives", m_primary_color, other_esp_groupbox, &g_cvar.m_visuals.objectives->bValue );
 
 	// effects groupbox.
+	OSHGui::TabControl *effects_tab = new OSHGui::TabControl();
+	effects_tab->SetSize( 241, 100 );
+	effects_tab->SetBackColor( OSHGui::Drawing::Color::FromARGB( 255, 27, 27, 34 ) );
+	effects_tab->SetFont( g_custom_renderer.m_instance->GetDefaultFont() );
+	effects_tab->SetButtonWidth( 121 );
+
+	OSHGui::TabPage *general_effects_page = new OSHGui::TabPage();
+	general_effects_page->SetText( "General" );
+	general_effects_page->SetBorder( false );
+
+	OSHGui::TabPage *removals_page = new OSHGui::TabPage();
+	removals_page->SetText( "Removals" );
+	removals_page->SetBorder( false );
+
+	effects_tab->AddTabPage( general_effects_page );
+	effects_tab->AddTabPage( removals_page );
+
 	Controls::Groupbox *effects_groupbox = new Controls::Groupbox( "Effects", player_esp_groupbox->GetRight() + 19, other_esp_groupbox->GetBottom() + 14, 259, 170 );
-	Controls::Slider *overridefov_slider = new Controls::Slider( "Camera FOV", m_primary_color, effects_groupbox, 0, 180, &g_cvar.m_visuals.override_fov->iValue );
+
+	effects_groupbox->AddControl( effects_tab );
+
+	// general effects page.
+	g_menu.m_control_x_pos = 19;
+	Controls::Slider *overridefov_slider = new Controls::Slider( "Camera FOV", m_primary_color, general_effects_page, 0, 180, &g_cvar.m_visuals.override_fov->iValue );
+	Controls::Slider *weaponfov_slider = new Controls::Slider( "Weapon FOV", m_primary_color, general_effects_page, 0, 180, &g_cvar.m_visuals.weapon_fov->iValue );
+	Controls::Checkbox *fullbright_check = new Controls::Checkbox( "Fullbright", m_primary_color, general_effects_page, &g_cvar.m_visuals.fullbright->bValue );
+	Controls::Checkbox *nightmode_check = new Controls::Checkbox( "Nightmode", m_primary_color, general_effects_page, &g_cvar.m_visuals.nightmode->bValue );
+	//Controls::Checkbox *drawgray_check = new Controls::Checkbox( "Draw gray", m_primary_color, general_effects_page, &g_cvar.m_visuals.draw_gray->bValue );
+	//Controls::Checkbox *lowres_check = new Controls::Checkbox( "Low resolution textures", m_primary_color, general_effects_page, &g_cvar.m_visuals.low_res->bValue );
+	g_menu.m_control_x_pos = 27;
+
+	// removals page.
+	g_menu.m_control_x_pos = 19;
+	g_menu.m_control_y_pos = 10;
+	Controls::Checkbox *remove_fog_check = new Controls::Checkbox( "Remove fog", m_primary_color, removals_page, &g_cvar.m_visuals.remove_fog->bValue );
+	Controls::Checkbox *remove_scopedoverlay_check = new Controls::Checkbox( "Remove scope overlay", m_primary_color, removals_page, &g_cvar.m_visuals.remove_scope->bValue );
+	Controls::Checkbox *remove_scopedirt_check = new Controls::Checkbox( "Remove scope dirt", m_primary_color, removals_page, &g_cvar.m_visuals.remove_scopedirt->bValue );
+	g_menu.m_control_x_pos = 27;
 
 	m_pages.at( PAGE_VISUALS )->AddControl( effects_groupbox );
 	m_pages.at( PAGE_VISUALS )->AddControl( other_esp_groupbox );

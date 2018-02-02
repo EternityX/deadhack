@@ -61,11 +61,13 @@ using ulong_t = unsigned long;
 #include "pe.h"
 #include "sigscan.h"
 #include "vmthook.h"
-#include "math.h"
 #include "vec2.h"
 #include "vec3.h"
 #include "angle.h"
+#include "matrix.h"
+#include "math.h"
 #include "cvar.h"
+#include "color.h"
 
 // direct3d9.
 #include <d3d9.h>
@@ -88,6 +90,8 @@ using ulong_t = unsigned long;
 #include "netvars.h"
 #include "offsets.h"
 
+#include "csgo_util.h"
+
 // structs.
 #include "cbaseentity.h"
 #include "cbasecombatweapon.h"
@@ -98,3 +102,5 @@ using ulong_t = unsigned long;
 #include "hooks.h"
 
 #include "visuals.h"
+#include "legitbot.h"
+#include "misc.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-using Color = OSHGui::Drawing::Color;
+using OSHColor = OSHGui::Drawing::Color;
 
 enum : uint32_t {
     FONT_VERDANA_7PX = 0,
@@ -21,10 +21,10 @@ enum : uint32_t {
 class CustomRenderer {
 private:
     std::unique_ptr< OSHGui::Drawing::Direct3D9Renderer > m_renderer;
-	OSHGui::Drawing::GeometryBufferPtr                    m_geometry;
-	OSHGui::Drawing::RenderTargetPtr                      m_render_target;
 	
 public:
+	OSHGui::Drawing::GeometryBufferPtr                    m_geometry;
+	OSHGui::Drawing::RenderTargetPtr                      m_render_target;
 	std::vector< OSHGui::Drawing::FontPtr > m_fonts;
 	OSHGui::Application*                    m_instance;
 
@@ -34,12 +34,15 @@ public:
 
 	void start_drawing();
 	void end_drawing() const;
-	
-	void rect( const Color &color, float x, float y, float width, float height ) const;
-	void filled_rect( const Color &color, float x, float y, float width, float height ) const;
+	void rect( const OSHColor &color, int x, int y, int width, int height ) const;
+	void filled_rect( const OSHColor &color, int x, int y, int width, int height ) const;
+	void line( const OSHColor &color, int x, int y, int end_x, int end_y ) const;
 
-	void ansi_text( OSHGui::Drawing::FontPtr font, const Color &color, const Color &shadow_color, float x, float y, int flags, const std::string str, ... ) const;
-	void unicode_text( OSHGui::Drawing::FontPtr font, const Color &color, const Color &shadow_color, float x, float y, int flags, const std::wstring wstr, ... ) const;
+	/*void rect( const OSHColor &color, float x, float y, float width, float height ) const;
+	void filled_rect( const OSHColor &color, float x, float y, float width, float height ) const;*/
+
+	void ansi_text( OSHGui::Drawing::FontPtr font, const OSHColor &color, const OSHColor &shadow_color, float x, float y, int flags, const std::string str, ... ) const;
+	void unicode_text( OSHGui::Drawing::FontPtr font, const OSHColor &color, const OSHColor &shadow_color, float x, float y, int flags, const std::wstring wstr, ... ) const;
 };
 
 extern CustomRenderer g_custom_renderer;

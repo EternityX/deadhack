@@ -16,7 +16,8 @@ namespace OSHGui
 	//Constructor
 	//---------------------------------------------------------------------------
 	TabPage::TabPage()
-		: button_(nullptr)
+		: button_( nullptr ),
+		border_( true )
 	{
 		type_ = ControlType::TabPage;
 	
@@ -64,6 +65,10 @@ namespace OSHGui
 
 		Invalidate();
 	}
+	void TabPage::SetBorder(bool border)
+	{
+		border_ = border;
+	}
 	//---------------------------------------------------------------------------
 	const Misc::AnsiString& TabPage::GetText() const
 	{
@@ -102,7 +107,11 @@ namespace OSHGui
 
 		if (!parent_->GetBackColor().IsTranslucent())
 		{
-			g.FillRectangle( parent_->GetBackColor() + Color::FromARGB( 0, 32, 32, 42 ), PointF( 0, 0 ), GetSize() );
+			if ( border_ )
+				g.FillRectangle( parent_->GetBackColor() + Color::FromARGB( 0, 32, 32, 42 ), PointF( 0, 0 ), GetSize() );
+			else
+				g.FillRectangle( parent_->GetBackColor() + Color::FromARGB( 0, 32, 32, 42 ), PointF( 0, 0 ), SizeF( GetSize().Width, 1 ) );
+
 			g.FillRectangle( parent_->GetBackColor(), PointF( 1, 1 ), GetSize() - SizeF( 2, 2 ) );
 		}
 	}

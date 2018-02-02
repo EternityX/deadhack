@@ -1,5 +1,33 @@
 #pragma once
 
+#define TEXTURE_GROUP_LIGHTMAP						( "Lightmaps" )
+#define TEXTURE_GROUP_WORLD							( "World textures" )
+#define TEXTURE_GROUP_MODEL							( "Model textures" )
+#define TEXTURE_GROUP_VGUI							( "VGUI textures" )
+#define TEXTURE_GROUP_PARTICLE						( "Particle textures" )
+#define TEXTURE_GROUP_DECAL							( "Decal textures" )
+#define TEXTURE_GROUP_SKYBOX						( "SkyBox textures" )
+#define TEXTURE_GROUP_CLIENT_EFFECTS				( "ClientEffect textures" )
+#define TEXTURE_GROUP_OTHER							( "Other textures" )
+#define TEXTURE_GROUP_PRECACHED						( "Precached" )
+#define TEXTURE_GROUP_CUBE_MAP						( "CubeMap textures" )
+#define TEXTURE_GROUP_RENDER_TARGET					( "RenderTargets" )
+#define TEXTURE_GROUP_UNACCOUNTED					( "Unaccounted textures" )
+#define TEXTURE_GROUP_STATIC_INDEX_BUFFER			( "Static Indices" )
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_DISP		( "Displacement Verts" )
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_COLOR	( "Lighting Verts" )
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_WORLD	( "World Verts" )
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_MODELS	( "Model Verts" )
+#define TEXTURE_GROUP_STATIC_VERTEX_BUFFER_OTHER	( "Other Verts" )
+#define TEXTURE_GROUP_DYNAMIC_INDEX_BUFFER			( "Dynamic Indices" )
+#define TEXTURE_GROUP_DYNAMIC_VERTEX_BUFFER			( "Dynamic Verts" )
+#define TEXTURE_GROUP_DEPTH_BUFFER					( "DepthBuffer" )
+#define TEXTURE_GROUP_VIEW_MODEL					( "ViewModel" )
+#define TEXTURE_GROUP_PIXEL_SHADERS					( "Pixel Shaders" )
+#define TEXTURE_GROUP_VERTEX_SHADERS				( "Vertex Shaders" )
+#define TEXTURE_GROUP_RENDER_TARGET_SURFACE			( "RenderTarget Surfaces" )
+#define TEXTURE_GROUP_MORPH_TARGETS					( "Morph Targets" )
+
 enum WeaponType {
 	WEAPON_TYPE_INVALID = -1,
 	WEAPON_TYPE_PISTOLS,
@@ -332,4 +360,153 @@ enum ClassID {
 	SmokeTrail,
 	SporeExplosion,
 	SporeTrail
+};
+
+enum OverrideType {
+	OVERRIDE_NORMAL = 0,
+	OVERRIDE_BUILD_SHADOWS = 1,
+	OVERRIDE_DEPTH_WRITE = 2,
+	OVERRIDE_WHATEVER = 3
+};
+
+enum MaterialFlags_t {
+	MATERIAL_VAR_DEBUG = 1,
+	MATERIAL_VAR_NO_DEBUG_OVERRIDE = 2,
+	MATERIAL_VAR_NO_DRAW = 4,
+	MATERIAL_VAR_USE_IN_FILLRATE_MODE = 8,
+	MATERIAL_VAR_VERTEXCOLOR = 16,
+	MATERIAL_VAR_VERTEXALPHA = 32,
+	MATERIAL_VAR_SELFILLUM = 64,
+	MATERIAL_VAR_ADDITIVE = 128,
+	MATERIAL_VAR_ALPHATEST = 256,
+	// MATERIAL_VAR_UNUSED = 512,
+	MATERIAL_VAR_ZNEARER = 1024,
+	MATERIAL_VAR_MODEL = 2048,
+	MATERIAL_VAR_FLAT = 4096,
+	MATERIAL_VAR_NOCULL = 8192,
+	MATERIAL_VAR_NOFOG = 16384,
+	MATERIAL_VAR_IGNOREZ = 32768,
+	MATERIAL_VAR_DECAL = 65536,
+	MATERIAL_VAR_ENVMAPSPHERE = 131072, // OBSOLETE
+	// MATERIAL_VAR_UNUSED = 262144,
+	MATERIAL_VAR_ENVMAPCAMERASPACE = 524288, // OBSOLETE
+	MATERIAL_VAR_BASEALPHAENVMAPMASK = 1048576,
+	MATERIAL_VAR_TRANSLUCENT = 2097152,
+	MATERIAL_VAR_NORMALMAPALPHAENVMAPMASK = 4194304,
+	MATERIAL_VAR_NEEDS_SOFTWARE_SKINNING = 8388608, // OBSOLETE
+	MATERIAL_VAR_OPAQUETEXTURE = 16777216,
+	MATERIAL_VAR_ENVMAPMODE = 33554432, // OBSOLETE
+	MATERIAL_VAR_SUPPRESS_DECALS = 67108864,
+	MATERIAL_VAR_HALFLAMBERT = 134217728,
+	MATERIAL_VAR_WIREFRAME = 268435456,
+	MATERIAL_VAR_ALLOWALPHATOCOVERAGE = 536870912,
+	MATERIAL_VAR_ALPHA_MODIFIED_BY_PROXY = 1073741824,
+	// MATERIAL_VAR_VERTEXFOG = -2147483648,
+};
+
+struct ModelRenderInfo_t {
+	Vec3_t               m_origin;
+	Vec3_t               m_angles;
+	void                 *m_renderable;
+	const void           *m_model;
+	const matrix3x4_t    *m_model_to_world;
+	const matrix3x4_t    *m_lighting_offset;
+	const Vec3_t         *m_lighting_origin;
+	int                  m_flags;
+	int                  m_entity_index;
+	int                  m_skin;
+	int                  m_body;
+	int                  m_hitboxset;
+	unsigned short       m_instance;
+};
+
+class CFlashLightEffect {
+public:
+	bool m_bIsOn; //0x0000 
+	char pad_0x0001[0x3]; //0x0001
+	int m_nEntIndex; //0x0004 
+	WORD m_FlashLightHandle; //0x0008 
+	char pad_0x000A[0x2]; //0x000A
+	float m_flMuzzleFlashBrightness; //0x000C 
+	float m_flFov; //0x0010 
+	float m_flFarZ; //0x0014 
+	float m_flLinearAtten; //0x0018 
+	bool m_bCastsShadows; //0x001C 
+	char pad_0x001D[0x3]; //0x001D
+	float m_flCurrentPullBackDist; //0x0020 
+	DWORD m_MuzzleFlashTexture; //0x0024 
+	DWORD m_FlashLightTexture; //0x0028 
+	char m_szTextureName[64]; //0x1559888 
+}; //Size=0x006C
+
+class KeyValues {
+public:
+	PAD( 32 )
+};
+
+class AnimationLayer {
+public:
+	PAD( 20 )
+	uint32_t    m_nOrder;
+	uint32_t    m_nSequence;
+	float       m_flPrevCycle;
+	float       m_flWeight;
+	float       m_flWeightDeltaRate;
+	float       m_flPlaybackRate;
+	float       m_flCycle;
+	void        *m_pOwner;
+	char        pad_0038[ 4 ];
+};
+
+struct MaterialVideoMode_t  {
+	int    m_Width;
+	int    m_Height;
+	int    m_Format;
+	int    m_RefreshRate;
+};
+
+struct MaterialSystem_Config_t  {
+	MaterialVideoMode_t    m_VideoMode;
+	float                  m_fMonitorGamma;
+	float                  m_fGammaTVRangeMin;
+	float                  m_fGammaTVRangeMax;
+	float                  m_fGammaTVExponent;
+	bool                   m_bGammaTVEnabled;
+	bool                   m_bTripleBuffered;
+	int                    m_nAASamples;
+	int                    m_nForceAnisotropicLevel;
+	int                    m_nSkipMipLevels;
+	int                    m_nDxSupportLevel;
+	int                    m_nFlags;
+	bool                   m_bEditMode;
+	char                   m_nProxiesTestMode;
+	bool                   m_bCompressedTextures;
+	bool                   m_bFilterLightmaps;
+	bool                   m_bFilterTextures;
+	bool                   m_bReverseDepth;
+	bool                   m_bBufferPrimitives;
+	bool                   m_bDrawFlat;
+	bool                   m_bMeasureFillRate;
+	bool                   m_bVisualizeFillRate;
+	bool                   m_bNoTransparency;
+	bool                   m_bSoftwareLighting;
+	bool                   m_bAllowCheats;
+	char                   m_nShowMipLevels;
+	bool                   m_bShowLowResImage;
+	bool                   m_bShowNormalMap;
+	bool                   m_bMipMapTextures;
+	char                   m_nFullbright;
+	bool                   m_bFastNoBump;
+	bool                   m_bSuppressRendering;
+	bool                   m_bDrawGray;
+	bool                   m_bShowSpecular;
+	bool                   m_bShowDiffuse;
+	int                    m_nWindowedSizeLimitWidth;
+	int                    m_nWindowedSizeLimitHeight;
+	int                    m_nAAQuality;
+	bool                   m_bShadowDepthTexture;
+	bool                   m_bMotionBlur;
+	bool                   m_bSupportFlashlight;
+	bool                   m_bPaintEnabled;
+	PAD( 12 )
 };

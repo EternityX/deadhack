@@ -19,6 +19,9 @@ namespace OSHGui
 	//static attributes
 	//---------------------------------------------------------------------------
 	const Drawing::SizeI TabControl::DefaultSize( 500, 500 );
+
+	int button_width;
+
 	//---------------------------------------------------------------------------
 	//Constructor
 	//---------------------------------------------------------------------------
@@ -149,6 +152,12 @@ namespace OSHGui
 		return selected_->Index;
 	}
 	//---------------------------------------------------------------------------
+	void TabControl::SetButtonWidth( int width )
+	{
+		button_width = width;
+		buttonWidth_ = width;
+	}
+	//---------------------------------------------------------------------------
 	void TabControl::SetSelectedTabPage( TabPage *tabPage )
 	{
 		for( auto &binding : bindings_ )
@@ -198,7 +207,7 @@ namespace OSHGui
 
 		auto button = new TabControlButton( *binding );
 		button->SetLocation( Drawing::PointI( 0, 0 ) );
-		button->SetSize( Drawing::SizeF( 116, 25 ) );
+		button->SetSize( Drawing::SizeF( buttonWidth_, 25 ) );
 		button->SetForeColor( GetForeColor() );
 		button->SetBackColor( GetBackColor() );
 
@@ -384,7 +393,7 @@ namespace OSHGui
 		active_ = false;
 
 		label_->SetText( binding.TabPage->GetText() );
-		label_->SetLocation( Drawing::PointI( 116 / 2.f - label_->GetSize().Width / 2.f, 25 / 2.f - label_->GetSize().Height / 2.f ) );
+		label_->SetLocation( Drawing::PointI( button_width / 2.f - label_->GetSize().Width / 2.f, 25 / 2.f - label_->GetSize().Height / 2.f ) );
 		label_->SetBackColor( Drawing::Color::Empty() );
 
 		//size_ = label_->GetSize().InflateEx(DefaultLabelOffset.Left * 2, DefaultLabelOffset.Top * 2);

@@ -7,6 +7,8 @@
 #define REGISTER_CVAR( r, n, t, v ) r = cfg_manager.CVar::Add( n, t, v );
 
 void Config::init() {
+	VM_PUMA_WHITE_START
+
 	if( !cfg_manager.is_ready() )
 		return;
 
@@ -20,12 +22,29 @@ void Config::init() {
 	REGISTER_CVAR( g_cvar.m_visuals.name, "name", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
 	REGISTER_CVAR( g_cvar.m_visuals.flags, "flags", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
 	REGISTER_CVAR( g_cvar.m_visuals.weapon, "weapon", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.ammo, "ammo", config_manager::CVar::CVAR_TYPE_INT, "0" );
 	REGISTER_CVAR( g_cvar.m_visuals.money, "money", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
 
-	REGISTER_CVAR( g_cvar.m_visuals.watermark, "watermark", config_manager::CVar::CVAR_TYPE_BOOL, "1" );
+	REGISTER_CVAR( g_cvar.m_visuals.player_chams, "player_chams", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.player_chams_ignorez, "player_chams_ignorez", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.cham_type, "cham_type", config_manager::CVar::CVAR_TYPE_INT, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.cham_outline, "cham_outline", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+
+	REGISTER_CVAR( g_cvar.m_visuals.dropped_weapons, "dropped_weapons", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.objectives, "objectives", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+
 	REGISTER_CVAR( g_cvar.m_visuals.override_fov, "override_fov", config_manager::CVar::CVAR_TYPE_INT, "90" );
+	REGISTER_CVAR( g_cvar.m_visuals.weapon_fov, "weapon_fov", config_manager::CVar::CVAR_TYPE_INT, "68" ); // this can actually override the weapon fov that the player has set.
+	REGISTER_CVAR( g_cvar.m_visuals.fullbright, "fullbright", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.nightmode, "nightmode", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+
+	REGISTER_CVAR( g_cvar.m_visuals.remove_fog, "remove_fog", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.remove_scope, "remove_scopeoverlay", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
+	REGISTER_CVAR( g_cvar.m_visuals.remove_scopedirt, "remove_scopedirt", config_manager::CVar::CVAR_TYPE_BOOL, "0" );
 
 	load( "settings" );
+
+	VM_PUMA_WHITE_END
 }
 
 std::vector< std::string > Config::get_config_files() {

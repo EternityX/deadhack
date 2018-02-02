@@ -82,6 +82,7 @@ namespace OSHGui
 		 * \return index
 		 */
 		int GetSelectedIndex() const;
+		void SetButtonWidth( int width );
 		/**
 		 * Legt die derzeit ausgewählte Registerkarte fest.
 		 *
@@ -129,6 +130,8 @@ namespace OSHGui
 		virtual void DrawSelf(Drawing::RenderContext &context) override;
 
 	private:
+		int buttonWidth_;
+
 		static const Drawing::SizeI DefaultSize;
 
 		void CalculateButtonLocationAndCount();

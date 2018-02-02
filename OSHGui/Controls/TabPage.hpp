@@ -48,6 +48,7 @@ namespace OSHGui
 		 * \param text
 		 */
 		void SetText(const Misc::AnsiString &text);
+		void SetBorder( bool border );
 		/**
 		 * Ruft den Text ab.
 		 *
@@ -83,6 +84,7 @@ namespace OSHGui
 
 		Panel *containerPanel_;
 		TabControl::TabControlButton *button_;
+		bool border_;
 	};
 }
 

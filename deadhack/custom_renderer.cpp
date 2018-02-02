@@ -52,19 +52,25 @@ void CustomRenderer::end_drawing() const {
 	get_renderer().EndRendering();
 }
 
-void CustomRenderer::rect( const Color &color, float x, float y, float width, float height ) const {
+void CustomRenderer::rect( const OSHColor &color, int x, int y, int width, int height ) const {
 	OSHGui::Drawing::Graphics g( *m_geometry );
 
-	g.DrawRectangle( color, OSHGui::Drawing::PointF( x, y ), OSHGui::Drawing::SizeF( width, height ) );
+	g.DrawRectangle( color, OSHGui::Drawing::PointI( x, y ), OSHGui::Drawing::SizeI( width, height ) );
 }
 
-void CustomRenderer::filled_rect( const Color &color, float x, float y, float width, float height ) const {
+void CustomRenderer::filled_rect( const OSHColor &color, int x, int y, int width, int height ) const {
 	OSHGui::Drawing::Graphics g( *m_geometry );
 
-	g.FillRectangle( color, OSHGui::Drawing::PointF( x, y ), OSHGui::Drawing::SizeF( width, height ) );
+	g.FillRectangle( color, OSHGui::Drawing::PointI( x, y ), OSHGui::Drawing::SizeI( width, height ) );
 }
 
-void CustomRenderer::ansi_text( OSHGui::Drawing::FontPtr font, const Color &color, const Color &shadow_color, float x, float y, int flags, const std::string str, ... ) const {
+void CustomRenderer::line( const OSHColor &color, int x, int y, int end_x, int end_y ) const {
+	OSHGui::Drawing::Graphics g( *m_geometry );
+
+	g.DrawLine( color, OSHGui::Drawing::PointI( x, y ), OSHGui::Drawing::PointI( end_x, end_y ) );
+}
+
+void CustomRenderer::ansi_text( OSHGui::Drawing::FontPtr font, const OSHColor &color, const OSHColor &shadow_color, float x, float y, int flags, const std::string str, ... ) const {
 	// OSHGui::Drawing::FontPtr font_to_use;
     va_list     va;
     int         str_len;
@@ -116,7 +122,7 @@ void CustomRenderer::ansi_text( OSHGui::Drawing::FontPtr font, const Color &colo
     g.DrawString( buf, font, color, x, y );
 }
 
-void CustomRenderer::unicode_text( OSHGui::Drawing::FontPtr font, const Color &color, const Color &shadow_color, float x, float y, int flags, const std::wstring wstr, ... ) const {
+void CustomRenderer::unicode_text( OSHGui::Drawing::FontPtr font, const OSHColor &color, const OSHColor &shadow_color, float x, float y, int flags, const std::wstring wstr, ... ) const {
     va_list      va;
     int          str_len;
     std::wstring buf;

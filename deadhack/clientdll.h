@@ -11,11 +11,11 @@ typedef struct player_info_s {
 	int64_t          __pad0;
 	int              xuid_low;
 	int              xuid_high;
-	char             m_szPlayerName[ 128 ];
+	char             m_szPlayerName[ 256 ];
 	int              m_nUserID;
 	char             m_szSteamID[ 33 ];
 	unsigned int     m_nSteam3ID;
-	char             m_szFriendsName[ 128 ];
+	char             m_szFriendsName[ 256 ];
 	bool             m_bIsFakePlayer;
 	bool             m_bIsHLTV;
 	unsigned int     m_dwCustomFiles[ 4 ];

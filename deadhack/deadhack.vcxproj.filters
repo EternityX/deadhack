@@ -84,6 +84,9 @@
     <ClCompile Include="client.cpp">
       <Filter>Source Files\cheat</Filter>
     </ClCompile>
+    <ClCompile Include="legitbot.cpp">
+      <Filter>Source Files\cheat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes.h">
@@ -231,6 +234,42 @@
       <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
     <ClInclude Include="chandle.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="csgo_util.h">
+      <Filter>Header Files\cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="color.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="ivmodelinfo.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix.h">
+      <Filter>Header Files\other\math</Filter>
+    </ClInclude>
+    <ClInclude Include="imaterialsystem.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="imaterial.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="ivrenderview.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="ivmodelrender.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="isurface.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="ivdebugoverlay.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="legitbot.h">
+      <Filter>Header Files\cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="ipanel.h">
       <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
   </ItemGroup>

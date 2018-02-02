@@ -45,6 +45,9 @@ static ulong_t __stdcall cheat_init( void *arg ) {
         return 0;
     }
 
+	CSGO_Util::push_notification( Color( 180, 255, 0, 255 ), "Initialization complete\n" );
+	CSGO_Util::push_notification( Color( 255, 255, 255, 255 ), "DEADCELL Beta 0.1.3" );
+
     return 1;
 }
 
@@ -61,11 +64,13 @@ static ulong_t __stdcall cheat_free( void *arg ) {
 	ConVar *cl_mouseenable = g_csgo.m_convar->FindVar( "cl_mouseenable" );
 	cl_mouseenable->SetValue( 1 );
 
+#ifdef CHEAT_DBG
 	if( !Hooks::unload() )
 		DBG_ERROR( "Hooks::unload failed" );
 
 	if( !g_input.remove() )
 		 DBG_ERROR( "g_input.remove failed" );
+#endif
 
 	// pop outta this nigga.
 	FreeLibraryAndExitThread( (HMODULE)arg, 0 );
