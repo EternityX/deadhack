@@ -49,13 +49,15 @@ void __fastcall Hooks::PaintTraverse( uintptr_t ecx, uintptr_t edx, int vguiPane
 
 void __fastcall Hooks::LevelInitPostEntity( CHLClient *ecx, uintptr_t edx ) {
 	g_CHLClient_vmt.get_old_method< LevelInitPostEntity_t >( 6 )( ecx );
-	g_client.m_local = C_CSPlayer::get_local();
+
+	g_client.m_local  = C_CSPlayer::get_local();
 	g_client.c4_timer = g_csgo.m_convar->FindVar( "mp_c4timer" );
 }
 
 void __fastcall Hooks::LevelShutdown( CHLClient *ecx, uintptr_t edx ) {
 	g_CHLClient_vmt.get_old_method< LevelShutdown_t >( 7 )( ecx );
-	g_client.m_local = nullptr;
+
+	g_client.m_local      = nullptr;
 	g_visuals.m_nightmode = false;
 }
 
@@ -104,7 +106,9 @@ bool __fastcall Hooks::OverrideConfig( IMaterialSystem *this0, void *, MaterialS
 
 void __fastcall Hooks::SceneEnd( uintptr_t ecx, uintptr_t edx ) {
 	g_RenderView_vmt.get_old_method< SceneEnd_t >( 9 )( ecx );
+
 	g_visuals.player_chams();
+
 	g_csgo.m_model_render->SetForcedMaterialOverride( nullptr );
 }
 

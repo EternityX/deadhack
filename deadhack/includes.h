@@ -97,6 +97,8 @@ using ulong_t = unsigned long;
 #include "cbasecombatweapon.h"
 #include "ccsplayer.h"
 
+#include "lagcomp.h"
+
 #include "client.h"
 
 #include "hooks.h"

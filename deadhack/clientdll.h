@@ -2,7 +2,7 @@
 
 class CHLClient {
 public:
-	ClientClass *GetAllClasses() {
+	__forceinline ClientClass *GetAllClasses() {
 		return Utils::get_method< ClientClass *(__thiscall *)( decltype( this ) )>( this, 8 )( this );
 	}
 };
@@ -24,15 +24,15 @@ typedef struct player_info_s {
 
 class IEngineClient {
 public:
-	bool GetPlayerInfo( int nClientIndex, player_info_t *pinfo ) {
+	__forceinline bool GetPlayerInfo( int nClientIndex, player_info_t *pinfo ) {
 		return Utils::get_method< bool(__thiscall *)( decltype( this ), int, player_info_t * )>( this, 8 )( this, nClientIndex, pinfo );
 	}
 
-	int GetLocalPlayer() {
+	__forceinline int GetLocalPlayer() {
 		return Utils::get_method< int(__thiscall *)( decltype( this ) )>( this, 12 )( this );
 	}
 
-	const D3DMATRIX &world_to_screen_matrix() {
+	__forceinline const D3DMATRIX &world_to_screen_matrix() {
 		ulong_t function_ptr    = ( *(ulong_t **)this )[ 37 ];
 		ulong_t render_ptr      = *(ulong_t *)( function_ptr + 1 );
 		ulong_t view_matrix     = *(ulong_t *)( render_ptr + 0xDC ) + 0x3DC;

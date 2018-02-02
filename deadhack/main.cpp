@@ -1,16 +1,17 @@
 #include "includes.h"
 
 // classes.
-CSGO             g_csgo{};
-Input	         g_input{};
-CustomRenderer   g_custom_renderer{};
-NetVars          g_netvars{};
-CVar             g_cvar{};
-Menu             g_menu{};
-Config           g_config{};
-Offsets          g_offsets{};
-Client           g_client{};
-Visuals          g_visuals{};
+CSGO            g_csgo{};
+Input	        g_input{};
+CustomRenderer  g_custom_renderer{};
+NetVars         g_netvars{};
+CVar            g_cvar{};
+Menu            g_menu{};
+Config          g_config{};
+Offsets         g_offsets{};
+LagCompensation g_lagcomp{};
+Client          g_client{};
+Visuals         g_visuals{};
 
 static ulong_t __stdcall cheat_init( void *arg ) {
 	g_config.init();
