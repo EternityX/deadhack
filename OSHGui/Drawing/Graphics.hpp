@@ -109,6 +109,7 @@ namespace OSHGui
 			 * \param size
 			 */
 			void FillRectangleGradient(const ColorRectangle &colors, float x, float y, float width, float height);
+			void FillTriangle( const Color &color, float x, float y, float width, float height );
 			/**
 			 * Füllt den Bereich mit der Farbe, der zwischen den Ecken des Polygons liegt.
 			 *

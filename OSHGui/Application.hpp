@@ -117,7 +117,9 @@ namespace OSHGui
 		 * \param enabled
 		 */
 		void SetCursorEnabled(bool enabled);
-		
+		void SetPrimaryColor( OSHGui::Drawing::Color );
+		OSHGui::Drawing::Color GetPrimaryColor();
+
 		/**
 		 * Legt den Style für das Gui fest.
 		 *
@@ -240,6 +242,7 @@ namespace OSHGui
 		Control *FocusedControl;
 		Control *CaptureControl;
 		Control *MouseEnteredControl;
+		Drawing::Color primary_color_ = Drawing::Color::Black();
 
 		bool isEnabled_;
 	};

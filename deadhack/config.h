@@ -12,7 +12,7 @@ public:
 	bool load( std::string file_name );
 	bool save( std::string file_name, bool should_reset );
 	bool remove( const std::string &file_name );
-	static OSHGui::Drawing::Color string_to_color( std::string str );
+	static OSHGui::Drawing::Color string_to_color( float alpha, std::string str );
 	static std::string color_to_string( OSHGui::Drawing::Color color );
 };
 

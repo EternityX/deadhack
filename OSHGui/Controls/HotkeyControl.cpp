@@ -374,7 +374,7 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
-		const auto color = isFocused_ ? Color::FromARGB(0, 0, 0, 0) : Color::FromARGB(255, 156, 156, 156);
+		const auto color = isFocused_ || isInside_ ? Color::FromARGB(0, 0, 0, 0) : Color::FromARGB(255, 156, 156, 156);
 
 		for (auto i = 0; i < 4; ++i)
 		{
@@ -421,6 +421,7 @@ namespace OSHGui
 					SetHotkey( Key::MButton );
 			}
 
+			OnLostFocus( this );
 			return true;
 		}
 
@@ -433,16 +434,17 @@ namespace OSHGui
 		{
 			KeyEventArgs args(keyboard);
 
-			if ( args.GetKeyCode( ) == Key::Enter || args.GetKeyCode( ) == Key::Escape )
+			/*if ( args.GetKeyCode( ) == Key::Enter || args.GetKeyCode( ) == Key::Escape )
 			{
 				OnLostFocus( this );
 				return true;
-			}
+			}*/
 
 			SetHotkey(args.GetKeyCode());
 			SetHotkeyModifier(args.GetModifier());
-
-			return false;
+			
+			OnLostFocus( this );
+			return true;
 		}
 
 		return true;

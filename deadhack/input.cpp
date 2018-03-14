@@ -55,13 +55,15 @@ bool Input::remove() {
 	return true;
 }
 
-bool Input::process_message( LPMSG msg ) {
+bool Input::process_message( LPMSG msg, WPARAM wparam, LPARAM lparam ) {
 	switch( msg->message ) {
 		case WM_MOUSEMOVE:
 		case WM_LBUTTONDOWN:
 		case WM_LBUTTONUP:
 		case WM_RBUTTONDOWN:
 		case WM_RBUTTONUP:
+		case WM_XBUTTONDOWN:
+		case WM_XBUTTONUP:
 		case WM_MOUSEWHEEL: {
 			if( enableMouseInput ) {
 				static OSHGui::Drawing::PointI last_mouse_location;
@@ -94,6 +96,24 @@ bool Input::process_message( LPMSG msg ) {
 						state = OSHGui::MouseState::Up;
 						button = OSHGui::MouseButton::Right;
 					break;
+					case WM_XBUTTONDOWN:
+						SetCapture( msg->hwnd );
+						state = OSHGui::MouseState::Down;
+						switch ( GET_XBUTTON_WPARAM( wparam ) ) {
+							case XBUTTON1: button = OSHGui::MouseButton::XButton1; break;
+							case XBUTTON2: button = OSHGui::MouseButton::XButton2; break;
+							default: break;
+						}
+						break;
+					case WM_XBUTTONUP:
+						ReleaseCapture();
+						state = OSHGui::MouseState::Up;
+						switch ( GET_XBUTTON_WPARAM( wparam ) ) {
+							case XBUTTON1: button = OSHGui::MouseButton::XButton1; break;
+							case XBUTTON2: button = OSHGui::MouseButton::XButton2; break;
+							default: break;
+						}
+						break;
 					case WM_MBUTTONDOWN:
 						SetCapture( msg->hwnd );
 						state = OSHGui::MouseState::Down;
@@ -107,7 +127,7 @@ bool Input::process_message( LPMSG msg ) {
 					case WM_MOUSEWHEEL:
 						state = OSHGui::MouseState::Scroll;
 						location = last_mouse_location; // not valid when scrolling.
-						delta = -( (short)HIWORD( msg->wParam ) / 120 ) * 4; // number of lines to scroll.
+						delta = -( (short)HIWORD( msg->wParam ) / 120 ) * 2; // number of lines to scroll.
 					break;
 					default: break;
 				}
@@ -126,13 +146,11 @@ bool Input::process_message( LPMSG msg ) {
 		case WM_SYSKEYUP:
 		case WM_CHAR:
 		case WM_SYSCHAR:
-		case WM_IME_CHAR:
-		{
-			if( enableKeyboardInput )
-			{
+		case WM_IME_CHAR: {
+			if( enableKeyboardInput ) {
 				OSHGui::Misc::AnsiChar key_char = '\0';
 				OSHGui::KeyboardState state;
-				auto key_data = OSHGui::Key::None;
+				OSHGui::Key key_data = OSHGui::Key::None;
 
 				if( msg->message == WM_CHAR || msg->message == WM_SYSCHAR ) {
 					state = OSHGui::KeyboardState::Character;
@@ -140,7 +158,7 @@ bool Input::process_message( LPMSG msg ) {
 				}
 				else {
 					auto modifier = OSHGui::Key::None;
-					if( GetKeyState( (int)OSHGui::Key::ControlKey) < 0 )
+					if( GetKeyState( (int)OSHGui::Key::ControlKey ) < 0 )
 						modifier |= OSHGui::Key::Control;
 					if( GetKeyState( (int)OSHGui::Key::ShiftKey ) < 0 )
 						modifier |= OSHGui::Key::Shift;
@@ -206,7 +224,7 @@ bool Input::handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
 	static bool is_down = false;
 	static bool is_clicked = false;
 
-	if ( m_key_pressed[ VK_INSERT ] ) {
+	if( m_key_pressed[ VK_INSERT ] ) {
 		is_clicked = false;
 		is_down = true;
 	}
@@ -241,7 +259,7 @@ bool Input::handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
 		new_msg.wParam = wparam;
 		new_msg.lParam = lparam;
 
-		process_message( &new_msg );
+		process_message( &new_msg, wparam, lparam );
 
 		return true;
 	}

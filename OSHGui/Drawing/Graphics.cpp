@@ -116,6 +116,10 @@ namespace OSHGui
 			buffer.AppendGeometry(vertices, 6);
 		}
 		//---------------------------------------------------------------------------
+		void Graphics::FillTriangle( const Color &color, float x, float y, float width, float height ) 
+		{
+
+		}
 		void Graphics::FillPolygon(const std::vector<PointF> &vertices, const Color &color)
 		{
 			if (vertices.empty())
@@ -213,7 +217,7 @@ namespace OSHGui
 				if (x == 1 && y != yp)
 				{
 					FillRectangle(color, xc, yc + yp - 1, 1, 1);
-					FillRectangle(color, xc, yc - yp, 1, 1);
+					FillRectangle(color, xc, yc - yp + 1, 1, 1);
 				}
 				if (y != yp)
 				{
@@ -225,8 +229,8 @@ namespace OSHGui
 
 				if (b2 * x >= a2 * y)
 				{
-					FillRectangle(color, xc - x, yc - yp, 2 * x + 1, 1);
-					FillRectangle(color, xc - x, yc + yp, 2 * x + 1, 1);
+					//FillRectangle(color, xc - x, yc - yp, 2 * x + 1, 1);
+					//FillRectangle(color, xc - x, yc + yp, 2 * x + 1, 1);
 				}
 			}
 
@@ -257,7 +261,7 @@ namespace OSHGui
 				{
 					divHeight = yp - y + 1;
 
-					FillRectangle(color, xc - xp, yc - yp, 2 * x + 1, divHeight);
+					FillRectangle(color, xc - xp, yc - yp, 2 * x + 1, divHeight - 1);
 					FillRectangle(color, xc - xp, yc + y, 2 * x + 1, divHeight);
 				}
 			}

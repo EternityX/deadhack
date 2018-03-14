@@ -101,6 +101,7 @@
       <CompileAs>CompileAsCpp</CompileAs>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <AdditionalIncludeDirectories>../ThemidaSDK/Include/C;../OSHGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -131,12 +132,15 @@
     <ClCompile Include="..\OSHGui\Drawing\Direct3D9\Direct3D9ViewportTarget.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="config.cpp" />
+    <ClCompile Include="events.cpp" />
     <ClCompile Include="hooks.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="legitbot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="custom_renderer.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="misc.cpp" />
+    <ClCompile Include="security.cpp" />
     <ClCompile Include="visuals.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +168,9 @@
     <ClInclude Include="cvar.h" />
     <ClInclude Include="def.h" />
     <ClInclude Include="dt_recv.h" />
+    <ClInclude Include="engine_pred.h" />
+    <ClInclude Include="events.h" />
+    <ClInclude Include="cglowobjectmanager.h" />
     <ClInclude Include="hash.h" />
     <ClInclude Include="hooks.h" />
     <ClInclude Include="icliententity.h" />
@@ -173,21 +180,35 @@
     <ClInclude Include="iclientrenderable.h" />
     <ClInclude Include="iclientunknown.h" />
     <ClInclude Include="icvar.h" />
+    <ClInclude Include="ienginesounds.h" />
+    <ClInclude Include="ienginetrace.h" />
+    <ClInclude Include="igameevent.h" />
+    <ClInclude Include="igamemovement.h" />
     <ClInclude Include="imaterial.h" />
     <ClInclude Include="imaterialsystem.h" />
+    <ClInclude Include="imatrendercontext.h" />
     <ClInclude Include="includes.h" />
+    <ClInclude Include="inetchannel.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="interfaces.h" />
     <ClInclude Include="ipanel.h" />
+    <ClInclude Include="iprediction.h" />
+    <ClInclude Include="istudiorender.h" />
     <ClInclude Include="isurface.h" />
     <ClInclude Include="ivdebugoverlay.h" />
+    <ClInclude Include="iefx.h" />
     <ClInclude Include="ivmodelinfo.h" />
     <ClInclude Include="ivmodelrender.h" />
+    <ClInclude Include="iviewrenderbeams.h" />
     <ClInclude Include="ivrenderview.h" />
+    <ClInclude Include="iweaponinfo.h" />
+    <ClInclude Include="iweaponsystem.h" />
+    <ClInclude Include="lagcomp.h" />
     <ClInclude Include="legitbot.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="matrix.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="misc.h" />
     <ClInclude Include="module.h" />
     <ClInclude Include="netvars.h" />
     <ClInclude Include="offsets.h" />
@@ -195,7 +216,10 @@
     <ClInclude Include="pe_types.h" />
     <ClInclude Include="custom_renderer.h" />
     <ClInclude Include="sdk.h" />
+    <ClInclude Include="security.h" />
     <ClInclude Include="sigscan.h" />
+    <ClInclude Include="sounds.h" />
+    <ClInclude Include="timer.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="vec2.h" />
     <ClInclude Include="vec3.h" />

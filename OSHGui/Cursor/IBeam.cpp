@@ -22,9 +22,11 @@ namespace OSHGui
 
 		const PointF offset(-4, -7);
 
-		g.FillRectangle(Color::White(), PointF(0, 0) + offset, SizeF(7, 1));
-		g.FillRectangle(Color::White(), PointF(0, 13) + offset, SizeF(7, 1));
-		g.FillRectangle(Color::White(), PointF(3, 1) + offset, SizeF(1, 12));
+		auto color2 = Color::FromARGB( 255, 211, 211, 211 );
+
+		g.FillRectangle(color2, PointF(0, 0) + offset, SizeF(7, 1));
+		g.FillRectangle(color2, PointF(0, 13) + offset, SizeF(7, 1));
+		g.FillRectangle(color2, PointF(3, 1) + offset, SizeF(1, 12));
 	}
 	//---------------------------------------------------------------------------
 }

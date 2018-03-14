@@ -14,12 +14,13 @@ void CustomRenderer::init( IDirect3DDevice9 *device ) {
 
     m_fonts.resize( FONT_MAX );
 
-	m_fonts[ FONT_VERDANA_7PX ]      = OSHGui::Drawing::FontManager::LoadFont( "Verdana", 7.0f, true );
-    m_fonts[ FONT_VERDANA_BOLD_7PX ] = OSHGui::Drawing::FontManager::LoadFont( "Verdana Bold", 7.0f, true );
-    m_fonts[ FONT_04B03_6PX ]  = OSHGui::Drawing::FontManager::LoadFont( "04b03", 6.0f, false );
+	m_fonts[ FONT_VERDANA_7PX ]      = OSHGui::Drawing::FontManager::LoadFont( "Verdana", 7.f, true );
+    m_fonts[ FONT_VERDANA_BOLD_7PX ] = OSHGui::Drawing::FontManager::LoadFont( "Verdana Bold", 7.f, true );
+    m_fonts[ FONT_04B03_6PX ]        = OSHGui::Drawing::FontManager::LoadFont( "04b03", 6.f, false );
     
     // fallback font.
-    m_fonts[ FONT_ARIALUNICODEMS_BOLD_8PX ] = OSHGui::Drawing::FontManager::LoadFont( "Arial Unicode MS", 8.0f, false );
+	// FIX: crashes for some users?
+    //m_fonts[ FONT_ARIALUNICODEMS_BOLD_8PX ] = OSHGui::Drawing::FontManager::LoadFont( "Arial Unicode MS", 8.0f, false );
 
 	m_instance->SetDefaultFont( m_fonts[ FONT_VERDANA_7PX ] );
 }
@@ -68,6 +69,18 @@ void CustomRenderer::line( const OSHColor &color, int x, int y, int end_x, int e
 	OSHGui::Drawing::Graphics g( *m_geometry );
 
 	g.DrawLine( color, OSHGui::Drawing::PointI( x, y ), OSHGui::Drawing::PointI( end_x, end_y ) );
+}
+
+void CustomRenderer::circle( const OSHColor &color, int x, int y, int radius ) {
+	OSHGui::Drawing::Graphics g( *m_geometry );
+
+	g.FillCircle( color, OSHGui::Drawing::PointI( x, y ),radius );
+}
+
+void CustomRenderer::fill_polygon( const std::vector< OSHGui::Drawing::PointF > &vertices, const OSHColor &color ) {
+	OSHGui::Drawing::Graphics g( *m_geometry );
+
+	g.FillPolygon( vertices, color );
 }
 
 void CustomRenderer::ansi_text( OSHGui::Drawing::FontPtr font, const OSHColor &color, const OSHColor &shadow_color, float x, float y, int flags, const std::string str, ... ) const {

@@ -35,7 +35,23 @@ public:
 		return return_value < 0 ? 0.f : return_value;
 	}
 
-	__forceinline IMaterial* &C_BaseEntity::get_sun_enabled() {
-		return *(IMaterial **)( (uintptr_t)this + g_offsets.m_nMaterial );
+	Vec3_t C_BaseEntity::get_mins() {
+		return *(Vec3_t *)( (uint32_t)this + ( g_offsets.m_CollisionGroup + 0x0320 ) );
+	}
+
+	Vec3_t C_BaseEntity::get_maxs() {
+		return *(Vec3_t *)( (uint32_t)this + ( g_offsets.m_CollisionGroup + 0x032C ) );
+	}
+
+	__forceinline Vec3_t C_BaseEntity::get_world_space_center() {
+		Vec3_t max = get_mins() + GetAbsOrigin();
+		Vec3_t min = get_maxs() + GetAbsOrigin();
+
+		Vec3_t size = max - min;
+
+		size /= 2;
+		size += min;
+
+		return size;
 	}
 };

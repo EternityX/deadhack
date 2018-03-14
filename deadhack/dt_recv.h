@@ -6,9 +6,22 @@ struct RecvProp;
 
 using RecvVarProxy_t = void(__cdecl *)( const RecvProxyData *, void *, void * );
 
+struct DVariant {
+	union {
+		float m_Float;
+		long m_Int;
+		char* m_pString;
+		void* m_pData;
+		float m_Vector[ 3 ];
+		__int64 m_Int64;
+	};
+
+	int m_Type;
+};
+
 struct RecvProxyData {
 	const RecvProp      *m_pRecvProp;
-	PAD( 0x18 )
+	DVariant            m_Value;
 	int                 m_iElement;
 	int                 m_ObjectID;
 };

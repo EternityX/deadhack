@@ -7,6 +7,15 @@ namespace Utils {
 
     // todo - dex; finish both is_valid_codeptr and is_valid_readptr.
 
+	__forceinline void attach_console() {
+		FreeConsole();
+		AllocConsole();
+
+		FILE *con = nullptr;
+		freopen_s( &con, "CONOUT$", "w", stdout );
+		freopen_s( &con, "CONOUT$", "w", stderr );
+	}
+
 	static __forceinline bool is_valid_codeptr( uintptr_t addr ) {
 		MEMORY_BASIC_INFORMATION mbi;
 
@@ -130,5 +139,4 @@ namespace Utils {
 	template < typename t > __forceinline t clamp( t in, t low, t high ) {
 		return std::min( std::max( in, low ), high );
 	}
-
 }

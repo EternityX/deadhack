@@ -43,6 +43,12 @@
     <Filter Include="Source Files\other\OSHGUI\Direct3D9">
       <UniqueIdentifier>{f07d9f09-ed7d-45bc-bdc8-d48f7e0b96e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\cheat\features">
+      <UniqueIdentifier>{07c9f36a-373e-4aaf-a3d8-944c401b9efb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\cheat\features">
+      <UniqueIdentifier>{d043a164-ca21-44f5-a247-7191846c8368}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -78,13 +84,22 @@
     <ClCompile Include="config.cpp">
       <Filter>Source Files\other</Filter>
     </ClCompile>
-    <ClCompile Include="visuals.cpp">
-      <Filter>Source Files\cheat</Filter>
-    </ClCompile>
     <ClCompile Include="client.cpp">
       <Filter>Source Files\cheat</Filter>
     </ClCompile>
     <ClCompile Include="legitbot.cpp">
+      <Filter>Source Files\cheat\features</Filter>
+    </ClCompile>
+    <ClCompile Include="visuals.cpp">
+      <Filter>Source Files\cheat\features</Filter>
+    </ClCompile>
+    <ClCompile Include="misc.cpp">
+      <Filter>Source Files\cheat\features</Filter>
+    </ClCompile>
+    <ClCompile Include="security.cpp">
+      <Filter>Source Files\other</Filter>
+    </ClCompile>
+    <ClCompile Include="events.cpp">
       <Filter>Source Files\cheat</Filter>
     </ClCompile>
   </ItemGroup>
@@ -200,9 +215,6 @@
     <ClInclude Include="icliententitylist.h">
       <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
-    <ClInclude Include="visuals.h">
-      <Filter>Header Files\cheat</Filter>
-    </ClInclude>
     <ClInclude Include="icliententity.h">
       <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
@@ -266,10 +278,73 @@
     <ClInclude Include="ivdebugoverlay.h">
       <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
+    <ClInclude Include="ipanel.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="visuals.h">
+      <Filter>Header Files\cheat\features</Filter>
+    </ClInclude>
     <ClInclude Include="legitbot.h">
+      <Filter>Header Files\cheat\features</Filter>
+    </ClInclude>
+    <ClInclude Include="misc.h">
+      <Filter>Header Files\cheat\features</Filter>
+    </ClInclude>
+    <ClInclude Include="lagcomp.h">
       <Filter>Header Files\cheat</Filter>
     </ClInclude>
-    <ClInclude Include="ipanel.h">
+    <ClInclude Include="inetchannel.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="security.h">
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="istudiorender.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="ienginetrace.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="iprediction.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="igamemovement.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="engine_pred.h">
+      <Filter>Header Files\cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="igameevent.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="events.h">
+      <Filter>Header Files\cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="imatrendercontext.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="iviewrenderbeams.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="iweaponsystem.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="iweaponinfo.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="iefx.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="cglowobjectmanager.h">
+      <Filter>Header Files\cheat\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>Header Files\other</Filter>
+    </ClInclude>
+    <ClInclude Include="sounds.h">
+      <Filter>Header Files\cheat</Filter>
+    </ClInclude>
+    <ClInclude Include="ienginesounds.h">
       <Filter>Header Files\cheat\sdk</Filter>
     </ClInclude>
   </ItemGroup>

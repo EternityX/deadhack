@@ -1,17 +1,22 @@
 #include "includes.h"
 
 // classes.
-CSGO            g_csgo{};
-Input	        g_input{};
-CustomRenderer  g_custom_renderer{};
-NetVars         g_netvars{};
-CVar            g_cvar{};
-Menu            g_menu{};
-Config          g_config{};
-Offsets         g_offsets{};
-LagCompensation g_lagcomp{};
-Client          g_client{};
-Visuals         g_visuals{};
+CSGO              g_csgo{};
+Input	          g_input{};
+CustomRenderer    g_custom_renderer{};
+NetVars           g_netvars{};
+CVar              g_cvar{};
+Menu              g_menu{};
+Config            g_config{};
+Offsets           g_offsets{};
+LagCompensation   g_lagcomp{};
+Client            g_cl{};
+Visuals           g_visuals{};
+Legitbot          g_legitbot{};
+EnginePrediction  g_engine_pred{};
+Misc              g_misc{};
+Events            g_events{};
+//Security        g_security{};
 
 static ulong_t __stdcall cheat_init( void *arg ) {
 	g_config.init();
@@ -29,9 +34,9 @@ static ulong_t __stdcall cheat_init( void *arg ) {
 #endif
 		return 0;
 	}
-
-	g_netvars.init();
 	
+	g_netvars.init();
+
 	if( !g_offsets.init() ) {
 #ifdef CHEAT_DBG
 		DBG_ERROR( "Offsets::init failed" );
@@ -46,8 +51,21 @@ static ulong_t __stdcall cheat_init( void *arg ) {
         return 0;
     }
 
-	CSGO_Util::push_notification( Color( 180, 255, 0, 255 ), "Initialization complete\n" );
-	CSGO_Util::push_notification( Color( 255, 255, 255, 255 ), "DEADCELL Beta 0.1.3" );
+	if( !g_config.load( "default.cfg" ) && !g_config.save( "default.cfg", false ) ) {
+#ifdef CHEAT_DBG
+		DBG_ERROR( "Failed to load default profile." );
+#endif
+	}
+
+	ConVar *con_filter = g_csgo.m_convar->FindVar( "con_filter_enable" );
+	con_filter->SetValue( 1 );
+
+	// set developer to 1 so notifications can be sent.
+	ConVar *developer = g_csgo.m_convar->FindVar( "developer" );
+	developer->SetValue( 1 );
+
+	CSGO_Util::push_notification( Color( 204, 115, 135, 255 ), "Initialization complete\n" );
+	CSGO_Util::push_notification( Color::White(), "DEADCELL Beta 0.4.0.1\n" );
 
     return 1;
 }
@@ -58,20 +76,24 @@ static ulong_t __stdcall cheat_free( void *arg ) {
 		std::this_thread::sleep_for( std::chrono::milliseconds( 25 ) );
 
 	// fixes crashing when reinjecting.
-	if( g_custom_renderer.m_instance->HasBeenInitialized() )
+	if( OSHGui::Application::HasBeenInitialized() )
 		g_custom_renderer.get_renderer().PreD3DReset();
 
-	// lol bad, fix later
+	// lol bad, fix later.
 	ConVar *cl_mouseenable = g_csgo.m_convar->FindVar( "cl_mouseenable" );
 	cl_mouseenable->SetValue( 1 );
 
-#ifdef CHEAT_DBG
+	g_events.remove();
+
+	// erase clantag.
+	if( g_cvar.m_misc.clantag->bValue )
+		CSGO_Util::set_clan_tag( "" );
+
 	if( !Hooks::unload() )
 		DBG_ERROR( "Hooks::unload failed" );
 
 	if( !g_input.remove() )
 		 DBG_ERROR( "g_input.remove failed" );
-#endif
 
 	// pop outta this nigga.
 	FreeLibraryAndExitThread( (HMODULE)arg, 0 );

@@ -1,4 +1,5 @@
 #pragma once
+#include "imatrendercontext.h"
 
 class IMaterialSystem {
 public:
@@ -28,5 +29,13 @@ public:
 
 	IMaterial *FindMaterial( int handle ) {
 		return Utils::get_method< IMaterial *( __thiscall *)( decltype( this ), int )>( this, 89 )( this, handle );
+	}
+
+	ITexture *FindTexture( char const *pTextureName, const char *pTextureGroupName, bool complain = true ) {
+		return Utils::get_method< ITexture *( __thiscall *)( decltype( this ), char const *, const char *, bool )>( this, 91 )( this, pTextureName, pTextureGroupName, complain );
+	}
+
+	IMatRenderContext *GetRenderContext() {
+		return Utils::get_method< IMatRenderContext *( __thiscall *)( decltype( this ) )>( this, 115 )( this );
 	}
 };

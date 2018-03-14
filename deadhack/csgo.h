@@ -26,6 +26,15 @@ public:
 	ISurface             *m_surface;
 	IVDebugOverlay       *m_debug_overlay;
 	IPanel               *m_panel;
+	IStudioRender        *m_studio_render;
+	IEngineTrace         *m_engine_trace;
+	IGameMovement        *m_game_movement;
+	IPrediction          *m_prediction;
+	IMoveHelper          *m_movehelper;
+	IGameEventManager2   *m_game_event;
+	IViewRenderBeams     *m_render_beams;
+	IWeaponSystem        *m_weapon_system;
+	IVEfx                *m_effects;
 
     // functions.
 
@@ -47,7 +56,7 @@ public:
 		CHECK_PROTECTION( local_tamper, 0x8773 )
 
         // misc ptrs.
-        m_d3d9_vmt = SigScan::find( CT_HASH32( "shaderapidx9.dll" ), "A1 ? ? ? ? 6A 00 53" );
+        m_d3d9_vmt = SigScan::find( CT_HASH32( "shaderapidx9.dll" ), "A1 ? ? ? ? 50 8B 08 FF 51 0C" );
         if( !m_d3d9_vmt )
             return false;
 
@@ -99,10 +108,6 @@ public:
 		m_model_render = get_interface< IVModelRender >( CT_HASH32( "VEngineModel" ) );
 		if( !m_model_render )
 			return false;
-        
-		m_surface = get_interface< ISurface >( CT_HASH32( "VGUI_Surface" ) );
-		if( !m_surface )
-			return false;
 
 		m_debug_overlay = get_interface< IVDebugOverlay >( CT_HASH32( "VDebugOverlay" ) );
 		if( !m_debug_overlay )
@@ -111,6 +116,49 @@ public:
 		m_panel = get_interface< IPanel >( CT_HASH32( "VGUI_Panel" ) );
 		if( !m_panel )
 			return false;
+
+		m_surface = get_interface< ISurface >( CT_HASH32( "VGUI_Surface" ) );
+		if( !m_surface )
+			return false;
+
+		m_studio_render = get_interface< IStudioRender >( CT_HASH32( "VStudioRender" ) );
+		if( !m_studio_render )
+			return false;
+
+		m_engine_trace = get_interface< IEngineTrace >( CT_HASH32( "EngineTraceClient" ) );
+		if( !m_engine_trace )
+			return false;
+
+		m_game_movement = get_interface< IGameMovement >( CT_HASH32( "GameMovement" ) );
+		if( !m_game_movement )
+			return false;
+
+		m_prediction = get_interface< IPrediction >( CT_HASH32( "VClientPrediction" ) );
+		if( !m_prediction )
+			return false;
+
+		m_movehelper = **(IMoveHelper ***)( SigScan::find( m_client_dll, "8B 0D ? ? ? ? 8B 45 ? 51 8B D4 89 02 8B 01" ) + 2 );
+		if( !m_movehelper )
+			return false;
+
+		m_game_event = get_interface< IGameEventManager2 >( CT_HASH32( "GAMEEVENTSMANAGER002" ), 0, false );
+		if( !m_game_event )
+			return false;
+
+		m_render_beams = *(IViewRenderBeams **)( SigScan::find( m_client_dll, "B9 ? ? ? ? A1 ? ? ? ? FF 10 A1 ? ? ? ? B9" ) + 1 );
+		if( !m_render_beams )
+			return false;
+
+		m_weapon_system = *(IWeaponSystem **)( SigScan::find( CT_HASH32( "client.dll" ), "8B 35 ? ? ? ? FF 10 0F B7 C0" ) + 2 );
+		if( !m_weapon_system )
+			return false;
+
+		m_effects = get_interface< IVEfx >( CT_HASH32( "VEngineEffects" ) );
+		if( !m_effects )
+			return false;
+
+		// register events.
+		g_events.init();
 
 		VM_DOLPHIN_WHITE_END
 

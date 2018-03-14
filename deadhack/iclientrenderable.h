@@ -10,8 +10,8 @@ typedef unsigned short ModelInstanceHandle_t;
 class IClientRenderable {
 public:
 	virtual IClientUnknown*            GetIClientUnknown() = 0;
-	virtual Vec3_t const&              GetRenderOrigin(void) = 0;
-	virtual Vec3_t const&              GetRenderAngles(void) = 0;
+	virtual Vec3_t &                   GetRenderOrigin(void) = 0;
+	virtual Vec3_t &				   GetRenderAngles(void) = 0;
 	virtual bool                       ShouldDraw(void) = 0;
 	virtual int                        GetRenderFlags(void) = 0; // ERENDERFLAGS_xxx
 	virtual void                       Unused(void) const {}

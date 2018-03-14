@@ -11,6 +11,7 @@
 #include "ScrollBar.hpp"
 #include "../Misc/Exceptions.hpp"
 #include "../Misc/Intersection.hpp"
+#include "Timer.hpp"
 
 namespace OSHGui
 {
@@ -29,6 +30,15 @@ namespace OSHGui
 		autoScrollEnabled_( false )
 	{
 		type_ = ControlType::ListBox;
+
+		OSHGui::Timer *timer = new OSHGui::Timer();
+		timer->SetInterval( 10 );
+		timer->Start();
+		AddControl( timer );
+
+		timer->GetTickEvent() += OSHGui::TickEventHandler( [ this ]( Control *sender ) {
+			SetForeColor( OSHGui::Application::Instance().GetPrimaryColor() );
+		});
 
 		scrollBar_ = new ScrollBar();
 		scrollBar_->SetVisible( false );
@@ -304,7 +314,7 @@ namespace OSHGui
 			if( firstVisibleItemIndex_ + i == selectedIndex_ )
 			{
 				g.FillRectangle(Color::FromARGB( 255, 54, 54, 64 ), PointF(itemX - 1, itemY + i * padding - 1), SizeF(itemAreaSize_.Width + 2, padding));
-				g.DrawString( items_[ firstVisibleItemIndex_ + i ]->GetItemText(), GetFont(), Color::FromARGB( 255, 206, 115, 136 ), PointF( itemX + 1, itemY + i * padding ) );
+				g.DrawString( items_[ firstVisibleItemIndex_ + i ]->GetItemText(), GetFont(), GetForeColor(), PointF( itemX + 1, itemY + i * padding ) );
 			}
 			else
 			{

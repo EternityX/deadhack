@@ -9,6 +9,7 @@
 #include "CheckBox.hpp"
 #include "Label.hpp"
 #include "../Misc/Exceptions.hpp"
+#include "Timer.hpp"
 
 namespace OSHGui
 {
@@ -24,6 +25,15 @@ namespace OSHGui
 		label_( new Label() )
 	{
 		type_ = ControlType::CheckBox;
+
+		OSHGui::Timer *timer = new OSHGui::Timer();
+		timer->SetInterval( 10 );
+		timer->Start();
+		AddControl( timer );
+
+		timer->GetTickEvent() += OSHGui::TickEventHandler( [ this ]( Control *sender ) {
+			SetBackColor( OSHGui::Application::Instance().GetPrimaryColor() );
+		});
 
 		SetSize( DefaultCheckBoxSize, DefaultCheckBoxSize );
 		SetAutoSize( true );

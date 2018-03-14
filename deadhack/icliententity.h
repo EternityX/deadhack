@@ -9,4 +9,8 @@ public:
 	Vec3_t &GetAbsOrigin() {
 		return Utils::get_method< Vec3_t &(__thiscall *)( decltype( this ) )>( this, 10 )( this );
 	}
+
+	Vec3_t &GetAbsAngles() {
+		return Utils::get_method< Vec3_t &(__thiscall *)( decltype( this ) )>( this, 11 )( this );
+	}
 };

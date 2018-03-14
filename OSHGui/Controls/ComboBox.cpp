@@ -360,7 +360,7 @@ namespace OSHGui
 
 		Graphics g( *geometry_ );
 
-		const auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 46, 46, 53 ) : Color::FromARGB( 255, 41, 41, 49 );
+		const auto color = isFocused_ || isInside_ ? Color::FromARGB( 255, 46, 46, 55 ) : Color::FromARGB( 255, 41, 41, 51 );
 
 		//g.FillRectangle(color, PointF(0, 1), realSize_ - SizeF(0, 2));
 		//g.FillRectangle(color, PointF(1, 0), realSize_ - SizeF(2, 0));

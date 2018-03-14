@@ -37,6 +37,8 @@ public:
 	void rect( const OSHColor &color, int x, int y, int width, int height ) const;
 	void filled_rect( const OSHColor &color, int x, int y, int width, int height ) const;
 	void line( const OSHColor &color, int x, int y, int end_x, int end_y ) const;
+	void circle( const OSHColor &color, int x, int y, int radius );
+	void fill_polygon( const std::vector<OSHGui::Drawing::PointF> &vertices, const OSHColor &color );
 
 	/*void rect( const OSHColor &color, float x, float y, float width, float height ) const;
 	void filled_rect( const OSHColor &color, float x, float y, float width, float height ) const;*/

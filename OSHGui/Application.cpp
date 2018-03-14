@@ -140,6 +140,14 @@ namespace OSHGui
 
 		guiSurface_.Invalidate();
 	}
+
+	void Application::SetPrimaryColor( OSHGui::Drawing::Color col ) {
+		primary_color_ = col;
+	}
+
+	OSHGui::Drawing::Color Application::GetPrimaryColor() {
+		return primary_color_;
+	}
 	//---------------------------------------------------------------------------
 	void Application::SetStyle(const Drawing::Style &style)
 	{

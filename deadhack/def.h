@@ -1,5 +1,99 @@
 #pragma once
 
+#define   DISPSURF_FLAG_SURFACE           (1<<0)
+#define   DISPSURF_FLAG_WALKABLE          (1<<1)
+#define   DISPSURF_FLAG_BUILDABLE         (1<<2)
+#define   DISPSURF_FLAG_SURFPROP1         (1<<3)
+#define   DISPSURF_FLAG_SURFPROP2         (1<<4)
+
+#define   CONTENTS_EMPTY                0
+
+#define   CONTENTS_SOLID                0x1
+#define   CONTENTS_WINDOW               0x2
+#define   CONTENTS_AUX                  0x4
+#define   CONTENTS_GRATE                0x8
+#define   CONTENTS_SLIME                0x10
+#define   CONTENTS_WATER                0x20
+#define   CONTENTS_BLOCKLOS             0x40
+#define   CONTENTS_OPAQUE               0x80
+#define   LAST_VISIBLE_CONTENTS         CONTENTS_OPAQUE
+
+#define   ALL_VISIBLE_CONTENTS            (LAST_VISIBLE_CONTENTS | (LAST_VISIBLE_CONTENTS-1))
+
+#define   CONTENTS_TESTFOGVOLUME        0x100
+#define   CONTENTS_UNUSED               0x200
+#define   CONTENTS_BLOCKLIGHT           0x400
+#define   CONTENTS_TEAM1                0x800
+#define   CONTENTS_TEAM2                0x1000
+#define   CONTENTS_IGNORE_NODRAW_OPAQUE 0x2000
+#define   CONTENTS_MOVEABLE             0x4000
+#define   CONTENTS_AREAPORTAL           0x8000
+#define   CONTENTS_PLAYERCLIP           0x10000
+#define   CONTENTS_MONSTERCLIP          0x20000
+#define   CONTENTS_CURRENT_0            0x40000
+#define   CONTENTS_CURRENT_90           0x80000
+#define   CONTENTS_CURRENT_180          0x100000
+#define   CONTENTS_CURRENT_270          0x200000
+#define   CONTENTS_CURRENT_UP           0x400000
+#define   CONTENTS_CURRENT_DOWN         0x800000
+
+#define   CONTENTS_ORIGIN               0x1000000
+
+#define   CONTENTS_MONSTER              0x2000000
+#define   CONTENTS_DEBRIS               0x4000000
+#define   CONTENTS_DETAIL               0x8000000
+#define   CONTENTS_TRANSLUCENT          0x10000000
+#define   CONTENTS_LADDER               0x20000000
+#define   CONTENTS_HITBOX               0x40000000
+
+#define   SURF_LIGHT                    0x0001
+#define   SURF_SKY2D                    0x0002
+#define   SURF_SKY                      0x0004
+#define   SURF_WARP                     0x0008
+#define   SURF_TRANS                    0x0010
+#define   SURF_NOPORTAL                 0x0020
+#define   SURF_TRIGGER                  0x0040
+#define   SURF_NODRAW                   0x0080
+
+#define   SURF_HINT                     0x0100
+
+#define   SURF_SKIP                     0x0200
+#define   SURF_NOLIGHT                  0x0400
+#define   SURF_BUMPLIGHT                0x0800
+#define   SURF_NOSHADOWS                0x1000
+#define   SURF_NODECALS                 0x2000
+#define   SURF_NOPAINT                  SURF_NODECALS
+#define   SURF_NOCHOP                   0x4000
+#define   SURF_HITBOX                   0x8000
+
+// -----------------------------------------------------
+// spatial content masks - used for spatial queries (traceline,etc.)
+// -----------------------------------------------------
+#define   MASK_ALL                      (0xFFFFFFFF)
+#define   MASK_SOLID                    (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
+#define   MASK_PLAYERSOLID              (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_PLAYERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
+#define   MASK_NPCSOLID                 (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER|CONTENTS_GRATE)
+#define   MASK_NPCFLUID                 (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTERCLIP|CONTENTS_WINDOW|CONTENTS_MONSTER)
+#define   MASK_WATER                    (CONTENTS_WATER|CONTENTS_MOVEABLE|CONTENTS_SLIME)
+#define   MASK_OPAQUE                   (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_OPAQUE)
+#define   MASK_OPAQUE_AND_NPCS          (MASK_OPAQUE|CONTENTS_MONSTER)
+#define   MASK_BLOCKLOS                 (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_BLOCKLOS)
+#define   MASK_BLOCKLOS_AND_NPCS        (MASK_BLOCKLOS|CONTENTS_MONSTER)
+#define   MASK_VISIBLE                  (MASK_OPAQUE|CONTENTS_IGNORE_NODRAW_OPAQUE)
+#define   MASK_VISIBLE_AND_NPCS         (MASK_OPAQUE_AND_NPCS|CONTENTS_IGNORE_NODRAW_OPAQUE)
+#define   MASK_SHOT                     (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_HITBOX)
+#define   MASK_SHOT_BRUSHONLY           (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_DEBRIS)
+#define   MASK_SHOT_HULL                (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_MONSTER|CONTENTS_WINDOW|CONTENTS_DEBRIS|CONTENTS_GRATE)
+#define   MASK_SHOT_PORTAL              (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_MONSTER)
+#define   MASK_SOLID_BRUSHONLY          (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_GRATE)
+#define   MASK_PLAYERSOLID_BRUSHONLY    (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_PLAYERCLIP|CONTENTS_GRATE)
+#define   MASK_NPCSOLID_BRUSHONLY       (CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW|CONTENTS_MONSTERCLIP|CONTENTS_GRATE)
+#define   MASK_NPCWORLDSTATIC           (CONTENTS_SOLID|CONTENTS_WINDOW|CONTENTS_MONSTERCLIP|CONTENTS_GRATE)
+#define   MASK_NPCWORLDSTATIC_FLUID     (CONTENTS_SOLID|CONTENTS_WINDOW|CONTENTS_MONSTERCLIP)
+#define   MASK_SPLITAREAPORTAL          (CONTENTS_WATER|CONTENTS_SLIME)
+#define   MASK_CURRENT                  (CONTENTS_CURRENT_0|CONTENTS_CURRENT_90|CONTENTS_CURRENT_180|CONTENTS_CURRENT_270|CONTENTS_CURRENT_UP|CONTENTS_CURRENT_DOWN)
+#define   MASK_DEADSOLID                (CONTENTS_SOLID|CONTENTS_PLAYERCLIP|CONTENTS_WINDOW|CONTENTS_GRATE)
+
 #define TEXTURE_GROUP_LIGHTMAP						( "Lightmaps" )
 #define TEXTURE_GROUP_WORLD							( "World textures" )
 #define TEXTURE_GROUP_MODEL							( "Model textures" )
@@ -27,6 +121,332 @@
 #define TEXTURE_GROUP_VERTEX_SHADERS				( "Vertex Shaders" )
 #define TEXTURE_GROUP_RENDER_TARGET_SURFACE			( "RenderTarget Surfaces" )
 #define TEXTURE_GROUP_MORPH_TARGETS					( "Morph Targets" )
+
+#define TIME_TO_TICKS( dt )		( (int)( 0.5f + (float)( dt ) / g_csgo.m_global_vars->m_interval_per_tick ) )
+#define TICKS_TO_TIME( dt )		( g_csgo.m_global_vars->m_interval_per_tick * (float)( dt ) )
+
+#define FLOW_OUTGOING	0
+#define FLOW_INCOMING	1
+#define MAX_FLOWS		2		// in & out
+
+class model_t;
+
+struct mstudiobbox_t {
+	int bone_index;
+	int m_iGroup;
+	Vec3_t bb_min;
+	Vec3_t bb_max;
+	int m_iHitboxNameIndex;
+	int m_iPad01 [ 3 ];
+	float m_flRadius;
+	int m_iPad02 [ 4 ];
+
+	const char *pszHitboxName() const {
+		if( m_iHitboxNameIndex == 0 )
+			return "";
+
+		return ( reinterpret_cast< const char * >(this) + m_iHitboxNameIndex );
+	}
+};
+
+struct mstudiohitboxset_t {
+	int nameindex;
+
+	const char *get_name() const {
+		return ( (char *)this ) + nameindex;
+	}
+
+	int numhitboxes;
+	int hitboxindex;
+
+	mstudiobbox_t *pHitbox( int i ) const {
+		return reinterpret_cast< mstudiobbox_t * >(( (unsigned char *)this ) + hitboxindex) + i;
+	};
+};
+
+struct mstudiobone_t {
+	int nameIndex;
+
+	const char *get_name() const {
+		return ( reinterpret_cast< const char * >(this) ) + nameIndex;
+	}
+
+	int parent;
+	int bonecontroller [ 6 ];
+
+	Vec3_t pos;
+	float quat [ 4 ];
+	Vec3_t rot;
+	Vec3_t posscale;
+	Vec3_t rotscale;
+
+	matrix3x4_t poseToBone;
+	float alignment [ 4 ];
+	int flags;
+	int proctype;
+	int procindex;
+	mutable int physicsbone;
+
+	void *GetProcedure() const {
+		if( procindex == 0 )
+			return nullptr;
+		return static_cast< void * >((unsigned char *)this + procindex);
+	};
+	int surfacepropidx;
+
+	const char *get_surface_props() const {
+		return ( (char *)this ) + surfacepropidx;
+	}
+
+	int contents;
+
+	int unused [ 8 ];
+};
+
+struct studiohdr_t {
+	int id;
+	int version;
+	int checksum;
+	char name [ 64 ];
+	int length;
+	Vec3_t eyeposition;
+	Vec3_t illumposition;
+	Vec3_t hull_min;
+	Vec3_t hull_max;
+	Vec3_t view_bbmin;
+	Vec3_t view_bbmax;
+	int flags;
+	int numbones;
+	int boneindex;
+
+	mstudiobone_t *pBone( int i ) const {
+		return reinterpret_cast< mstudiobone_t * >((unsigned char *)this + boneindex) + i;
+	};
+
+	int numbonecontrollers;
+	int bonecontrollerindex;
+	int numhitboxsets;
+	int hitboxsetindex;
+
+	mstudiohitboxset_t *pHitboxSet( int i ) const {
+		return reinterpret_cast< mstudiohitboxset_t * >(( (unsigned char *)this ) + hitboxsetindex) + i;
+	}
+
+	mstudiobbox_t *pHitbox( int i, int set ) const {
+		const mstudiohitboxset_t *s = pHitboxSet( set );
+		if( !s )
+			return nullptr;
+
+		return s->pHitbox( i );
+	}
+
+	int GetHitboxCount( int set ) const {
+		const mstudiohitboxset_t *s = pHitboxSet( set );
+		if( !s )
+			return 0;
+
+		return s->numhitboxes;
+	}
+
+	int numlocalanim;
+	int localanimindex;
+	int numlocalseq;
+	int localseqindex;
+	mutable int activitylistversion;
+	mutable int eventsindexed;
+	int numtextures;
+	int textureindex;
+	int numcdtextures;
+	int cdtextureindex;
+	int numskinref;
+	int numskinfamilies;
+	int skinindex;
+	int numbodyparts;
+	int bodypartindex;
+	int numlocalattachments;
+	int localattachmentindex;
+	int numlocalnodes;
+	int localnodeindex;
+	int localnodenameindex;
+	int numflexdesc;
+	int flexdescindex;
+	int numflexcontrollers;
+	int flexcontrollerindex;
+	int numflexrules;
+	int flexruleindex;
+	int numikchains;
+	int ikchainindex;
+	int nummouths;
+	int mouthindex;
+	int numlocalposeparameters;
+	int localposeparamindex;
+	int surfacepropindex;
+	int keyvalueindex;
+	int keyvaluesize;
+	int numlocalikautoplaylocks;
+	int localikautoplaylockindex;
+	float mass;
+	int contents;
+	int numincludemodels;
+	int includemodelindex;
+	mutable void *virtualModel;
+	int szanimblocknameindex;
+	int numanimblocks;
+	int animblockindex;
+	mutable void *animblockModel;
+	int bonetablebynameindex;
+	void *pVertexBase;
+	void *pIndexBase;
+	unsigned char constdirectionallightdot;
+	unsigned char rootLOD;
+	unsigned char numAllowedRootLODs;
+	PAD( 0x5 );
+	int numflexcontrollerui;
+	int flexcontrolleruiindex;
+	float flVertAnimFixedPointScale;
+	PAD( 0x4 );
+	int studiohdr2index;
+	PAD( 0x4 );
+};
+
+enum class TraceType_t {
+	TRACE_EVERYTHING = 0,
+	TRACE_WORLD_ONLY,
+	TRACE_ENTITIES_ONLY,
+	TRACE_EVERYTHING_FILTER_PROPS,
+};
+
+enum OverrideType_t {
+	OVERRIDE_NORMAL = 0,
+	OVERRIDE_BUILD_SHADOWS,
+	OVERRIDE_DEPTH_WRITE,
+};
+
+enum LightType_t {
+	MATERIAL_LIGHT_DISABLE = 0,
+	MATERIAL_LIGHT_POINT,
+	MATERIAL_LIGHT_DIRECTIONAL,
+	MATERIAL_LIGHT_SPOT,
+};
+
+struct LightDesc_t {
+	LightType_t m_Type; //< MATERIAL_LIGHT_xxx
+	Vec3_t m_Color; //< color+intensity 
+	Vec3_t m_Position; //< light source center position
+	Vec3_t m_Direction; //< for SPOT, direction it is pointing
+	float m_Range; //< distance range for light.0=infinite
+	float m_Falloff; //< angular falloff exponent for spot lights
+	float m_Attenuation0; //< constant distance falloff term
+	float m_Attenuation1; //< linear term of falloff
+	float m_Attenuation2; //< quadatic term of falloff
+	float m_Theta; //< inner cone angle. no angular falloff 
+	//< within this cone
+	float m_Phi; //< outer cone angle
+
+	// the values below are derived from the above settings for optimizations
+	// These aren't used by DX8. . used for software lighting.
+	float m_ThetaDot;
+	float m_PhiDot;
+	unsigned int m_Flags;
+protected:
+	float OneOver_ThetaDot_Minus_PhiDot;
+	float m_RangeSquared;
+public:
+};
+
+struct DrawModelInfo_t {
+	studiohdr_t *m_pStudioHdr;
+	void *m_pHardwareData;
+	void *m_Decals;
+	int m_Skin;
+	int m_Body;
+	int m_HitboxSet;
+	DWORD *m_pClientEntity;
+	int m_Lod;
+	void *m_pColorMeshes;
+	bool m_bStaticLighting;
+	Vec3_t m_vecAmbientCube[6]; // ambient, and lights that aren't in locallight[]
+	int m_nLocalLightCount;
+	LightDesc_t m_LocalLightDescs[4];
+};
+
+struct cplane_t {
+	Vec3_t m_normal;
+	float m_dist;
+	BYTE m_type;
+	BYTE m_sign_bits;
+	BYTE m_pad[ 2 ];
+};
+
+struct csurface_t {
+	const char *m_name;
+	short m_surface_props;
+	unsigned short m_flags;
+};
+
+//-----------------------------------------------------------------------------
+// DrawModel flags
+//-----------------------------------------------------------------------------
+enum {
+	STUDIORENDER_DRAW_ENTIRE_MODEL = 0,
+	STUDIORENDER_DRAW_OPAQUE_ONLY = 0x01,
+	STUDIORENDER_DRAW_TRANSLUCENT_ONLY = 0x02,
+	STUDIORENDER_DRAW_GROUP_MASK = 0x03,
+
+	STUDIORENDER_DRAW_NO_FLEXES = 0x04,
+	STUDIORENDER_DRAW_STATIC_LIGHTING = 0x08,
+
+	STUDIORENDER_DRAW_ACCURATETIME = 0x10, // Use accurate timing when drawing the model.
+	STUDIORENDER_DRAW_NO_SHADOWS = 0x20,
+	STUDIORENDER_DRAW_GET_PERF_STATS = 0x40,
+
+	STUDIORENDER_DRAW_WIREFRAME = 0x80,
+
+	STUDIORENDER_DRAW_ITEM_BLINK = 0x100,
+
+	STUDIORENDER_SHADOWDEPTHTEXTURE = 0x200,
+
+	STUDIORENDER_SSAODEPTHTEXTURE = 0x1000,
+
+	STUDIORENDER_GENERATE_STATS = 0x8000,
+};
+
+enum Flag {
+	FL_ONGROUND = ( 1 << 0 ),
+	FL_DUCKING = ( 1 << 1 ),
+	FL_WATERJUMP = ( 1 << 2 ),
+	FL_ONTRAIN = ( 1 << 3 ),
+	FL_INRAIN = ( 1 << 4 ),
+	FL_FROZEN = ( 1 << 5 ),
+	FL_ATCONTROLS = ( 1 << 6 ),
+	FL_CLIENT = ( 1 << 7 ),
+	FL_FAKECLIENT = ( 1 << 8 ),
+};
+
+enum Hitboxes {
+	HITBOX_INVALID = -1,
+	HITBOX_HEAD,
+	HITBOX_NECK,
+	HITBOX_LOWER_NECK,
+	HITBOX_PELVIS,
+	HITBOX_BODY,
+	HITBOX_THORAX,
+	HITBOX_CHEST,
+	HITBOX_UPPER_CHEST,
+	HITBOX_RIGHT_THIGH,
+	HITBOX_LEFT_THIGH,
+	HITBOX_RIGHT_CALF,
+	HITBOX_LEFT_CALF,
+	HITBOX_RIGHT_FOOT,
+	HITBOX_LEFT_FOOT,
+	HITBOX_RIGHT_HAND,
+	HITBOX_LEFT_HAND,
+	HITBOX_RIGHT_UPPER_ARM,
+	HITBOX_RIGHT_FOREARM,
+	HITBOX_LEFT_UPPER_ARM,
+	HITBOX_LEFT_FOREARM,
+	HITBOX_MAX
+};
 
 enum WeaponType {
 	WEAPON_TYPE_INVALID = -1,
@@ -104,6 +524,36 @@ enum Weapon {
 	GLOVE_LEATHER_WRAP = 5032,
 	GLOVE_MOTORCYCLE = 5033,
 	GLOVE_SPECIALIST = 5034
+};
+
+enum MoveTypes {
+	MOVETYPE_NONE = 0, // never moves
+	MOVETYPE_ISOMETRIC, // For players -- in TF2 commander view, etc.
+	MOVETYPE_WALK, // player only - moving on the ground
+	MOVETYPE_STEP, // gravity, special edge handling -- monsters use this
+	MOVETYPE_FLY, // No gravity, but still collides with stuff
+	MOVETYPE_FLYGRAVITY, // flies through the air + is affected by gravity
+	MOVETYPE_VPHYSICS, // uses VPHYSICS for simulation
+	MOVETYPE_PUSH, // no clip to world, push and crush
+	MOVETYPE_NOCLIP, // No gravity, no collisions, still do velocity/avelocity
+	MOVETYPE_LADDER, // Used by players only when going onto a ladder
+	MOVETYPE_OBSERVER, // Observer movement, depends on player's observer mode
+	MOVETYPE_CUSTOM, // Allows the entity to describe its own physics
+	MOVETYPE_LAST = MOVETYPE_CUSTOM, // should always be defined as the last item in the list
+	MOVETYPE_MAX_BITS = 4
+};
+
+enum Hitgroups {
+	HITGROUP_INVALID = -1,
+	HITGROUP_GENERIC,
+	HITGROUP_HEAD,
+	HITGROUP_CHEST,
+	HITGROUP_STOMACH,
+	HITGROUP_LEFTARM,
+	HITGROUP_RIGHTARM,
+	HITGROUP_LEFTLEG,
+	HITGROUP_RIGHTLEG,
+	HITGROUP_GEAR = 10
 };
 
 enum ClassID {
@@ -362,13 +812,6 @@ enum ClassID {
 	SporeTrail
 };
 
-enum OverrideType {
-	OVERRIDE_NORMAL = 0,
-	OVERRIDE_BUILD_SHADOWS = 1,
-	OVERRIDE_DEPTH_WRITE = 2,
-	OVERRIDE_WHATEVER = 3
-};
-
 enum MaterialFlags_t {
 	MATERIAL_VAR_DEBUG = 1,
 	MATERIAL_VAR_NO_DEBUG_OVERRIDE = 2,
@@ -405,19 +848,19 @@ enum MaterialFlags_t {
 };
 
 struct ModelRenderInfo_t {
-	Vec3_t               m_origin;
-	Vec3_t               m_angles;
-	void                 *m_renderable;
-	const void           *m_model;
-	const matrix3x4_t    *m_model_to_world;
-	const matrix3x4_t    *m_lighting_offset;
-	const Vec3_t         *m_lighting_origin;
-	int                  m_flags;
-	int                  m_entity_index;
-	int                  m_skin;
-	int                  m_body;
-	int                  m_hitboxset;
-	unsigned short       m_instance;
+	Vec3_t m_origin;
+	Vec3_t m_angles;
+	void *m_renderable;
+	const void *m_model;
+	const matrix3x4_t *m_model_to_world;
+	const matrix3x4_t *m_lighting_offset;
+	const Vec3_t *m_lighting_origin;
+	int m_flags;
+	int m_entity_index;
+	int m_skin;
+	int m_body;
+	int m_hitboxset;
+	unsigned short m_instance;
 };
 
 class CFlashLightEffect {
@@ -444,69 +887,69 @@ public:
 	PAD( 32 )
 };
 
-class AnimationLayer {
+class AnimationLayer_t {
 public:
 	PAD( 20 )
-	uint32_t    m_nOrder;
-	uint32_t    m_nSequence;
-	float       m_flPrevCycle;
-	float       m_flWeight;
-	float       m_flWeightDeltaRate;
-	float       m_flPlaybackRate;
-	float       m_flCycle;
-	void        *m_pOwner;
-	char        pad_0038[ 4 ];
+	uint32_t m_nOrder;
+	uint32_t m_nSequence;
+	float m_flPrevCycle;
+	float m_flWeight;
+	float m_flWeightDeltaRate;
+	float m_flPlaybackRate;
+	float m_flCycle;
+	void *m_pOwner;
+	char pad_0038[ 4 ];
 };
 
-struct MaterialVideoMode_t  {
-	int    m_Width;
-	int    m_Height;
-	int    m_Format;
-	int    m_RefreshRate;
+struct MaterialVideoMode_t {
+	int m_Width;
+	int m_Height;
+	int m_Format;
+	int m_RefreshRate;
 };
 
-struct MaterialSystem_Config_t  {
-	MaterialVideoMode_t    m_VideoMode;
-	float                  m_fMonitorGamma;
-	float                  m_fGammaTVRangeMin;
-	float                  m_fGammaTVRangeMax;
-	float                  m_fGammaTVExponent;
-	bool                   m_bGammaTVEnabled;
-	bool                   m_bTripleBuffered;
-	int                    m_nAASamples;
-	int                    m_nForceAnisotropicLevel;
-	int                    m_nSkipMipLevels;
-	int                    m_nDxSupportLevel;
-	int                    m_nFlags;
-	bool                   m_bEditMode;
-	char                   m_nProxiesTestMode;
-	bool                   m_bCompressedTextures;
-	bool                   m_bFilterLightmaps;
-	bool                   m_bFilterTextures;
-	bool                   m_bReverseDepth;
-	bool                   m_bBufferPrimitives;
-	bool                   m_bDrawFlat;
-	bool                   m_bMeasureFillRate;
-	bool                   m_bVisualizeFillRate;
-	bool                   m_bNoTransparency;
-	bool                   m_bSoftwareLighting;
-	bool                   m_bAllowCheats;
-	char                   m_nShowMipLevels;
-	bool                   m_bShowLowResImage;
-	bool                   m_bShowNormalMap;
-	bool                   m_bMipMapTextures;
-	char                   m_nFullbright;
-	bool                   m_bFastNoBump;
-	bool                   m_bSuppressRendering;
-	bool                   m_bDrawGray;
-	bool                   m_bShowSpecular;
-	bool                   m_bShowDiffuse;
-	int                    m_nWindowedSizeLimitWidth;
-	int                    m_nWindowedSizeLimitHeight;
-	int                    m_nAAQuality;
-	bool                   m_bShadowDepthTexture;
-	bool                   m_bMotionBlur;
-	bool                   m_bSupportFlashlight;
-	bool                   m_bPaintEnabled;
+struct MaterialSystem_Config_t {
+	MaterialVideoMode_t m_VideoMode;
+	float m_fMonitorGamma;
+	float m_fGammaTVRangeMin;
+	float m_fGammaTVRangeMax;
+	float m_fGammaTVExponent;
+	bool m_bGammaTVEnabled;
+	bool m_bTripleBuffered;
+	int m_nAASamples;
+	int m_nForceAnisotropicLevel;
+	int m_nSkipMipLevels;
+	int m_nDxSupportLevel;
+	int m_nFlags;
+	bool m_bEditMode;
+	char m_nProxiesTestMode;
+	bool m_bCompressedTextures;
+	bool m_bFilterLightmaps;
+	bool m_bFilterTextures;
+	bool m_bReverseDepth;
+	bool m_bBufferPrimitives;
+	bool m_bDrawFlat;
+	bool m_bMeasureFillRate;
+	bool m_bVisualizeFillRate;
+	bool m_bNoTransparency;
+	bool m_bSoftwareLighting;
+	bool m_bAllowCheats;
+	char m_nShowMipLevels;
+	bool m_bShowLowResImage;
+	bool m_bShowNormalMap;
+	bool m_bMipMapTextures;
+	char m_nFullbright;
+	bool m_bFastNoBump;
+	bool m_bSuppressRendering;
+	bool m_bDrawGray;
+	bool m_bShowSpecular;
+	bool m_bShowDiffuse;
+	int m_nWindowedSizeLimitWidth;
+	int m_nWindowedSizeLimitHeight;
+	int m_nAAQuality;
+	bool m_bShadowDepthTexture;
+	bool m_bMotionBlur;
+	bool m_bSupportFlashlight;
+	bool m_bPaintEnabled;
 	PAD( 12 )
 };

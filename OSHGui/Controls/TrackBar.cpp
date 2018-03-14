@@ -13,6 +13,7 @@
 #include <sstream>
 #include <iomanip>
 #include "Drawing/FontManager.hpp"
+#include "Timer.hpp"
 
 namespace OSHGui
 {
@@ -37,6 +38,15 @@ namespace OSHGui
 		label_value_( new Label() )
 	{
 		type_ = ControlType::TrackBar;
+
+		OSHGui::Timer *timer = new OSHGui::Timer();
+		timer->SetInterval( 10 );
+		timer->Start();
+		AddControl( timer );
+
+		timer->GetTickEvent() += OSHGui::TickEventHandler( [ this ]( Control *sender ) {
+			SetBackColor( OSHGui::Application::Instance().GetPrimaryColor() );
+		});
 
 		SetSize( DefaultSize );
 

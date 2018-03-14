@@ -1,7 +1,6 @@
 #pragma once
 
-enum ButtonFlags_t
-{
+enum ButtonFlags_t {
 	IN_ATTACK = ( 1 << 0 ),
 	IN_JUMP = ( 1 << 1 ),
 	IN_DUCK = ( 1 << 2 ),
@@ -30,14 +29,14 @@ enum ButtonFlags_t
 	IN_ATTACK3 = ( 1 << 25 ),
 };
 
-class CUserCmd
-{
+class CUserCmd {
 public:
 	virtual ~CUserCmd() { }
 
 	int     m_command_number;
 	int     m_tick_count;
-	Ang_t   m_viewangles;
+	Vec3_t  m_viewangles;
+	Vec3_t	m_aimdirection;
 	float   m_forwardmove;
 	float   m_sidemove;
 	float   m_upmove;

@@ -152,6 +152,13 @@ namespace OSHGui
 	void Form::DrawSelf(Drawing::RenderContext &context)
 	{
 		Control::DrawSelf(context);
+		
+		/*static Drawing::Color color = OSHGui::Application::Instance().GetPrimaryColor();
+
+		if( OSHGui::Application::Instance().GetPrimaryColor() != color ) {
+			Invalidate();
+			color = OSHGui::Application::Instance().GetPrimaryColor();
+		}*/
 
 		captionBar_->Render();
 		containerPanel_->Render();
@@ -174,7 +181,7 @@ namespace OSHGui
 		g.FillRectangle( GetBackColor(), RectangleF( PointF( 2, -2 ), SizeF( GetSize().Width - 4, 2 ) ) );
 
 		// ImagePtr image = Image::FromFile( "outlets.png" );
-		// g.DrawImage( image, Color::FromARGB( 123, 255, 255, 255 ), PointF(0, -1), RectangleF(PointF(1, 0), GetSize() + SizeF( -2, 0 ) ) );
+		 //g.DrawImage( image, Color::FromARGB( 123, 245, 245, 255 ), PointF(0, -1), RectangleF(PointF(1, 0), GetSize() + SizeF( -2, 0 ) ) );
 	}
 	//---------------------------------------------------------------------------
 	//Form::Captionbar::Button
@@ -272,7 +279,7 @@ namespace OSHGui
 	void Form::CaptionBar::DrawSelf(Drawing::RenderContext &context)
 	{
 		Control::DrawSelf(context);
-
+		
 		titleLabel_->Render();
 		//closeButton_->Render();
 	}
@@ -289,12 +296,14 @@ namespace OSHGui
 	void Form::CaptionBar::OnMouseMove(const MouseMessage &mouse)
 	{
 		Control::OnMouseMove(mouse);
-		
+
 		if (drag_)
 		{
 			GetParent()->SetLocation(GetParent()->GetLocation() + (mouse.GetLocation() - dragStart_));
 			dragStart_ = mouse.GetLocation();
 		}
+
+		Invalidate();
 	}
 	//---------------------------------------------------------------------------
 	void Form::CaptionBar::OnMouseUp(const MouseMessage &mouse)

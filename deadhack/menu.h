@@ -48,7 +48,7 @@ namespace Controls {
 			SetFont( g_custom_renderer.m_fonts.at( 0 ) );
 			SetMaxShowItems( max_items );
 
-			auto label = new OSHGui::Label();
+			OSHGui::Label *label = new OSHGui::Label( );
 			label->SetForeColor( OSHColor::FromARGB( 255, 201, 201, 201 ) );
 			label->SetFont( g_custom_renderer.m_fonts.at( 0 ) );
 			label->SetLocation( GetLeft(), GetTop() - 13 );
@@ -90,8 +90,7 @@ namespace Controls {
 
 	class Checkbox : public OSHGui::CheckBox {
 	private:
-		void init( const AnsiString &text, int x, int y, OSHColor fore_color, Control *parent, bool *cvar ) {
-			SetBackColor( fore_color );
+		void init( const AnsiString &text, int x, int y, Control *parent, bool *cvar ) {
 			SetFont( g_custom_renderer.m_fonts.at( 0 ) );
 			SetLocation( x, y );
 			SetText( text );
@@ -114,13 +113,13 @@ namespace Controls {
 			});
 		}
 	public:
-		Checkbox( const AnsiString &text, int x, int y, OSHColor fore_color, Control *parent, bool *cvar ) {
-			init( text, x, y, fore_color, parent, cvar );
+		Checkbox( const AnsiString &text, int x, int y, Control *parent, bool *cvar ) {
+			init( text, x, y, parent, cvar );
 		}
 
 		// automatic positioning.
-		Checkbox( const AnsiString &text, OSHColor fore_color, Control *parent, bool *cvar ) {
-			init( text, g_menu.m_control_x_pos, g_menu.m_control_y_pos, fore_color, parent, cvar );
+		Checkbox( const AnsiString &text, Control *parent, bool *cvar ) {
+			init( text, g_menu.m_control_x_pos, g_menu.m_control_y_pos, parent, cvar );
 			g_menu.m_control_y_pos += 18;
 		}
 	};
@@ -128,6 +127,7 @@ namespace Controls {
 	class Button : public OSHGui::Button {
 	private:
 		void init( const AnsiString &text, int x, int y, Control *parent ) {
+			SetForeColor( OSHColor::FromARGB( 255, 201, 201, 201 ) );
 			SetFont( g_custom_renderer.m_fonts.at( 0 ) );
 			SetLocation( x, y );
 			//SetSize( 220, 30 );
@@ -180,27 +180,36 @@ namespace Controls {
 	class ColorButton : public OSHGui::ColorButton {
 	private:
 	public:
-		void init( int x, int y, Control *parent, Control *control ) {
+		void init( int x, int y, Control *parent, char str[] ) {
 			SetLocation( x, y );
 			parent->AddControl( this );
 
 			OSHGui::Timer *timer = new OSHGui::Timer();
-			timer->SetInterval( 5 );
+			timer->SetInterval( 50 );
 			timer->Start();
 			parent->AddControl( timer );
 
-			timer->GetTickEvent() += OSHGui::TickEventHandler( [ this ]( Control *sender ) {
-				
+			timer->GetTickEvent() += OSHGui::TickEventHandler( [ this, str ]( Control *sender ) {
+				this->SetColor( g_config.string_to_color( 1.f, str ) );
 			});
 
 			// click event.
-			this->GetClickEvent() += OSHGui::ClickEventHandler( [ this ]( Control *sender ) {
-				
-			});	
+			this->GetColorChangedEvent() += OSHGui::ColorChangedEventHandler( [ this, str ]( Control*, const OSHGui::Drawing::Color &color ) {
+				strcpy_s( str, 256, g_config.color_to_string( color ).c_str() );
+				SetColor( GetColor() );
+			});
 		}
 
-		ColorButton( Control *parent, Control *control ) {
-			init( parent->GetRight() - 66, control->GetTop() + 2, parent, control );
+		// automatic positioning.
+		ColorButton( Control *parent, Control *control, char str[] ) {
+			if( control->GetType() == OSHGui::ControlType::ComboBox )
+				init( parent->GetRight() - 38, control->GetTop() + 6, parent, str );
+			else
+				init( parent->GetRight() - 38, control->GetTop() + 2, parent, str );
+		}
+
+		ColorButton( int x, int y, Control *parent, char str[] ) {
+			init( x, y, parent, str );
 		}
 	};
 
@@ -210,8 +219,8 @@ namespace Controls {
 		void init( const AnsiString &text, int x, int y, Control *parent, int *cvar ) {
 			SetLocation( x, y );
 			SetFont( g_custom_renderer.m_fonts.at( 0 ) );
-			
-			auto label = new OSHGui::Label();
+
+			OSHGui::Label *label = new OSHGui::Label( );
 			label->SetForeColor( OSHColor::FromARGB( 255, 201, 201, 201 ) );
 			label->SetFont( g_custom_renderer.m_fonts.at( 0 ) );
 			label->SetLocation( GetLeft(), GetTop() - 13 );
@@ -245,9 +254,9 @@ namespace Controls {
 
 	class Slider : public OSHGui::TrackBar {
 	private:
-		void init( const AnsiString &text, int x, int y, OSHColor back_color, Control *parent, float min, float max, int *value ) {
+		void init( const AnsiString &text, int x, int y, Control *parent, float min, float max, int *value ) {
 			SetFont( g_custom_renderer.m_fonts.at( FONT_VERDANA_BOLD_7PX ) );
-			SetBackColor( back_color );
+			SetBackColor( g_custom_renderer.m_instance->GetPrimaryColor() );
 			SetLocation( x, y );
 			SetMinimum( min );
 			SetMaximum( max );
@@ -272,9 +281,8 @@ namespace Controls {
 			});
 		}
 
-		void init( const AnsiString &text, int x, int y, OSHColor back_color, Control *parent, float min, float max, float *value, int precision ) {
+		void init( const AnsiString &text, int x, int y, Control *parent, float min, float max, float *value, int precision ) {
 			SetFont( g_custom_renderer.m_fonts.at( FONT_VERDANA_BOLD_7PX ) );
-			SetBackColor( back_color );
 			SetLocation( x, y );
 			SetMinimum( min );
 			SetMaximum( max );
@@ -300,21 +308,21 @@ namespace Controls {
 		}
 	public:
 		Slider( const AnsiString &text, int x, int y, OSHColor back_color, Control *parent, float min, float max, int *value ) {
-			init( text, x, y, back_color, parent, min, max, value );
+			init( text, x, y, parent, min, max, value );
 		}
 
 		Slider( const AnsiString &text, int x, int y, OSHColor back_color, Control *parent, float min, float max, float *value, int precision ) {
-			init( text, x, y, back_color, parent, min, max, value, precision );
+			init( text, x, y, parent, min, max, value, precision );
 		}
 
 		// automatic positioning.
-		Slider( const AnsiString &text, OSHColor back_color, Control *parent, float min, float max, int *value ) {
-			init( text, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 2, g_menu.m_control_y_pos + 4, back_color, parent, min, max, value );
+		Slider( const AnsiString &text, Control *parent, float min, float max, int *value ) {
+			init( text, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 2, g_menu.m_control_y_pos + 4, parent, min, max, value );
 			g_menu.m_control_y_pos += 28;
 		}
 
-		Slider( const AnsiString &text, OSHColor back_color, Control *parent, float min, float max, float *value, int precision ) {
-			init( text, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 2, g_menu.m_control_y_pos, back_color, parent, min, max, value, precision );
+		Slider( const AnsiString &text, Control *parent, float min, float max, float *value, int precision ) {
+			init( text, parent->GetWidth() / 2 - Control::GetWidth() / 2 - 2, g_menu.m_control_y_pos, parent, min, max, value, precision );
 			g_menu.m_control_y_pos += 28;
 		}
 	};
@@ -341,20 +349,24 @@ private:
 	// initialize all controls.
 	void InitializeComponent() {
 		this->SetSize( OSHGui::Drawing::SizeI( 600, 400 ) );
-		this->SetBackColor( m_primary_color );
+		//this->SetBackColor( g_custom_renderer.m_instance->GetPrimaryColor() );
 
 		create_tabs();
 
 		// init tab controls.
+		legitbot();
 		visuals();
+		misc();
 		configuration();
 	}
 
 	// create tabs.
 	void create_tabs();
+	void legitbot();
 
 	// visual tab controls.
 	void visuals();
+	void misc();
 	void configuration();
 
 public:

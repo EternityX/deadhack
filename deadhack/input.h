@@ -2,7 +2,7 @@
 
 class Input : public OSHGui::Input::Input {
 private:
-	bool process_message( LPMSG msg );
+	bool process_message( LPMSG msg, WPARAM wparam, LPARAM lparam );
 
 public:
     HWND                    m_window_handle;

@@ -637,7 +637,8 @@ namespace config_manager {
 
 		bool Execute( const std::string &scriptFile ) {
 			std::ifstream file( scriptDirectory_ + scriptFile );
-			if( file.is_open( ) ) {
+			if( file.is_open() ) {
+
 				std::string currentLine( "" );
 
 				while( !file.eof( ) ) {
@@ -679,13 +680,13 @@ namespace config_manager {
 						cmd = cvars_.at( i )->identifier + " " + "\"" + std::to_string( should_reset ? 0.0 : cvars_.at( i )->dbValue ) + "\"" + "\n";
 						break;
 					case CVAR_TYPE_STRING:
-						cmd = cvars_.at( i )->identifier + " " + "\"" + ( should_reset ? "string" : cvars_.at( i )->szValue ) + "\"" + "\n";
+						cmd = cvars_.at( i )->identifier + " " + "\"" + ( should_reset ? "1.0,1.0,1.0" : cvars_.at( i )->szValue ) + "\"" + "\n";
 						break;
 					default:
 						break;
 					}
 
-					if( !cmd.empty( ) )
+					if( !cmd.empty() )
 						file << cmd;
 				}
 

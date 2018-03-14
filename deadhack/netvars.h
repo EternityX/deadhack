@@ -49,8 +49,8 @@ public:
 
 	void store_table( const std::string &name, RecvTable *table, size_t offset = 0 ) {
 		hash32_t    var, base{ Hash::fnv1a_32( name ) };
-		RecvProp*   prop;
-		RecvTable*  child;
+		RecvProp    *prop;
+		RecvTable   *child;
 
 		// iterate props
 		for( int i{}; i < table->m_nProps; ++i ) {

@@ -14,8 +14,18 @@ namespace OSHGui
 
 		picker->GetColorChangedEvent() += ColorChangedEventHandler( [ this ]( Control*, const Drawing::Color &color )
 		{
+			//picker->Invalidate();
 			color_ = picker->GetColor();
-			Invalidate();
+			colorChangedEvent_.Invoke(this, color_);
+			//Invalidate();
+		} );
+
+		picker->GetFocusLostEvent() += FocusLostEventHandler( [ this ]( Control* con1, Control* con2 )
+		{
+			if( con2 != this )
+			{
+				Collapse();
+			}
 		} );
 
 		AddSubControl( picker );
@@ -31,6 +41,14 @@ namespace OSHGui
 	void ColorButton::SetColor( Drawing::Color color ) 
 	{
 		color_ = color;
+		Invalidate();
+		//colorChangedEvent_.Invoke(this, color_);
+	}
+
+	ColorChangedEvent& ColorButton::GetColorChangedEvent()
+	{
+		//Invalidate();
+		return colorChangedEvent_;
 	}
 
 	void ColorButton::Expand()

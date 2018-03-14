@@ -6,6 +6,10 @@ public:
 		return Utils::get_method< float(__thiscall *)( decltype( this ) )>( this, 12 )( this );
 	}
 
+	float GetInt() {
+		return Utils::get_method< int(__thiscall *)( decltype( this ) )>( this, 13 )( this );
+	}
+
 	void SetValue( int value ) {
 		Utils::get_method< void(__thiscall *)( decltype( this ), int )>( this, 16 )( this, value );
 	}

@@ -8,6 +8,9 @@ namespace OSHGui
 {
 	class ColorPicker;
 
+	typedef Event<void(Control*, const Drawing::Color &color)> ColorChangedEvent;
+	typedef EventHandler<void(Control*, const Drawing::Color &color)> ColorChangedEventHandler;
+
 	class OSHGUI_EXPORT ColorButton : public Control
 	{
 	public:
@@ -21,10 +24,12 @@ namespace OSHGui
 		void HandleMouseEvent( const MouseMessage &mouse );
 		void DrawSelf( Drawing::RenderContext &context );
 		void PopulateGeometry();
+		ColorChangedEvent& GetColorChangedEvent();
 
 	private:
 		bool droppedDown_;
 		Drawing::Color color_;
 		ColorPicker *picker;
+		ColorChangedEvent colorChangedEvent_;
 	};
 }

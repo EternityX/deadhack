@@ -97,6 +97,7 @@ namespace OSHGui
 	//---------------------------------------------------------------------------
 	ColorChangedEvent& ColorPicker::GetColorChangedEvent()
 	{
+		Invalidate();
 		return colorChangedEvent_;
 	}
 	//---------------------------------------------------------------------------
@@ -166,6 +167,7 @@ namespace OSHGui
 
 		Graphics g(*geometry_);
 
+		g.FillRectangle(Color::FromARGB( 255, 18, 18, 26 ), RectangleF(PointF(-1, -1), SizeF( GetSize().Width + 2, GetSize().Height + 2 )));
 		g.DrawImage(gradient_, Color::White(), RectangleF(PointF(0, 0), GetSize()));
 
 		g.FillRectangle(Color::Black(), RectangleF(colorCursorLocation_ - PointF(2, 2), SizeF(4, 4)));

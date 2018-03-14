@@ -1,8 +1,14 @@
 #pragma once
 
-class IVModelRender {
+typedef void* LightCacheHandle_t;
+
+class IVModelRender
+{
 public:
-	void SetForcedMaterialOverride( IMaterial* material, OverrideType type = OVERRIDE_NORMAL, int unknown = 0 ) {
-		return Utils::get_method< void( __thiscall *)( decltype( this ), IMaterial *, OverrideType, int )>( this, 1 )( this, material, type, unknown );
-	}
+	virtual int                     DrawModel(int flags, IClientRenderable *pRenderable, ModelInstanceHandle_t instance, int entity_index, const model_t *model, Vec3_t const& origin, Vec3_t const& angles, int skin, int body, int hitboxset, const matrix3x4_t *modelToWorld = NULL, const matrix3x4_t *pLightingOffset = NULL) = 0;
+	virtual void                    ForcedMaterialOverride(IMaterial *newMaterial, OverrideType_t nOverrideType = OVERRIDE_NORMAL, int nOverrides = 0) = 0;
+	virtual bool                    IsForcedMaterialOverride(void) = 0;
+	virtual void                    SetViewTarget(const int *pStudioHdr, int nBodyIndex, const Vec3_t& target) = 0;
+	virtual ModelInstanceHandle_t   CreateInstance(IClientRenderable *pRenderable, LightCacheHandle_t *pCache = NULL) = 0;
+	virtual void                    DestroyInstance(ModelInstanceHandle_t handle) = 0;
 };

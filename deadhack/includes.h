@@ -4,7 +4,7 @@
 #pragma warning( disable : 4244 ) // warning C4244: '=': conversion possible loss of data
 
 // note - dex; undefine this when distributing!!
-#define CHEAT_DBG
+//#define CHEAT_DBG
 
 #define WIN32_LEAN_AND_MEAN
 #define NOCOMM
@@ -30,6 +30,7 @@ using ulong_t = unsigned long;
 #include <cctype>
 #include <random>
 #include <thread>
+#include <chrono>
 
 #ifdef CHEAT_DBG
     // todo - dex; this is pretty silly for debugging, we should really implement a proper testing function here or something so we can debug issues from users.
@@ -68,6 +69,7 @@ using ulong_t = unsigned long;
 #include "math.h"
 #include "cvar.h"
 #include "color.h"
+#include "timer.h"
 
 // direct3d9.
 #include <d3d9.h>
@@ -85,21 +87,25 @@ using ulong_t = unsigned long;
 // cheat stuff.
 #include "interfaces.h"
 #include "sdk.h"
+#include "events.h"
+#include "iweaponsystem.h"
 #include "csgo.h"
 
 #include "netvars.h"
 #include "offsets.h"
 
-#include "csgo_util.h"
+#include "security.h"
 
 // structs.
 #include "cbaseentity.h"
 #include "cbasecombatweapon.h"
 #include "ccsplayer.h"
 
-#include "lagcomp.h"
-
 #include "client.h"
+#include "csgo_util.h"
+
+#include "engine_pred.h"
+#include "lagcomp.h"
 
 #include "hooks.h"
 

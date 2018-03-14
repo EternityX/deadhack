@@ -12,6 +12,7 @@
 #include "../Misc/TextHelper.hpp"
 #include "../Misc/Exceptions.hpp"
 #include <algorithm>
+#include "Timer.hpp"
 
 namespace OSHGui
 {
@@ -31,6 +32,15 @@ namespace OSHGui
 		selected_( nullptr )
 	{
 		type_ = ControlType::TabControl;
+
+		OSHGui::Timer *timer = new OSHGui::Timer();
+		timer->SetInterval( 10 );
+		timer->Start();
+		AddControl( timer );
+
+		timer->GetTickEvent() += OSHGui::TickEventHandler( [ this ]( Control *sender ) {
+			SetForeColor( OSHGui::Application::Instance().GetPrimaryColor() );
+		});
 
 		lastSwitchButton_ = new TabControlSwitchButton( TabControlSwitchButton::TabControlSwitchButtonDirection::Left );
 		lastSwitchButton_->GetClickEvent() += ClickEventHandler( [ this ]( Control *control )
@@ -101,14 +111,14 @@ namespace OSHGui
 	{
 		Control::SetBackColor( color );
 
-		lastSwitchButton_->SetBackColor( color );
+		/*lastSwitchButton_->SetBackColor( color );
 		nextSwitchButton_->SetBackColor( color );
 
 		for( auto &binding : bindings_ )
 		{
 			binding->Button->SetBackColor( color );
 			binding->TabPage->SetBackColor( color );
-		}
+		}*/
 	}
 	//---------------------------------------------------------------------------
 	TabPage* TabControl::GetTabPage( const Misc::AnsiString &text ) const
@@ -459,7 +469,7 @@ namespace OSHGui
 		{
 			g.FillRectangleGradient( Color::FromARGB( 255, 55, 55, 64 ), PointF( 0, 0 ), GetSize() );
 			g.FillRectangleGradient( ColorRectangle( color, Color::FromARGB( 255, 35, 35, 43 ) ), PointF( 1, 1 ), GetSize() - SizeF( 2, 0 ) );
-			g.FillRectangle( Color::FromARGB( 255, 206, 115, 136 ), PointF( 1, 24 ), SizeF( GetWidth() - 2, 1 ) );
+			g.FillRectangle( GetForeColor(), PointF( 1, 24 ), SizeF( GetWidth() - 2, 1 ) );
 		}
 		else
 		{
