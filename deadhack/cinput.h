@@ -31,7 +31,7 @@ enum ButtonFlags_t {
 
 class CUserCmd {
 public:
-	virtual ~CUserCmd() { }
+	virtual ~CUserCmd() = default;
 
 	int     m_command_number;
 	int     m_tick_count;

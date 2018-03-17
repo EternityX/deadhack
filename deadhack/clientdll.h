@@ -310,8 +310,8 @@ struct CViewSetup {
 	PAD( 0x80 )
 	float    m_fov;
 	float    m_fov_viewmodel;
-	Vec3_t    m_origin;
-	Vec3_t    m_angles;
+	Vec3_t   m_origin;
+	Vec3_t   m_angles;
 	float    m_znear;
 	float    m_zfar;
 	float    m_znear_viewmodel;

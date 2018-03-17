@@ -96,11 +96,11 @@ namespace Utils {
 		if( str.empty() )
 			return {};
 
-		str_len = WideCharToMultiByte( CP_UTF8, 0, str.data(), (int)str.size(), 0, 0, 0, nullptr );
+		str_len = WideCharToMultiByte( CP_UTF8, 0, str.data(), (int)str.size(), nullptr, 0, nullptr, nullptr );
 
 		out.resize( str_len );
 
-		WideCharToMultiByte( CP_UTF8, 0, str.data(), (int)str.size(), &out[ 0 ], str_len, 0, nullptr );
+		WideCharToMultiByte( CP_UTF8, 0, str.data(), (int)str.size(), &out[ 0 ], str_len, nullptr, nullptr );
 
 		return out;
 	}
@@ -113,7 +113,7 @@ namespace Utils {
 		if( str.empty() )
 			return {};
 
-		str_len = MultiByteToWideChar( CP_UTF8, 0, str.data(), (int)str.size(), 0, 0 );
+		str_len = MultiByteToWideChar( CP_UTF8, 0, str.data(), (int)str.size(), nullptr, 0 );
 
 		out.resize( str_len );
 

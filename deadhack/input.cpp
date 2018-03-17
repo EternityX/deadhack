@@ -22,10 +22,8 @@ bool Input::init( const std::string &window_name ) {
 	m_window_handle = FindWindowA( window_name.c_str(), nullptr );
 
 	m_original_wndproc = (WNDPROC)SetWindowLongA( m_window_handle, GWLP_WNDPROC, (LONG_PTR)hook );
-    if( !m_original_wndproc )
-        return false;
 
-	return true;
+	return m_original_wndproc != nullptr;
 }
 
 bool Input::init( HWND wnd ) {
@@ -40,10 +38,8 @@ bool Input::init( HWND wnd ) {
     m_window_handle = wnd;
 
 	m_original_wndproc = (WNDPROC)SetWindowLongA( m_window_handle, GWLP_WNDPROC, (LONG_PTR)hook );
-    if( !m_original_wndproc )
-        return false;
 
-    return true;
+	return m_original_wndproc != nullptr;
 }
 
 bool Input::remove() {
@@ -148,9 +144,10 @@ bool Input::process_message( LPMSG msg, WPARAM wparam, LPARAM lparam ) {
 		case WM_SYSCHAR:
 		case WM_IME_CHAR: {
 			if( enableKeyboardInput ) {
-				OSHGui::Misc::AnsiChar key_char = '\0';
+				auto key_char = '\0';
+				auto key_data = OSHGui::Key::None;
+
 				OSHGui::KeyboardState state;
-				OSHGui::Key key_data = OSHGui::Key::None;
 
 				if( msg->message == WM_CHAR || msg->message == WM_SYSCHAR ) {
 					state = OSHGui::KeyboardState::Character;
@@ -167,7 +164,7 @@ bool Input::process_message( LPMSG msg, WPARAM wparam, LPARAM lparam ) {
 
 					state = msg->message == WM_KEYDOWN || msg->message == WM_SYSKEYDOWN ? OSHGui::KeyboardState::KeyDown : OSHGui::KeyboardState::KeyUp;
 
-					key_data = static_cast< OSHGui::Key >( msg->wParam ) | modifier;
+					key_data = (OSHGui::Key)msg->wParam | modifier;
 				}
 
 				if( state != OSHGui::KeyboardState::Unknown )
@@ -176,6 +173,7 @@ bool Input::process_message( LPMSG msg, WPARAM wparam, LPARAM lparam ) {
 
 			break;
 		}
+		default: break;
 	}
 
 	return false;
@@ -218,7 +216,7 @@ bool Input::handle( HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam ) {
 		default: break;
 	}
 
-	if( !g_custom_renderer.m_instance->HasBeenInitialized() )
+	if( !OSHGui::Application::HasBeenInitialized() )
 		return false;
 
 	static bool is_down = false;

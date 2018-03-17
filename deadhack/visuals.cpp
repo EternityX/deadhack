@@ -107,7 +107,7 @@ void Visuals::player( C_CSPlayer *entity ) {
 	if( !entity->is_valid_player( false, false ) )
 		return;
 
-	player_info_s player_info;
+	player_info_s player_info{};
 	if( !g_csgo.m_engine->GetPlayerInfo( m_cur_index, &player_info ) )
 		return;
 
@@ -115,10 +115,7 @@ void Visuals::player( C_CSPlayer *entity ) {
 		entity->get_spotted() = true;
 
 	activation_type();
-	if( !m_enabled )
-		return;
-
-	if( entity == g_cl.m_local )
+	if( !m_enabled || entity == g_cl.m_local )
 		return;
 
 	if( !g_cvar.m_visuals.teammates->bValue && g_cl.m_local->get_team_index() == entity->get_team_index() )
@@ -229,8 +226,8 @@ void Visuals::world( C_BaseEntity *entity ) {
 	if( !entity->is_valid_world( true ) )
 		return;
 
-	ClientClass *client_class = entity->GetClientClass( );
-	if ( !client_class )
+	ClientClass *client_class = entity->GetClientClass();
+	if( !client_class )
 		return;
 
 	if( g_cvar.m_visuals.objectives->bValue ) {
@@ -371,7 +368,6 @@ void Visuals::draw_player_weapon( C_CSPlayer *entity, int x, int y, int w, int h
 		const WeaponInfo_t *weapon_info = g_csgo.m_weapon_system->GetWpnData( weapon->get_item_definition_index() );
 		if( !weapon_info )
 			return;
-		//WeaponInfo_t *weapon_info = weapon->get_weapon_info();
 
 		std::string weapon_name = weapon->GetClientClass()->m_pNetworkName;
 		if( weapon_name.empty() )
@@ -382,7 +378,7 @@ void Visuals::draw_player_weapon( C_CSPlayer *entity, int x, int y, int w, int h
 		if( weapon_name.compare( 0, 6, "Weapon" ) != std::string::npos )
 			weapon_name.erase( 0, 6 );
 
-		std::transform( weapon_name.begin(), weapon_name.end(), weapon_name.begin(), ::toupper );
+		std::transform( weapon_name.begin(), weapon_name.end(), weapon_name.begin(), std::toupper );
 
 		OSHColor text = OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 220, 255, 255, 255 );
 		if( entity->is_scoped() )
@@ -398,7 +394,7 @@ void Visuals::draw_player_weapon( C_CSPlayer *entity, int x, int y, int w, int h
 
 		g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], text, 
 									 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
-									 x + w * 0.5f, y + h + 2 + push_weapon_text, CENTERED_X | OUTLINED, weapon_name.c_str() );
+									 x + w * 0.5f, y + h + 2 + push_weapon_text, CENTERED_X | OUTLINED, weapon_name );
 
 
 		AnimationLayer_t *anim_layer = entity->get_anim_overlay( 1 );
@@ -1191,7 +1187,7 @@ void Visuals::skeleton( C_CSPlayer *player ) {
 	if( !studio_hdr )
 		return;
 
-	std::array<matrix3x4_t, 128> matrix;
+	std::array<matrix3x4_t, 128> matrix{};
 	if( !player->SetupBones( matrix.data(), matrix.size(), 0x100, player->get_simtime() ) )
 		return;
 
@@ -1229,7 +1225,7 @@ void Visuals::draw_spectators() {
 		/*if( spectator->get_health() > 0 )
 			continue;*/
 
-		player_info_s player_info_spec;
+		player_info_s player_info_spec{};
 		if( !g_csgo.m_engine->GetPlayerInfo( i, &player_info_spec ) )
 			continue;
 

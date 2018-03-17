@@ -200,7 +200,7 @@ public:
 	}
 
 	__forceinline Vec3_t C_CSPlayer::get_bone_position( std::array< matrix3x4_t, 128 > matrix, int bone_index ) {
-		return Vec3_t( matrix.at( bone_index ).m_flMatVal[ 0 ][ 3 ], matrix.at( bone_index ).m_flMatVal[ 1 ][ 3 ], matrix.at( bone_index ).m_flMatVal[ 2 ][ 3 ] );
+		return Vec3_t( matrix.at( bone_index ).m_mat_val[ 0 ][ 3 ], matrix.at( bone_index ).m_mat_val[ 1 ][ 3 ], matrix.at( bone_index ).m_mat_val[ 2 ][ 3 ] );
 	}
 
 	__forceinline int &C_CSPlayer::get_tickbase(){

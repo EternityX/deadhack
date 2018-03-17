@@ -155,9 +155,9 @@ namespace Math {
 
     // todo - dex; add other math funcs here for vectors / etc, if linker errors occur we will need a math.cpp.
 	__forceinline void vector_transform( const Vec3_t &in, const matrix3x4_t &in2, Vec3_t &out ) {
-		out.x = in.dot( in2.m_flMatVal[ 0 ] ) + in2.m_flMatVal[ 0 ][ 3 ];
-		out.y = in.dot( in2.m_flMatVal[ 1 ] ) + in2.m_flMatVal[ 1 ][ 3 ];
-		out.z = in.dot( in2.m_flMatVal[ 2 ] ) + in2.m_flMatVal[ 2 ][ 3 ];
+		out.x = in.dot( in2.m_mat_val[ 0 ] ) + in2.m_mat_val[ 0 ][ 3 ];
+		out.y = in.dot( in2.m_mat_val[ 1 ] ) + in2.m_mat_val[ 1 ][ 3 ];
+		out.z = in.dot( in2.m_mat_val[ 2 ] ) + in2.m_mat_val[ 2 ][ 3 ];
 	}
 
 	__forceinline float dot_product( const Vec3_t &a, const Vec3_t &b ) {
@@ -169,9 +169,9 @@ namespace Math {
 	}
 
 	__forceinline void matrix_position( const matrix3x4_t &matrix, Vec3_t &out ) {
-		out.x = matrix.m_flMatVal[ 0 ][ 3 ];
-		out.y = matrix.m_flMatVal[ 1 ][ 3 ];
-		out.z = matrix.m_flMatVal[ 2 ][ 3 ];
+		out.x = matrix.m_mat_val[ 0 ][ 3 ];
+		out.y = matrix.m_mat_val[ 1 ][ 3 ];
+		out.z = matrix.m_mat_val[ 2 ][ 3 ];
 	}
 
 	__forceinline void angle_to_vector( const Vec3_t &angles, Vec3_t &forward ) {

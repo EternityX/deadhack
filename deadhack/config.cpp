@@ -167,7 +167,7 @@ std::vector< std::string > Config::get_config_files() {
 	return names;
 }
 
-bool Config::load( std::string file_name ) {
+bool Config::load( const std::string &file_name ) {
 	if( file_name.empty() )
 		return false;
 
@@ -177,7 +177,7 @@ bool Config::load( std::string file_name ) {
 	return cfg_manager.Execute( file_name );
 }
 
-bool Config::save( std::string file_name, bool should_reset ) {
+bool Config::save( const std::string &file_name, bool should_reset ) {
 	if( file_name.empty() )
 		return false;
 
@@ -196,26 +196,26 @@ bool Config::remove( const std::string &file_name ) {
 	return std::remove( temp.c_str() ) == 0;
 }
 
-void tokenize(const std::string& str, std::vector< std::string>& tokens, const std::string& delimiters = ",") {
-	// Skip delimiters at beginning.
-	std::string::size_type lastPos = str.find_first_not_of(delimiters, 0);
+void tokenize( const std::string &str, std::vector< std::string > &tokens, const std::string &delimiters = "," ) {
+	// skip delimiters at beginning.
+	std::string::size_type last_pos = str.find_first_not_of( delimiters, 0 );
 
-	// Find first non-delimiter.
-	std::string::size_type pos = str.find_first_of(delimiters, lastPos);
+	// find first non-delimiter.
+	std::string::size_type pos = str.find_first_of( delimiters, last_pos );
 
-	while ( std::string::npos != pos || std::string::npos != lastPos) {
-		// Found a token, add it to the vector.
-		tokens.push_back(str.substr(lastPos, pos - lastPos));
+	while( std::string::npos != pos || std::string::npos != last_pos ) {
+		// found a token, add it to the vector.
+		tokens.push_back( str.substr( last_pos, pos - last_pos ) );
 
-		// Skip delimiters.
-		lastPos = str.find_first_not_of(delimiters, pos);
+		// skip delimiters.
+		last_pos = str.find_first_not_of( delimiters, pos );
 
-		// Find next non-delimiter.
-		pos = str.find_first_of(delimiters, lastPos);
+		// find next non-delimiter.
+		pos = str.find_first_of( delimiters, last_pos );
 	}
 }
 
-OSHGui::Drawing::Color Config::string_to_color( float alpha, std::string str ) {
+OSHGui::Drawing::Color Config::string_to_color( float alpha, const std::string &str ) {
 	std::vector< std::string > vec;
 
 	tokenize( str, vec );

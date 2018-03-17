@@ -44,8 +44,8 @@ public:
 			m_style = style;
 		}
 
-		bool should_draw( int nSlot ) const {
-			return get_entity() && ( m_split_screen_slot == GLOW_FOR_ALL_SPLIT_SCREEN_SLOTS || m_split_screen_slot == nSlot ) && ( m_render_when_occluded || m_render_when_unoccluded );
+		bool should_draw( int slot ) const {
+			return get_entity() && ( m_split_screen_slot == GLOW_FOR_ALL_SPLIT_SCREEN_SLOTS || m_split_screen_slot == slot ) && ( m_render_when_occluded || m_render_when_unoccluded );
 		}
 
 		C_BaseEntity *get_entity() const {
@@ -55,7 +55,6 @@ public:
 		bool is_unused() const {
 			return m_next_free_slot != ENTRY_IN_USE;
 		}
-
 	};
 
 	GlowObjectDefinition_t    *m_glow_object_definitions;

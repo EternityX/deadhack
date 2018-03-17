@@ -58,20 +58,20 @@ static ulong_t __stdcall cheat_init( void *arg ) {
 	}
 
 	ConVar *con_filter = g_csgo.m_convar->FindVar( "con_filter_enable" );
-	con_filter->SetValue( 1 );
+	con_filter->SetValue( 2 );
 
 	// set developer to 1 so notifications can be sent.
 	ConVar *developer = g_csgo.m_convar->FindVar( "developer" );
 	developer->SetValue( 1 );
 
 	CSGO_Util::push_notification( Color( 204, 115, 135, 255 ), "Initialization complete\n" );
-	CSGO_Util::push_notification( Color::White(), "DEADCELL Beta 0.4.0.1\n" );
+	CSGO_Util::push_notification( Color::White(), "DEADCELL Beta 0.4.1\n" );
 
     return 1;
 }
 
 static ulong_t __stdcall cheat_free( void *arg ) {
-#ifdef CHEAT_DBG
+
 	while( !g_input.m_key_pressed[ VK_END ] )
 		std::this_thread::sleep_for( std::chrono::milliseconds( 25 ) );
 
@@ -90,14 +90,17 @@ static ulong_t __stdcall cheat_free( void *arg ) {
 		CSGO_Util::set_clan_tag( "" );
 
 	if( !Hooks::unload() )
+#ifdef CHEAT_DBG
 		DBG_ERROR( "Hooks::unload failed" );
+#endif
 
 	if( !g_input.remove() )
+#ifdef CHEAT_DBG
 		 DBG_ERROR( "g_input.remove failed" );
+#endif
 
 	// pop outta this nigga.
 	FreeLibraryAndExitThread( (HMODULE)arg, 0 );
-#endif
 }
 
 int __stdcall DllMain( HMODULE self, ulong_t reason_for_call, void *reserved ) {
