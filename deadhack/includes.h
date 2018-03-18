@@ -4,7 +4,7 @@
 #pragma warning( disable : 4244 ) // warning C4244: '=': conversion possible loss of data
 
 // note - dex; undefine this when distributing!!
-//#define CHEAT_DBG
+#define CHEAT_DBG
 
 #define WIN32_LEAN_AND_MEAN
 #define NOCOMM

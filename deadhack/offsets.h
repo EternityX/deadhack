@@ -56,6 +56,8 @@ public:
 	size_t m_flFlashMaxAlpha;
 	size_t m_flFlashDuration;
 	size_t m_flNextAttack;
+	size_t m_vecMins;
+	size_t m_vecMaxs;
 
 	bool init() {
 		m_PushNotification = SigScan::find( CT_HASH32( "engine.dll" ), "55 8B EC 81 EC ? ? ? ? 80 3D ? ? ? ? ? 56 8B 35" );
@@ -125,6 +127,8 @@ public:
 		m_vecOrigin           = g_netvars.get( CT_HASH32( "DT_BaseEntity" ), CT_HASH32( "m_vecOrigin" ) );
 		m_hOwnerEntity        = g_netvars.get( CT_HASH32( "DT_BaseEntity" ), CT_HASH32( "m_hOwnerEntity" ) );
 		m_bSpotted            = g_netvars.get( CT_HASH32( "DT_BaseEntity" ), CT_HASH32( "m_bSpotted" ) );
+		m_vecMins             = g_netvars.get( CT_HASH32( "DT_BaseEntity" ), CT_HASH32( "m_vecMins" ) );
+		m_vecMaxs             = g_netvars.get( CT_HASH32( "DT_BaseEntity" ), CT_HASH32( "m_vecMaxs" ) );
 
 		m_hActiveWeapon = g_netvars.get( CT_HASH32( "DT_BaseCombatCharacter" ), CT_HASH32( "m_hActiveWeapon" ) );
 		m_flNextAttack = g_netvars.get( CT_HASH32( "DT_BaseCombatCharacter" ), CT_HASH32( "m_flNextAttack" ) );

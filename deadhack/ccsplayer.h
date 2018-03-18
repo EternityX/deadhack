@@ -150,10 +150,6 @@ public:
 		return (C_BaseCombatWeapon *)g_csgo.m_entity_list->GetClientEntityFromHandle( get_field_value< CHandle< C_BaseCombatWeapon > >( this, g_offsets.m_hActiveWeapon ) );
 	}
 
-	__forceinline matrix3x4_t &C_CSPlayer::get_coordinate_frame() {
-		return *(matrix3x4_t *)( (uintptr_t)this + g_offsets.m_rgflCoordinateFrame );
-	}
-
 	__forceinline int C_CSPlayer::get_num_anim_overlays() {
 		return *(int *)( (uintptr_t)this + 0x297C );
 	}

@@ -154,10 +154,9 @@ namespace Math {
     }
 
     // todo - dex; add other math funcs here for vectors / etc, if linker errors occur we will need a math.cpp.
-	__forceinline void vector_transform( const Vec3_t &in, const matrix3x4_t &in2, Vec3_t &out ) {
-		out.x = in.dot( in2.m_mat_val[ 0 ] ) + in2.m_mat_val[ 0 ][ 3 ];
-		out.y = in.dot( in2.m_mat_val[ 1 ] ) + in2.m_mat_val[ 1 ][ 3 ];
-		out.z = in.dot( in2.m_mat_val[ 2 ] ) + in2.m_mat_val[ 2 ][ 3 ];
+	__forceinline Vec3_t vector_transform( Vec3_t vector, matrix3x4_t matrix ) {
+		return Vec3_t( vector.dot( matrix[ 0 ] ) + matrix[ 0 ][ 3 ], vector.dot( matrix[ 1 ] ) + matrix[ 1 ][ 3 ],
+		               vector.dot( matrix[ 2 ] ) + matrix[ 2 ][ 3 ] );
 	}
 
 	__forceinline float dot_product( const Vec3_t &a, const Vec3_t &b ) {

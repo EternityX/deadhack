@@ -2,7 +2,10 @@
 
 class Visuals {
 private:
-	std::vector< std::pair< int, float > > m_ents;
+	struct bbox {
+		int x, y, w, h;
+	};
+
 	float     m_defuse_time = 0;
 	bool      m_scopedirt = false;
 	bool      m_smoke = false;
@@ -45,6 +48,7 @@ public:
 
 	bool world_to_screen( const Vec3_t &origin, Vec3_t &screen );
 	void sort( C_CSPlayer *entity );
+	bool calculate_bbox( C_BaseEntity *entity, bbox &box );
 	void work();
 	void activation_type();
 	void grenade_prediction( C_CSPlayer *local, C_BaseCombatWeapon *weapon );

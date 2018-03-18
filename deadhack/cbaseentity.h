@@ -36,22 +36,14 @@ public:
 	}
 
 	Vec3_t get_mins() {
-		return *(Vec3_t *)( (uint32_t)this + ( g_offsets.m_CollisionGroup + 0x0320 ) );
+		return *(Vec3_t *)( (uint32_t)this + g_offsets.m_vecMins );
 	}
 
 	Vec3_t get_maxs() {
-		return *(Vec3_t *)( (uint32_t)this + ( g_offsets.m_CollisionGroup + 0x032C ) );
+		return *(Vec3_t *)( (uint32_t)this + g_offsets.m_vecMaxs );
 	}
 
-	__forceinline Vec3_t get_world_space_center() {
-		Vec3_t max = get_mins() + GetAbsOrigin();
-		Vec3_t min = get_maxs() + GetAbsOrigin();
-
-		Vec3_t size = max - min;
-
-		size /= 2;
-		size += min;
-
-		return size;
+	__forceinline matrix3x4_t &get_coordinate_frame() {
+		return *(matrix3x4_t *)( (uintptr_t)this + g_offsets.m_rgflCoordinateFrame );
 	}
 };

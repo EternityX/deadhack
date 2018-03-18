@@ -25,6 +25,64 @@ void Visuals::sort( C_CSPlayer *entity ) {
 	// todo: sort closest to farthest and draw closest entity first.
 }
 
+bool Visuals::calculate_bbox( C_BaseEntity *entity, bbox &box ) {
+	matrix3x4_t &tran_frame = entity->get_coordinate_frame();
+
+	Vec3_t min = entity->get_mins();
+	Vec3_t max = entity->get_maxs();
+
+	Vec3_t screen_boxes[ 8 ];
+
+	Vec3_t points[] = {
+		Vec3_t( min.x, min.y, min.z ),
+		Vec3_t( min.x, max.y, min.z ),
+		Vec3_t( max.x, max.y, min.z ),
+		Vec3_t( max.x, min.y, min.z ),
+		Vec3_t( max.x, max.y, max.z ),
+		Vec3_t( min.x, max.y, max.z ),
+		Vec3_t( min.x, min.y, max.z ),
+		Vec3_t( max.x, min.y, max.z )
+	};
+
+	for( int i = 0; i <= 7; i++ ) 
+		if( !world_to_screen( Math::vector_transform( points[ i ], tran_frame ), screen_boxes[ i ] ) )
+			return false;
+
+	Vec3_t box_array[] = {
+		screen_boxes[ 3 ], // fl
+		screen_boxes[ 5 ], // br
+		screen_boxes[ 0 ], // bl
+		screen_boxes[ 4 ], // fr
+		screen_boxes[ 2 ], // fr
+		screen_boxes[ 1 ], // br
+		screen_boxes[ 6 ], // bl
+		screen_boxes[ 7 ] // fl
+	};
+
+	float left = screen_boxes[ 3 ].x, bottom = screen_boxes[ 3 ].y, right = screen_boxes[ 3 ].x, top = screen_boxes[ 3 ].y;
+
+	for( int i = 0; i <= 7; i++ ) {
+		if( left > box_array[ i ].x )
+			left = box_array[ i ].x;
+
+		if( bottom < box_array[ i ].y )
+			bottom = box_array[ i ].y;
+
+		if( right < box_array[ i ].x )
+			right = box_array[ i ].x;
+
+		if( top > box_array[ i ].y )
+			top = box_array[ i ].y;
+	}
+
+	box.x = (int)left;
+	box.y = (int)top;
+	box.w = (int)( right - left );
+	box.h = (int)( bottom - top );
+
+	return true;
+}
+
 void Visuals::work() {
 	try {
 #ifdef CHEAT_DBG
@@ -104,8 +162,10 @@ void Visuals::activation_type() {
 }
 
 void Visuals::player( C_CSPlayer *entity ) {
-	if( !entity->is_valid_player( false, false ) )
+	if( !entity->is_valid_player( false, true ) )
 		return;
+
+	m_player_alpha[ m_cur_index ] = 1.f;
 
 	player_info_s player_info{};
 	if( !g_csgo.m_engine->GetPlayerInfo( m_cur_index, &player_info ) )
@@ -131,16 +191,18 @@ void Visuals::player( C_CSPlayer *entity ) {
 			return;
 	}
 
-	if( g_cvar.m_visuals.lagrecord->bValue )
-		draw_records( entity );
+	bbox box{};
+	if( !calculate_bbox( entity, box ) )
+		return;
 
 	// esp dormancy fade.
-	if( entity->IsDormant() && m_player_alpha[ m_cur_index ] > 0.f )
+	/*if( entity->IsDormant() && m_player_alpha[ m_cur_index ] > 0.f )
 		m_player_alpha[ m_cur_index ] -= 1.f / 2.5f * g_csgo.m_global_vars->m_frametime;
 	else if ( m_player_alpha[ m_cur_index ] < 1.f && !entity->IsDormant() )
-		m_player_alpha[ m_cur_index ] = 1.f;
-	if( entity->IsDormant() && m_player_alpha[ m_cur_index ] == 1.f )
-		m_player_alpha[ m_cur_index ] = 0.f;
+		m_player_alpha[ m_cur_index ] = 1.f;*/
+
+	if( g_cvar.m_visuals.lagrecord->bValue )
+		draw_records( entity );
 
 	if( entity->is_protected() && !entity->IsDormant() )
 		m_player_alpha[ m_cur_index ] = 0.5f;
@@ -153,39 +215,27 @@ void Visuals::player( C_CSPlayer *entity ) {
 	if( g_cvar.m_visuals.skeleton->bValue )
 		skeleton( entity );
 
-	Vec3_t abs_origin = entity->GetAbsOrigin();
-	Vec3_t head = abs_origin + Vec3_t( 0, 0, entity->get_collideable()->OBBMaxs().z );
-
-	Vec3_t w2s_head, w2s_feet;
-	if( !world_to_screen( head, w2s_head ) || !world_to_screen( abs_origin, w2s_feet ) )
-		return;
-
-	int h = std::fabsf( w2s_head.y - w2s_feet.y ) + 5;
-	int w = h / 2.f;
-	int x = w2s_feet.x - w / 2;
-	int y = w2s_head.y + 1;
-
 	if( g_cvar.m_visuals.bbox->bValue )
-		draw_box( Config::string_to_color( m_player_alpha[ m_cur_index ] * 0.72f, g_cvar.m_colors.box_color->szValue ), x, y, w, h );
+		draw_box( Config::string_to_color( m_player_alpha[ m_cur_index ] * 0.72f, g_cvar.m_colors.box_color->szValue ), box.x, box.y, box.w, box.h );
 
 	if( g_cvar.m_visuals.healthbar->bValue )
-		draw_healthbar( x, y, h, entity->get_health() );
+		draw_healthbar( box.x, box.y, box.h, entity->get_health() );
 
 	if( g_cvar.m_visuals.weapon->bValue )
-		draw_player_weapon( entity, x, y, w, h );
+		draw_player_weapon( entity, box.x, box.y, box.w, box.h );
 
 	if( g_cvar.m_visuals.name->bValue )
 		g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_VERDANA_BOLD_7PX ], 
 									 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 220, 255, 255, 255 ), 
 									 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
-									 x + w * 0.5f, y - 12, CENTERED_X | DROPSHADOW, player_info.m_szPlayerName );
+									 box.x + box.w * 0.5f, box.y - 12, CENTERED_X | DROPSHADOW, player_info.m_szPlayerName );
 
 	int flag_count = 0;
 	if( g_cvar.m_visuals.money->bValue )
 		g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], 
 									 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 200, 149, 184, 6 ), 
 									 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
-									 x + w + 3, y + flag_count++ * 8, OUTLINED, "$%i", entity->get_account() );
+									 box.x + box.w + 3, box.y + flag_count++ * 8, OUTLINED, "$%i", entity->get_account() );
 
 	if( g_cvar.m_visuals.flags->bValue ) {
 		int armor = entity->get_armor_value();
@@ -194,32 +244,32 @@ void Visuals::player( C_CSPlayer *entity ) {
 			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], 
 										 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 200, 255, 255, 255 ), 
 										 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
-										 x + w + 3, y + flag_count++ * 8, OUTLINED, "F" );
+										 box.x + box.w + 3, box.y + flag_count++ * 8, OUTLINED, "F" );
 
 		if( entity->has_helmet() )
 			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], 
 										 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 200, 255, 255, 255 ), 
 										 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
-										 x + w + 3, y + flag_count++ * 8, OUTLINED, "H" );
+										 box.x + box.w + 3, box.y + flag_count++ * 8, OUTLINED, "H" );
 
 		if( armor > 0 )
 			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], 
 										OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 200, 255, 255, 255 ), 
 										OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
-										x + w + 3, y + flag_count++ * 8, OUTLINED, "K" );
+										 box.x + box.w + 3, box.y + flag_count++ * 8, OUTLINED, "K" );
 		
 		if( !g_cvar.m_visuals.weapon->bValue && entity->is_scoped() )
 			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], 
 										 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 200, 255, 255, 0 ), 
 										 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
-										 x + w + 3, y + flag_count++ * 8, OUTLINED, "Z" );
+										 box.x + box.w + 3, box.y + flag_count++ * 8, OUTLINED, "Z" );
 	}
 
 	if( g_cvar.m_visuals.defuser->bValue && entity->has_defuser() )
 		g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], 
 									 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 200, 255, 255, 255 ), 
 									 OSHColor::FromARGB( m_player_alpha[ m_cur_index ] * 130, 10, 10, 10 ), 
-									 x + w + 3, y + flag_count++ * 8, OUTLINED, "D" );
+									 box.x + box.w + 3, box.y + flag_count++ * 8, OUTLINED, "D" );
 }
 
 void Visuals::world( C_BaseEntity *entity ) {
@@ -241,17 +291,9 @@ void Visuals::world( C_BaseEntity *entity ) {
 		}
 	}
 
-	Vec3_t bottom = entity->GetAbsOrigin();
-	Vec3_t top = bottom + Vec3_t( 0, 0, 2.f );
-
-	Vec3_t w2s_top, w2s_bottom;
-	if( !world_to_screen( top, w2s_top ) || !world_to_screen( bottom, w2s_bottom ) )
+	bbox box{};
+	if( !calculate_bbox( entity, box ) )
 		return;
-
-	int h = std::fabsf( w2s_top.y - w2s_bottom.y );
-	int w = h * 2;
-	int x = w2s_bottom.x - w / 2;
-	int y = w2s_top.y;
 
 	C_BaseEntity *owner = (C_BaseEntity *) g_csgo.m_entity_list->GetClientEntityFromHandle( entity->get_owner_entity_handle() );
 
@@ -276,7 +318,7 @@ void Visuals::world( C_BaseEntity *entity ) {
 			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ],
 										 OSHColor::FromARGB( 200, 255, 255, 255 ),
 										 OSHColor::FromARGB( 130, 10, 10, 10 ),
-										 x + w * 0.5f, y - 5.f, CENTERED_X | OUTLINED, weapon_name );
+										 box.x + box.w * 0.5f, box.y - 5.f, CENTERED_X | OUTLINED, weapon_name );
 		}
 	}
 
@@ -292,14 +334,14 @@ void Visuals::world( C_BaseEntity *entity ) {
 			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ],
 										 OSHColor::FromARGB( 240, 79, 130, 180 ),
 										 OSHColor::FromARGB( 200, 10, 10, 10 ),
-										 x + w * 0.5f, y - 15.f, CENTERED_X | OUTLINED, text );
+										 box.x + box.w * 0.5f, box.y - 15.f, CENTERED_X | OUTLINED, text );
 
 			float bomb_duration = entity->get_c4_blow() - g_csgo.m_global_vars->m_cur_time;
 			if( bomb_duration > 0.f ) {
 				g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ],
 											 OSHColor::FromARGB( 240, 255, 255, 255 ),
 											 OSHColor::FromARGB( 200, 10, 10, 10 ),
-											 x + w * 0.5f, y - 5.f, CENTERED_X | OUTLINED, "%2.1f", bomb_duration );
+											 box.x + box.w * 0.5f, box.y - 5.f, CENTERED_X | OUTLINED, "%2.1f", bomb_duration );
 			}
 		}
 
@@ -307,7 +349,7 @@ void Visuals::world( C_BaseEntity *entity ) {
 			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ],
 										 OSHColor::FromARGB( 240, 255, 255, 255 ),
 										 OSHColor::FromARGB( 200, 10, 10, 10 ),
-										 x + w * 0.5f, y - 5.f, CENTERED_X | OUTLINED, "BOMB" );
+										 box.x + box.w * 0.5f, box.y - 5.f, CENTERED_X | OUTLINED, "BOMB" );
 		}
 
 		/*if( !owner && client_class->m_ClassID == CHostage ) {
@@ -328,7 +370,7 @@ void Visuals::world( C_BaseEntity *entity ) {
 			g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ],
 										 OSHColor::FromARGB( 240, 180, 130, 79 ),
 										 OSHColor::FromARGB( 200, 10, 10, 10 ),
-										 x + w * 0.5f, y - 15.f, CENTERED_X | OUTLINED, "HOSTAGE" );
+										 box.x + box.w * 0.5f, box.y - 15.f, CENTERED_X | OUTLINED, "HOSTAGE" );
 		}
 	}
 
@@ -336,7 +378,7 @@ void Visuals::world( C_BaseEntity *entity ) {
 		g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ],
 									 OSHColor::FromARGB( 200, 255, 255, 100 ),
 									 OSHColor::FromARGB( 200, 10, 10, 10 ),
-									 x + w * 0.5f, y - 5.f, CENTERED_X | OUTLINED, "CHICKEN" );
+									 box.x + box.w * 0.5f, box.y - 5.f, CENTERED_X | OUTLINED, "CHICKEN" );
 	}
 
 	if( g_cvar.m_visuals.grenade_projectiles->bValue ) {
@@ -344,20 +386,20 @@ void Visuals::world( C_BaseEntity *entity ) {
 		if( !model_name.empty() ) {
 			if( client_class->m_ClassID == CBaseCSGrenadeProjectile ) {
 				if( model_name.find( "fraggrenade" ) != std::string::npos )
-					g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], OSHColor::FromARGB( 200, 255, 255, 255 ), OSHColor::FromARGB( 200, 10, 10, 10 ), x, y - 15.f, CENTERED_X | OUTLINED, "HEGRENADE" );
+					g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], OSHColor::FromARGB( 200, 255, 255, 255 ), OSHColor::FromARGB( 200, 10, 10, 10 ), box.x, box.y - 15.f, CENTERED_X | OUTLINED, "HEGRENADE" );
 				else if( model_name.find( "flashbang" ) != std::string::npos )
-					g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], OSHColor::FromARGB( 200, 255, 255, 255 ), OSHColor::FromARGB( 200, 10, 10, 10 ), x, y - 15.f, CENTERED_X | OUTLINED, "FLASHBANG" );
+					g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], OSHColor::FromARGB( 200, 255, 255, 255 ), OSHColor::FromARGB( 200, 10, 10, 10 ), box.x, box.y - 15.f, CENTERED_X | OUTLINED, "FLASHBANG" );
 			}
 
 			if( client_class->m_ClassID == CMolotovProjectile ) {
 				if( model_name.find( "molotov" ) != std::string::npos )
-					g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], OSHColor::FromARGB( 200, 255, 255, 255 ), OSHColor::FromARGB( 200, 10, 10, 10 ), x, y - 15.f, CENTERED_X | OUTLINED, "MOLOTOV" );
+					g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], OSHColor::FromARGB( 200, 255, 255, 255 ), OSHColor::FromARGB( 200, 10, 10, 10 ), box.x, box.y - 15.f, CENTERED_X | OUTLINED, "MOLOTOV" );
 				else if( model_name.find( "incendiary" ) != std::string::npos )
-					g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], OSHColor::FromARGB( 200, 255, 255, 255 ), OSHColor::FromARGB( 200, 10, 10, 10 ), x, y - 15.f, CENTERED_X | OUTLINED, "INCENDIARY" );
+					g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], OSHColor::FromARGB( 200, 255, 255, 255 ), OSHColor::FromARGB( 200, 10, 10, 10 ), box.x, box.y - 15.f, CENTERED_X | OUTLINED, "INCENDIARY" );
 			}
 
 			if( client_class->m_ClassID == CSmokeGrenadeProjectile )
-				g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], OSHColor::FromARGB( 200, 255, 255, 255 ), OSHColor::FromARGB( 200, 10, 10, 10 ), x, y - 15.f, CENTERED_X | OUTLINED, "SMOKE" );
+				g_custom_renderer.ansi_text( g_custom_renderer.m_fonts[ FONT_04B03_6PX ], OSHColor::FromARGB( 200, 255, 255, 255 ), OSHColor::FromARGB( 200, 10, 10, 10 ), box.x, box.y - 15.f, CENTERED_X | OUTLINED, "SMOKE" );
 		}
 	}
 }
