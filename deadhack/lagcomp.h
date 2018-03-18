@@ -76,7 +76,7 @@ public:
 			default: break;
 		}
 
-        for( int i = 1; i < g_csgo.m_global_vars->m_max_clients; i++ ) {
+        for( int i = 1; i <= g_csgo.m_global_vars->m_max_clients; i++ ) {
 			C_CSPlayer *ent = (C_CSPlayer *)g_csgo.m_entity_list->GetClientEntity( i );
             if( !ent || !g_cl.m_local || ent == g_cl.m_local )
                 continue;

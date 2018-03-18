@@ -207,7 +207,7 @@ void Legitbot::triggerbot( C_BaseCombatWeapon *local_weapon, CUserCmd *cmd ) {
 		return false;
 	};
 
-	for( int i = 1; i < g_csgo.m_global_vars->m_max_clients; i++ ) {
+	for( int i = 1; i <= g_csgo.m_global_vars->m_max_clients; i++ ) {
 		C_CSPlayer *player = (C_CSPlayer *)g_csgo.m_entity_list->GetClientEntity( i );
 		if( !player || player == g_cl.m_local )
 			continue;

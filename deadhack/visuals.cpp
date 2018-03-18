@@ -434,298 +434,305 @@ void Visuals::draw_player_weapon( C_CSPlayer *entity, int x, int y, int w, int h
 }
 
 void Visuals::player_chams() {
-	static bool once{ false };
-	if( !once ) {
-		m_materials[ 0 ] = CSGO_Util::create_material( true, false, false ); // material.
-		m_materials[ 1 ] = CSGO_Util::create_material( false, false, false ); // flat.
-		m_materials[ 2 ] = CSGO_Util::create_rim_mat( true, false, false );
-		m_materials[ 3 ] = g_csgo.m_material_system->GetMaterial( "debug/debugtranslucentmodelhulls", nullptr );
-		m_materials[ 4 ] = g_csgo.m_material_system->GetMaterial( "models/inventory_items/dogtags/dogtags_outline", nullptr );
-		m_materials[ 5 ] = g_csgo.m_material_system->GetMaterial( "models/inventory_items/trophy_majors/gold", nullptr );
-		m_materials[ 6 ] = g_csgo.m_material_system->GetMaterial( "models/inventory_items/wildfire_gold/wildfire_gold_detail", nullptr );
-		//m_materials[ 7 ] = g_csgo.m_material_system->GetMaterial( "models/weapons/v_models/arms/glove_sporty/glove_sporty_left", nullptr );
-		m_materials[ 50 ] = CSGO_Util::create_rim_mat( true, true, true ); // outline.
-		once = true;
-	}
+	try {
+		static bool once{ false };
+		if( !once ) {
+			m_materials[ 0 ] = CSGO_Util::create_material( true, false, false ); // material.
+			m_materials[ 1 ] = CSGO_Util::create_material( false, false, false ); // flat.
+			m_materials[ 2 ] = CSGO_Util::create_rim_mat( true, false, false );
+			m_materials[ 3 ] = g_csgo.m_material_system->GetMaterial( "debug/debugtranslucentmodelhulls", nullptr );
+			m_materials[ 4 ] = g_csgo.m_material_system->GetMaterial( "models/inventory_items/dogtags/dogtags_outline", nullptr );
+			m_materials[ 5 ] = g_csgo.m_material_system->GetMaterial( "models/inventory_items/trophy_majors/gold", nullptr );
+			m_materials[ 6 ] = g_csgo.m_material_system->GetMaterial( "models/inventory_items/wildfire_gold/wildfire_gold_detail", nullptr );
+			//m_materials[ 7 ] = g_csgo.m_material_system->GetMaterial( "models/weapons/v_models/arms/glove_sporty/glove_sporty_left", nullptr );
+			m_materials[ 50 ] = CSGO_Util::create_rim_mat( true, true, true ); // outline.
+			once = true;
+		}
 
-	activation_type();
-	if( !m_enabled )
-		return;
+		activation_type();
+		if( !m_enabled )
+			return;
 
-	if( !g_cl.m_local || !g_cvar.m_visuals.player_chams->bValue || g_cvar.m_visuals.cham_lagrecords->iValue )
-		return;
+		if( !g_cl.m_local || !g_cvar.m_visuals.player_chams->bValue || g_cvar.m_visuals.cham_lagrecords->iValue )
+			return;
 
-	if( g_cl.m_local->get_health() <= 0 )
-		return;
+		if( g_cl.m_local->get_health() <= 0 )
+			return;
 
-	for( int i = 1; i <= 64; i++ ) {
-		C_CSPlayer *player = (C_CSPlayer *)g_csgo.m_entity_list->GetClientEntity( i );
+		for( int i = 1; i <= g_csgo.m_global_vars->m_max_clients; i++ ) {
+			C_CSPlayer *player = (C_CSPlayer *)g_csgo.m_entity_list->GetClientEntity( i );
 
-		if ( !player || player == g_cl.m_local || !player->is_valid_player( false, true ) )
-			continue;
-
-		if( !g_cvar.m_visuals.teammates->bValue && g_cl.m_local->get_team_index() == player->get_team_index() )
-			continue;
-
-		OSHGui::Drawing::Color twopass_color = Config::string_to_color( 255, g_cvar.m_colors.ignorez_color->szValue );
-		OSHGui::Drawing::Color cham_color = Config::string_to_color( 255, g_cvar.m_colors.cham_color->szValue );
-
-		// 0.18f, 0.47f, 0.92f
-		float color2[ 3 ];
-		color2[ 0 ] = twopass_color.GetRed();
-		color2[ 1 ] = twopass_color.GetGreen();
-		color2[ 2 ] = twopass_color.GetBlue();
-
-		// 0.58f, 0.8f, 0.1f 
-		float color3[ 3 ];
-		color3[ 0 ] = cham_color.GetRed();
-		color3[ 1 ] = cham_color.GetGreen();
-		color3[ 2 ] = cham_color.GetBlue();
-
-		if( CSGO_Util::line_goes_thru_smoke( g_cl.m_local->get_eye_position(), player->GetAbsOrigin() ) ) {
-			if( g_cvar.m_visuals.disable_thru_smoke->bValue )
+			if( !player || player == g_cl.m_local || !player->is_valid_player( false, true ) )
 				continue;
-			
-			if( g_cvar.m_visuals.player_chams_ignorez->bValue ) {
-				color3[ 0 ] = color2[ 0 ];
-				color3[ 1 ] = color2[ 1 ];
-				color3[ 2 ] = color2[ 2 ];
-			} else {
+
+			if( !g_cvar.m_visuals.teammates->bValue && g_cl.m_local->get_team_index() == player->get_team_index() )
 				continue;
+
+			OSHGui::Drawing::Color twopass_color = Config::string_to_color( 255, g_cvar.m_colors.ignorez_color->szValue );
+			OSHGui::Drawing::Color cham_color = Config::string_to_color( 255, g_cvar.m_colors.cham_color->szValue );
+
+			// 0.18f, 0.47f, 0.92f
+			float color2[ 3 ];
+			color2[ 0 ] = twopass_color.GetRed();
+			color2[ 1 ] = twopass_color.GetGreen();
+			color2[ 2 ] = twopass_color.GetBlue();
+
+			// 0.58f, 0.8f, 0.1f 
+			float color3[ 3 ];
+			color3[ 0 ] = cham_color.GetRed();
+			color3[ 1 ] = cham_color.GetGreen();
+			color3[ 2 ] = cham_color.GetBlue();
+
+			if( CSGO_Util::line_goes_thru_smoke( g_cl.m_local->get_eye_position(), player->GetAbsOrigin() ) ) {
+				if( g_cvar.m_visuals.disable_thru_smoke->bValue )
+					continue;
+
+				if( g_cvar.m_visuals.player_chams_ignorez->bValue ) {
+					color3[ 0 ] = color2[ 0 ];
+					color3[ 1 ] = color2[ 1 ];
+					color3[ 2 ] = color2[ 2 ];
+				} else {
+					continue;
+				}
 			}
+
+			// NOTE: more system intensive than the other method but isn't affected by model occlusion...
+			//// start lag compensation.
+			//g_lagcomp.think();
+			//
+			//PlayerRecord_t *entry = &g_lagcomp.m_players[ i - 1 ];
+
+			//// save backup records.
+			//PlayerRecord_t *backup_record = entry;
+			//if ( !entry->m_records.size() || !backup_record->m_records.size() )
+			//	continue;
+
+			//// iterate through available records.
+			//for( auto record = entry->m_records.begin(); record != entry->m_records.end(); ++record ) {
+			//	if( !record->is_valid_record() )
+			//		continue;
+
+			//	g_csgo.m_model_render->ForcedMaterialOverride( m_materials[ g_cvar.m_visuals.cham_type->iValue ] );
+
+			//	const float color3[ 3 ] = { 1.f, 1.f, 1.f };
+			//	g_csgo.m_render_view->SetColorModulation( color3 );
+			//	g_csgo.m_render_view->SetBlend( 0.2f );
+
+			//	// adjust player back to an old record.
+			//	record->adjust_position( player );
+
+			//	player->DrawModel( 1, 255 );
+			//}
+
+			//// restore records.
+			//entry->m_records = backup_record->m_records;
+
+			if( g_cvar.m_visuals.cham_outline->bValue ) {
+				g_csgo.m_model_render->ForcedMaterialOverride( m_materials[ 50 ] );
+
+				static const float color[ 3 ] = { 1.f, 1.f, 1.f };
+				g_csgo.m_render_view->SetColorModulation( color );
+				g_csgo.m_render_view->SetBlend( player->is_protected() ? 0.3f : 1.f );
+
+				player->DrawModel( 1, 255 );
+			}
+
+			if( g_cvar.m_visuals.player_chams_ignorez->bValue ) {
+				m_materials[ g_cvar.m_visuals.cham_twopass_type->iValue ]->SetVarFlag( MATERIAL_VAR_IGNOREZ, true );
+				g_csgo.m_model_render->ForcedMaterialOverride( m_materials[ g_cvar.m_visuals.cham_twopass_type->iValue ] );
+
+				g_csgo.m_render_view->SetColorModulation( color2 );
+				g_csgo.m_render_view->SetBlend( player->is_protected() ? 0.3f : 1.f );
+
+				player->DrawModel( 1, 255 );
+			}
+
+			m_materials[ g_cvar.m_visuals.cham_type->iValue ]->SetVarFlag( MATERIAL_VAR_IGNOREZ, false );
+			g_csgo.m_model_render->ForcedMaterialOverride( m_materials[ g_cvar.m_visuals.cham_type->iValue ] );
+
+			g_csgo.m_render_view->SetColorModulation( color3 );
+			g_csgo.m_render_view->SetBlend( player->is_protected() ? 0.3f : 1.f );
+
+			player->DrawModel( 1, 255 );
 		}
+	}
+	catch( ... ) {
 		
-		// NOTE: more system intensive than the other method but isn't affected by model occlusion...
-		//// start lag compensation.
-		//g_lagcomp.think();
-		//
-		//PlayerRecord_t *entry = &g_lagcomp.m_players[ i - 1 ];
-
-		//// save backup records.
-		//PlayerRecord_t *backup_record = entry;
-		//if ( !entry->m_records.size() || !backup_record->m_records.size() )
-		//	continue;
-
-		//// iterate through available records.
-		//for( auto record = entry->m_records.begin(); record != entry->m_records.end(); ++record ) {
-		//	if( !record->is_valid_record() )
-		//		continue;
-
-		//	g_csgo.m_model_render->ForcedMaterialOverride( m_materials[ g_cvar.m_visuals.cham_type->iValue ] );
-
-		//	const float color3[ 3 ] = { 1.f, 1.f, 1.f };
-		//	g_csgo.m_render_view->SetColorModulation( color3 );
-		//	g_csgo.m_render_view->SetBlend( 0.2f );
-
-		//	// adjust player back to an old record.
-		//	record->adjust_position( player );
-
-		//	player->DrawModel( 1, 255 );
-		//}
-
-		//// restore records.
-		//entry->m_records = backup_record->m_records;
-
-		if( g_cvar.m_visuals.cham_outline->bValue ) {
-			g_csgo.m_model_render->ForcedMaterialOverride( m_materials[ 50 ] );
-
-			static const float color[ 3 ] = { 1.f, 1.f, 1.f };
-			g_csgo.m_render_view->SetColorModulation( color );
-			g_csgo.m_render_view->SetBlend( player->is_protected() ? 0.3f : 1.f );
-
-			player->DrawModel( 1, 255 );
-		}
-
-		if( g_cvar.m_visuals.player_chams_ignorez->bValue ) {
-			m_materials[ g_cvar.m_visuals.cham_twopass_type->iValue ]->SetVarFlag( MATERIAL_VAR_IGNOREZ, true );
-			g_csgo.m_model_render->ForcedMaterialOverride( m_materials[ g_cvar.m_visuals.cham_twopass_type->iValue ] );
-
-			g_csgo.m_render_view->SetColorModulation( color2 );
-			g_csgo.m_render_view->SetBlend( player->is_protected() ? 0.3f : 1.f );
-
-			player->DrawModel( 1, 255 );
-		}
-
-		m_materials[ g_cvar.m_visuals.cham_type->iValue ]->SetVarFlag( MATERIAL_VAR_IGNOREZ, false );
-		g_csgo.m_model_render->ForcedMaterialOverride( m_materials[ g_cvar.m_visuals.cham_type->iValue ] );
-
-		g_csgo.m_render_view->SetColorModulation( color3 );
-		g_csgo.m_render_view->SetBlend( player->is_protected() ? 0.3f : 1.f );
-
-		player->DrawModel( 1, 255 );
 	}
 }
 
 bool Visuals::world_chams( Hooks::DrawModel_t orig, uintptr_t ecx, uintptr_t results, DrawModelInfo_t &info, matrix3x4_t *pBoneToWorld, float *pFlexWeights, float *pFlexDelayedWeights, Vec3_t &draw_modelin, int drawFlags ) {
-	DrawModelParams draw_model = DrawModelParams{ orig, ecx, results, info, pBoneToWorld, pFlexWeights, pFlexDelayedWeights, draw_modelin, drawFlags };
-	
-	static IMaterial *mat[ 4 ];
+	try {
+		DrawModelParams draw_model = DrawModelParams{ orig, ecx, results, info, pBoneToWorld, pFlexWeights, pFlexDelayedWeights, draw_modelin, drawFlags };
 
-	static bool once{ false };
-	if( !once ) {
-		mat[ 0 ] = CSGO_Util::create_material( true, false, false ); // material.
-		mat[ 1 ] = CSGO_Util::create_material( false, false, false ); // flat.
-		mat[ 2 ] = CSGO_Util::create_material( true, false, true ); // material zignore.
-		mat[ 3 ] = CSGO_Util::create_material( false, false, true ); // flat zignore.
-		once = true;
-	}
+		static IMaterial *mat[ 4 ];
 
-	C_CSPlayer *entity = (C_CSPlayer *)( (ulong_t)info.m_pClientEntity - 4 );
-	studiohdr_t *hdr = info.m_pStudioHdr;
+		static bool once{ false };
+		if( !once ) {
+			mat[ 0 ] = CSGO_Util::create_material( true, false, false ); // material.
+			mat[ 1 ] = CSGO_Util::create_material( false, false, false ); // flat.
+			mat[ 2 ] = CSGO_Util::create_material( true, false, true ); // material zignore.
+			mat[ 3 ] = CSGO_Util::create_material( false, false, true ); // flat zignore.
+			once = true;
+		}
 
-	if( !entity || !hdr || !g_cl.m_local )
-		return false;
+		C_CSPlayer *entity = (C_CSPlayer *)( (ulong_t)info.m_pClientEntity - 4 );
+		studiohdr_t *hdr = info.m_pStudioHdr;
 
-	std::string model_name = hdr->name;
-	if( model_name.find( "shadow" ) != std::string::npos )
-		return false;
-
-	activation_type();
-
-	if( g_cvar.m_visuals.cham_lagrecords->iValue && g_cvar.m_visuals.player_chams->bValue && ( model_name.find( "player" ) != std::string::npos && entity->GetClientClass()->m_ClassID == CCSPLAYER && m_enabled ) ) {
-		if( !g_cvar.m_visuals.teammates->bValue && g_cl.m_local->get_team_index() == entity->get_team_index() )
+		if( !entity || !hdr || !g_cl.m_local )
 			return false;
 
-		PlayerRecord_t *entry = &g_lagcomp.m_players[ entity->GetIndex() - 1 ];
-		if( entry->m_records.empty() )
+		std::string model_name = hdr->name;
+		if( model_name.find( "shadow" ) != std::string::npos )
 			return false;
 
-		OSHGui::Drawing::Color twopass_color = Config::string_to_color( 255, g_cvar.m_colors.ignorez_color->szValue );
-		OSHGui::Drawing::Color cham_color = Config::string_to_color( 255, g_cvar.m_colors.cham_color->szValue );
-		OSHGui::Drawing::Color record_color = Config::string_to_color( 255, g_cvar.m_colors.lag_record_color->szValue );
+		activation_type();
 
-		if( g_cvar.m_visuals.cham_lagrecords->iValue == 1 ) {
-			for( auto record = entry->m_records.begin(); record != entry->m_records.end(); ++record ) {
-				if( !record->is_valid_record() )
-					continue;
+		if( g_cvar.m_visuals.cham_lagrecords->iValue && g_cvar.m_visuals.player_chams->bValue && ( model_name.find( "player" ) != std::string::npos && entity->GetClientClass()->m_ClassID == CCSPLAYER && m_enabled ) ) {
+			if( !g_cvar.m_visuals.teammates->bValue && g_cl.m_local->get_team_index() == entity->get_team_index() )
+				return false;
 
-				if( g_cvar.m_visuals.player_chams_ignorez->bValue ) {
-					mat[ 2 ]->SetColor( record_color.GetRed(), record_color.GetGreen(), record_color.GetBlue() );
-					mat[ 2 ]->SetAlpha( 0.4f );
-					g_csgo.m_model_render->ForcedMaterialOverride( mat[ 2 ] );
-				}
-				else {
-					mat[ 0 ]->SetColor( record_color.GetRed(), record_color.GetGreen(), record_color.GetBlue() );
-					mat[ 0 ]->SetAlpha( 0.4f );
+			PlayerRecord_t *entry = &g_lagcomp.m_players[ entity->GetIndex() - 1 ];
+			if( entry->m_records.empty() )
+				return false;
+
+			OSHGui::Drawing::Color twopass_color = Config::string_to_color( 255, g_cvar.m_colors.ignorez_color->szValue );
+			OSHGui::Drawing::Color cham_color = Config::string_to_color( 255, g_cvar.m_colors.cham_color->szValue );
+			OSHGui::Drawing::Color record_color = Config::string_to_color( 255, g_cvar.m_colors.lag_record_color->szValue );
+
+			if( g_cvar.m_visuals.cham_lagrecords->iValue == 1 ) {
+				for( auto record = entry->m_records.begin(); record != entry->m_records.end(); ++record ) {
+					if( !record->is_valid_record() )
+						continue;
+
+					if( g_cvar.m_visuals.player_chams_ignorez->bValue ) {
+						mat[ 2 ]->SetColor( record_color.GetRed(), record_color.GetGreen(), record_color.GetBlue() );
+						mat[ 2 ]->SetAlpha( 0.4f );
+						g_csgo.m_model_render->ForcedMaterialOverride( mat[ 2 ] );
+					} else {
+						mat[ 0 ]->SetColor( record_color.GetRed(), record_color.GetGreen(), record_color.GetBlue() );
+						mat[ 0 ]->SetAlpha( 0.4f );
+						g_csgo.m_model_render->ForcedMaterialOverride( mat[ 0 ] );
+					}
+
+					draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, record->m_bones.data(), draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, record->m_origin, draw_model.draw_flags );
+
+					if( g_cvar.m_visuals.player_chams_ignorez->bValue ) {
+						mat[ 2 ]->SetColor( twopass_color.GetRed(), twopass_color.GetGreen(), twopass_color.GetBlue() );
+						mat[ 2 ]->SetAlpha( entity->is_protected() ? 0.3f : 1.f );
+
+						g_csgo.m_model_render->ForcedMaterialOverride( mat[ 2 ] );
+
+						draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
+					}
+
+					mat[ 0 ]->SetColor( cham_color.GetRed(), cham_color.GetGreen(), cham_color.GetBlue() );
+					mat[ 0 ]->SetAlpha( entity->is_protected() ? 0.3f : 1.f );
+
 					g_csgo.m_model_render->ForcedMaterialOverride( mat[ 0 ] );
-				}
-
-				draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, record->m_bones.data(), draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, record->m_origin, draw_model.draw_flags );
-				
-				if( g_cvar.m_visuals.player_chams_ignorez->bValue ) {
-					mat[ 2 ]->SetColor( twopass_color.GetRed(), twopass_color.GetGreen(), twopass_color.GetBlue() );
-					mat[ 2 ]->SetAlpha( entity->is_protected() ? 0.3f : 1.f );
-
-					g_csgo.m_model_render->ForcedMaterialOverride( mat[ 2 ] );
 
 					draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
 				}
+			} else {
+				if( entry->m_records.back().is_valid_record() ) {
+					if( g_cvar.m_visuals.player_chams_ignorez->bValue ) {
+						mat[ 2 ]->SetColor( record_color.GetRed(), record_color.GetGreen(), record_color.GetBlue() );
+						mat[ 2 ]->SetAlpha( 0.4f );
+						g_csgo.m_model_render->ForcedMaterialOverride( mat[ 2 ] );
+					} else {
+						mat[ 0 ]->SetColor( record_color.GetRed(), record_color.GetGreen(), record_color.GetBlue() );
+						mat[ 0 ]->SetAlpha( 0.4f );
+						g_csgo.m_model_render->ForcedMaterialOverride( mat[ 0 ] );
+					}
 
-				mat[ 0 ]->SetColor( cham_color.GetRed(), cham_color.GetGreen(), cham_color.GetBlue() );
-				mat[ 0 ]->SetAlpha( entity->is_protected() ? 0.3f : 1.f );
+					draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, entry->m_records.back().m_bones.data(), draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, entry->m_records.back().m_origin, draw_model.draw_flags );
+				}
+			}
 
-				g_csgo.m_model_render->ForcedMaterialOverride( mat[ 0 ] );
+			if( g_cvar.m_visuals.player_chams_ignorez->bValue ) {
+				mat[ 2 ]->SetColor( twopass_color.GetRed(), twopass_color.GetGreen(), twopass_color.GetBlue() );
+				mat[ 2 ]->SetAlpha( entity->is_protected() ? 0.3f : 1.f );
+
+				g_csgo.m_model_render->ForcedMaterialOverride( mat[ 2 ] );
 
 				draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
 			}
-		}
-		else {
-			if( entry->m_records.back().is_valid_record() ) {
-				if( g_cvar.m_visuals.player_chams_ignorez->bValue ) {
-					mat[ 2 ]->SetColor( record_color.GetRed(), record_color.GetGreen(), record_color.GetBlue() );
-					mat[ 2 ]->SetAlpha( 0.4f );
-					g_csgo.m_model_render->ForcedMaterialOverride( mat[ 2 ] );
-				}
-				else {
-					mat[ 0 ]->SetColor( record_color.GetRed(), record_color.GetGreen(), record_color.GetBlue() );
-					mat[ 0 ]->SetAlpha( 0.4f );
-					g_csgo.m_model_render->ForcedMaterialOverride( mat[ 0 ] );
-				}
 
-				draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, entry->m_records.back().m_bones.data(), draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, entry->m_records.back().m_origin, draw_model.draw_flags );
-			}
+			mat[ 0 ]->SetColor( cham_color.GetRed(), cham_color.GetGreen(), cham_color.GetBlue() );
+			mat[ 0 ]->SetAlpha( entity->is_protected() ? 0.3f : 1.f );
+
+			g_csgo.m_model_render->ForcedMaterialOverride( mat[ 0 ] );
+
+			draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
+
+			return true;
 		}
 
-		if( g_cvar.m_visuals.player_chams_ignorez->bValue ) {
-			mat[ 2 ]->SetColor( twopass_color.GetRed(), twopass_color.GetGreen(), twopass_color.GetBlue() );
-			mat[ 2 ]->SetAlpha( entity->is_protected() ? 0.3f : 1.f );
+		if( g_cvar.m_visuals.cham_arms->bValue && ( model_name.find( "v_glove" ) != std::string::npos || model_name.find( "arms" ) != std::string::npos ) ) {
+			OSHGui::Drawing::Color hand_color = Config::string_to_color( 255, g_cvar.m_colors.arms_color->szValue );
+
+			mat[ 2 ]->SetColor( hand_color.GetRed(), hand_color.GetGreen(), hand_color.GetBlue() );
+			mat[ 2 ]->SetAlpha( 1.f );
+			mat[ 2 ]->SetVarFlag( MATERIAL_VAR_WIREFRAME, true );
 
 			g_csgo.m_model_render->ForcedMaterialOverride( mat[ 2 ] );
 
 			draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
+
+			mat[ 0 ]->SetColor( hand_color.GetRed(), hand_color.GetGreen(), hand_color.GetBlue() );
+			mat[ 0 ]->SetAlpha( 1.f );
+
+			g_csgo.m_model_render->ForcedMaterialOverride( mat[ 0 ] );
+
+			draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
+
+			return true;
 		}
 
-		mat[ 0 ]->SetColor( cham_color.GetRed(), cham_color.GetGreen(), cham_color.GetBlue() );
-		mat[ 0 ]->SetAlpha( entity->is_protected() ? 0.3f : 1.f );
+		if( g_cvar.m_visuals.cham_weapon->bValue && ( model_name.find( "weapon" ) != std::string::npos && model_name.find( "arms" ) == std::string::npos && model_name.find( "w_" ) == std::string::npos ) ) {
+			OSHGui::Drawing::Color weapon_color = Config::string_to_color( 255, g_cvar.m_colors.weapon_cham_color->szValue );
 
-		g_csgo.m_model_render->ForcedMaterialOverride( mat[ 0 ] );
+			mat[ 2 ]->SetColor( weapon_color.GetRed(), weapon_color.GetGreen(), weapon_color.GetBlue() );
+			mat[ 2 ]->SetAlpha( 1.f );
+			mat[ 2 ]->SetVarFlag( MATERIAL_VAR_WIREFRAME, true );
 
-		draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
+			g_csgo.m_model_render->ForcedMaterialOverride( mat[ 2 ] );
 
-		return true;
+			draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
+
+			mat[ 0 ]->SetColor( weapon_color.GetRed(), weapon_color.GetGreen(), weapon_color.GetBlue() );
+			mat[ 0 ]->SetAlpha( 1.f );
+
+			g_csgo.m_model_render->ForcedMaterialOverride( mat[ 0 ] );
+
+			draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
+
+			return true;
+		}
+
+		//if( g_cvar.m_visuals.champlayer_weapon->bValue ) {
+		//	if ( model_name.find( "w_c4" ) != std::string::npos 
+		//		 || model_name.find( "w_knife" ) != std::string::npos
+		//		 || model_name.find( "w_mach" ) != std::string::npos
+		//		 || model_name.find( "w_pist" ) != std::string::npos
+		//		 || model_name.find( "w_rif" ) != std::string::npos
+		//		 || model_name.find( "w_shot" ) != std::string::npos
+		//		 || model_name.find( "w_smg" ) != std::string::npos
+		//		 || model_name.find( "w_snip" ) != std::string::npos) {
+		//			hand_mat[ 0 ]->SetColor( 1.f, 0.f, 1.f );
+		//			hand_mat[ 0 ]->SetAlpha( 1.f );
+
+		//			g_csgo.m_model_render->ForcedMaterialOverride( hand_mat[ 0 ] );
+
+		//			p.oDrawModel( p._this, p.results, p.info, p.pBoneToWorld, p.pFlexWeights, p.pFlexDelayedWeights, p.draw_modelin, p.drawFlags );
+
+		//			return true;
+		//	}
+		//}
 	}
+	catch( ... ) {
 
-	if( g_cvar.m_visuals.cham_arms->bValue && ( model_name.find( "v_glove" ) != std::string::npos || model_name.find( "arms" ) != std::string::npos ) ) {
-		OSHGui::Drawing::Color hand_color = Config::string_to_color( 255, g_cvar.m_colors.arms_color->szValue );
-
-		mat[ 2 ]->SetColor( hand_color.GetRed(), hand_color.GetGreen(), hand_color.GetBlue() );
-		mat[ 2 ]->SetAlpha( 1.f );
-		mat[ 2 ]->SetVarFlag( MATERIAL_VAR_WIREFRAME, true );
-
-		g_csgo.m_model_render->ForcedMaterialOverride( mat[ 2 ] );
-
-		draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
-
-		mat[ 0 ]->SetColor( hand_color.GetRed(), hand_color.GetGreen(), hand_color.GetBlue() );
-		mat[ 0 ]->SetAlpha( 1.f );
-
-		g_csgo.m_model_render->ForcedMaterialOverride( mat[ 0 ] );
-
-		draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
-
-		return true;
 	}
-
-	if( g_cvar.m_visuals.cham_weapon->bValue && ( model_name.find( "weapon" ) != std::string::npos && model_name.find( "arms" ) == std::string::npos && model_name.find( "w_" ) == std::string::npos ) ) {
-		OSHGui::Drawing::Color weapon_color = Config::string_to_color( 255, g_cvar.m_colors.weapon_cham_color->szValue );
-		
-		mat[ 2 ]->SetColor( weapon_color.GetRed(), weapon_color.GetGreen(), weapon_color.GetBlue() );
-		mat[ 2 ]->SetAlpha( 1.f );
-		mat[ 2 ]->SetVarFlag( MATERIAL_VAR_WIREFRAME, true );
-
-		g_csgo.m_model_render->ForcedMaterialOverride( mat[ 2 ] );
-
-		draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
-
-		mat[ 0 ]->SetColor( weapon_color.GetRed(), weapon_color.GetGreen(), weapon_color.GetBlue() );
-		mat[ 0 ]->SetAlpha( 1.f );
-
-		g_csgo.m_model_render->ForcedMaterialOverride( mat[ 0 ] );
-
-		draw_model.original( draw_model.ecx, draw_model.results, draw_model.info, draw_model.p_bone_to_world, draw_model.p_flex_weights, draw_model.pFlexDelayedWeights, draw_model.origin, draw_model.draw_flags );
-
-		return true;
-	}
-
-	//if( g_cvar.m_visuals.champlayer_weapon->bValue ) {
-	//	if ( model_name.find( "w_c4" ) != std::string::npos 
-	//		 || model_name.find( "w_knife" ) != std::string::npos
-	//		 || model_name.find( "w_mach" ) != std::string::npos
-	//		 || model_name.find( "w_pist" ) != std::string::npos
-	//		 || model_name.find( "w_rif" ) != std::string::npos
-	//		 || model_name.find( "w_shot" ) != std::string::npos
-	//		 || model_name.find( "w_smg" ) != std::string::npos
-	//		 || model_name.find( "w_snip" ) != std::string::npos) {
-	//			hand_mat[ 0 ]->SetColor( 1.f, 0.f, 1.f );
-	//			hand_mat[ 0 ]->SetAlpha( 1.f );
-
-	//			g_csgo.m_model_render->ForcedMaterialOverride( hand_mat[ 0 ] );
-
-	//			p.oDrawModel( p._this, p.results, p.info, p.pBoneToWorld, p.pFlexWeights, p.pFlexDelayedWeights, p.draw_modelin, p.drawFlags );
-
-	//			return true;
-	//	}
-	//}
 
 	return false;
 }
